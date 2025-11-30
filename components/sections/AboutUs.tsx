@@ -2,7 +2,7 @@ import { getSiteSettings } from '@/lib/cms/queries';
 import { DEFAULTS } from '@/lib/constants';
 import Button from '@/components/ui/Button';
 import ScrollReveal from '@/components/ui/ScrollReveal';
-import AboutUsClient from './AboutUsClient';
+import AboutImage3D from './AboutImage3D';
 import { SiteSettings } from '@/types/cms';
 
 interface AboutUsSettings {
@@ -77,7 +77,7 @@ export default async function AboutUs() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <AboutUsClient aboutImage={settings.aboutImage} isMobile={true} />
+            <AboutImage3D aboutImage={settings.aboutImage} isMobile={true} />
           </ScrollReveal>
 
           <ScrollReveal delay={0.3}>
@@ -130,7 +130,7 @@ export default async function AboutUs() {
               </div>
               
               {/* Bottom Row: Image */}
-              <AboutUsClient aboutImage={settings.aboutImage} isMobile={false} />
+              <AboutImage3D aboutImage={settings.aboutImage} isMobile={false} />
             </div>
           </ScrollReveal>
         </div>

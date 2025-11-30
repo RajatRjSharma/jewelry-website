@@ -3,11 +3,12 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
   title: 'Privacy Policy - Data Protection & Privacy',
   description: 'Read our privacy policy to understand how Jewels by NavKush collects, uses, and protects your personal information. We are committed to protecting your privacy and data security.',
-  url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/privacy`,
+  url: `${getBaseUrl()}/privacy`,
 });
 
 export default function PrivacyPage() {

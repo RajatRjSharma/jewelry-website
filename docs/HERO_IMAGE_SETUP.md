@@ -46,6 +46,34 @@ The hero image appears in the **center column** of the intro section on the home
 
 ---
 
+## 🔄 Alternative: Using Public Folder (Temporary Method)
+
+If you prefer to use a local image file instead of Sanity CMS:
+
+### **Step 1: Add Your Image**
+1. Place your hero image in the `public` folder
+2. Name it exactly: **`hero-image.jpg`** (or `hero-image.png`)
+
+### **Step 2: Image Specifications**
+- **Filename:** `hero-image.jpg` or `hero-image.png`
+- **Size:** 1200x1200px or 1200x1600px (square or portrait)
+- **Format:** JPG or PNG
+- **File Size:** Under 500KB for best performance
+
+### **Step 3: How It Works**
+1. **Priority:** If you have a hero image in Sanity CMS, it will use that first
+2. **Fallback:** If no Sanity image, it will use `/hero-image.jpg` from public folder
+3. **Placeholder:** If neither exists, shows a placeholder
+
+### **Step 4: After Adding Image**
+1. Save your image as `hero-image.jpg` in the `public` folder
+2. Restart your dev server if running: `npm run dev`
+3. The image will appear automatically in the intro section center column
+
+**Note:** This is a temporary solution. For production, use Sanity CMS as described in the main steps above.
+
+---
+
 ## 📐 Image Recommendations
 
 ### **Best Image Specifications:**
@@ -195,4 +223,5 @@ After setting up your hero image:
 - [Sanity Setup Guide](SANITY_SETUP.md)
 - [Schema Setup Guide](SANITY_SCHEMA_SETUP.md)
 - [Development Guide](DEVELOPMENT_GUIDE.md)
+
 

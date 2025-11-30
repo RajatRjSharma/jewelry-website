@@ -140,3 +140,4 @@ export default function ProductImage3D({ image, alt, priority = false }: Product
   );
 }
 
+

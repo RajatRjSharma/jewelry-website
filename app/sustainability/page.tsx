@@ -3,11 +3,12 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
   title: 'Sustainability - Ethical Jewelry Practices',
   description: 'Learn about Jewels by NavKush commitment to sustainability and ethical practices. Discover how we create beautiful jewelry while protecting our planet and supporting responsible sourcing.',
-  url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/sustainability`,
+  url: `${getBaseUrl()}/sustainability`,
 });
 
 export default function SustainabilityPage() {

@@ -5,11 +5,12 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import InfoCard from '@/components/ui/InfoCard';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
   title: 'Contact Us',
   description: 'Get in touch with Jewels by NavKush for inquiries about our jewelry collection. We\'d love to hear from you and help you find the perfect piece.',
-  url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/contact`,
+  url: `${getBaseUrl()}/contact`,
 });
 
 export default function ContactPage() {

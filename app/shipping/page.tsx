@@ -4,11 +4,12 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
   title: 'Shipping & Returns - Jewelry Delivery Information',
   description: 'Learn about our shipping options, delivery times, and return policy. We offer secure shipping and easy returns to ensure your complete satisfaction with your jewelry purchase.',
-  url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/shipping`,
+  url: `${getBaseUrl()}/shipping`,
 });
 
 export default function ShippingPage() {

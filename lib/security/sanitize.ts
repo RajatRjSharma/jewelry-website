@@ -5,22 +5,32 @@
 
 /**
  * Sanitize string input - removes potentially dangerous characters
+ * Prevents XSS attacks by removing HTML, scripts, and dangerous protocols
  */
 export function sanitizeString(input: string): string {
   if (typeof input !== 'string') {
     return '';
   }
 
-  // Remove HTML tags
+  // Remove HTML tags (including nested tags)
   let sanitized = input.replace(/<[^>]*>/g, '');
   
-  // Remove script tags and event handlers
+  // Remove script tags (including nested and encoded)
   sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-  sanitized = sanitized.replace(/on\w+\s*=\s*["'][^"']*["']/gi, '');
+  sanitized = sanitized.replace(/<\/?script[^>]*>/gi, '');
   
-  // Remove javascript: and data: URLs
+  // Remove event handlers (onclick, onerror, etc.)
+  sanitized = sanitized.replace(/on\w+\s*=\s*["'][^"']*["']/gi, '');
+  sanitized = sanitized.replace(/on\w+\s*=\s*[^\s>]*/gi, '');
+  
+  // Remove dangerous protocols (javascript:, data:, vbscript:, etc.)
   sanitized = sanitized.replace(/javascript:/gi, '');
   sanitized = sanitized.replace(/data:text\/html/gi, '');
+  sanitized = sanitized.replace(/vbscript:/gi, '');
+  sanitized = sanitized.replace(/file:/gi, '');
+  
+  // Remove HTML entities that could be used for XSS
+  sanitized = sanitized.replace(/&#x?[0-9a-f]+;/gi, '');
   
   // Trim whitespace
   sanitized = sanitized.trim();
@@ -47,15 +57,26 @@ export function sanitizeObject<T extends Record<string, unknown>>(obj: T): T {
 
 /**
  * Validate and sanitize email
+ * Returns sanitized email or throws error if invalid
  */
 export function sanitizeEmail(email: string): string {
+  if (!email || typeof email !== 'string') {
+    throw new Error('Email is required');
+  }
+  
   const sanitized = sanitizeString(email);
-  // Basic email validation
+  // Basic email validation (RFC 5322 simplified)
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(sanitized)) {
     throw new Error('Invalid email format');
   }
-  return sanitized.toLowerCase();
+  
+  // Additional length check (RFC 5321: max 254 characters)
+  if (sanitized.length > 254) {
+    throw new Error('Email too long');
+  }
+  
+  return sanitized.toLowerCase().trim();
 }
 
 /**

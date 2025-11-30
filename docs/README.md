@@ -22,7 +22,7 @@ Complete documentation for the Jewels by NavKush jewelry website.
 
 ### **Deployment**
 - **[Deployment Plan](./DEPLOYMENT_PLAN.md)** - Complete deployment strategy & checklist
-- **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Detailed Vercel setup guide
+- **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Complete step-by-step Vercel deployment guide
 - **[GitHub Setup](./GITHUB_SETUP.md)** - Version control setup
 
 ---
@@ -31,8 +31,7 @@ Complete documentation for the Jewels by NavKush jewelry website.
 
 ### **Design System**
 - **[Design System Consistency](./DESIGN_SYSTEM_CONSISTENCY.md)** - Design standards
-- **[Typography Guide](./TYPOGRAPHY_GUIDE.md)** - Font system
-- **[Design Typography Updates](./DESIGN_TYPOGRAPHY_UPDATES.md)** - Typography changes
+- **[Typography Guide](./TYPOGRAPHY_GUIDE.md)** - Font system (includes recent updates)
 - **[Design Implementation Summary](./DESIGN_IMPLEMENTATION_SUMMARY.md)** - Design implementation
 
 ### **Development**
@@ -48,6 +47,7 @@ Complete documentation for the Jewels by NavKush jewelry website.
 ## 🔍 **Technical Documentation**
 
 ### **Framework & Architecture**
+- **[Project Structure](./PROJECT_STRUCTURE.md)** - Complete technical documentation (design, structure, components, layouts, functions)
 - **[Tech Stack Recommendation](./TECH_STACK_RECOMMENDATION.md)** - Technology choices
 - **[What is Next.js?](./WHAT_IS_NEXTJS.md)** - Next.js overview
 - **[Next.js Static vs Dynamic](./NEXTJS_STATIC_VS_DYNAMIC.md)** - Rendering strategies
@@ -71,8 +71,7 @@ Complete documentation for the Jewels by NavKush jewelry website.
 ## 🔧 **Troubleshooting & Guides**
 
 ### **Image Setup**
-- **[Hero Image Setup](./HERO_IMAGE_SETUP.md)** - Hero image configuration
-- **[Hero Image Setup (Public)](./HERO_IMAGE_SETUP_PUBLIC.md)** - Public folder setup
+- **[Hero Image Setup](./HERO_IMAGE_SETUP.md)** - Hero image configuration (includes Sanity CMS and public folder methods)
 - **[Image Background Fix](./IMAGE_BACKGROUND_FIX.md)** - Image background issues
 - **[Image Setup - About](./IMAGE_SETUP_ABOUT.md)** - About Us image setup
 - **[Image Setup - Categories](./IMAGE_SETUP_CATEGORIES.md)** - Category images setup
@@ -83,8 +82,9 @@ Complete documentation for the Jewels by NavKush jewelry website.
 
 ### **Quality Reports**
 - **[Code Quality Report](./CODE_QUALITY_REPORT.md)** - Code quality & modularity
-- **[Color Consistency Report](./COLOR_CONSISTENCY_REPORT.md)** - Color system consistency
-- **[CSS Consistency Report](./CSS_CONSISTENCY_REPORT.md)** - CSS & responsiveness consistency
+- **[Color Consistency Report](./COLOR_CONSISTENCY_REPORT.md)** - Color system consistency (includes recent updates)
+- **[CSS Consistency Report](./CSS_CONSISTENCY_REPORT.md)** - CSS & responsiveness consistency (includes recent updates)
+- **[E-commerce Best Practices Report](./E_COMMERCE_BEST_PRACTICES_REPORT.md)** - E-commerce consistency (includes recent updates)
 
 ---
 
@@ -99,11 +99,12 @@ Complete documentation for the Jewels by NavKush jewelry website.
 
 ### **Most Important Docs:**
 1. **[Quick Start Guide](./SETUP_QUICK_START.md)** - Get started
-2. **[Deployment Plan](./DEPLOYMENT_PLAN.md)** - Complete deployment strategy
-3. **[Development Guide](./DEVELOPMENT_GUIDE.md)** - Development workflow
-4. **[Standards Compliance Report](./STANDARDS_COMPLIANCE_REPORT.md)** - Quality standards
-5. **[SEO Guide](./SEO_GUIDE.md)** - Complete SEO best practices
-6. **[Security Guide](./SECURITY_GUIDE.md)** - Complete security best practices
+2. **[Project Structure](./PROJECT_STRUCTURE.md)** - Complete technical documentation
+3. **[Deployment Plan](./DEPLOYMENT_PLAN.md)** - Complete deployment strategy
+4. **[Development Guide](./DEVELOPMENT_GUIDE.md)** - Development workflow
+5. **[Standards Compliance Report](./STANDARDS_COMPLIANCE_REPORT.md)** - Quality standards
+6. **[SEO Guide](./SEO_GUIDE.md)** - Complete SEO best practices
+7. **[Security Guide](./SECURITY_GUIDE.md)** - Complete security best practices
 
 ---
 

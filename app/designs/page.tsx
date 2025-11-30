@@ -12,10 +12,12 @@ interface PageProps {
   searchParams: Promise<{ category?: string }>;
 }
 
+import { getBaseUrl } from '@/lib/utils/env';
+
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const params = await searchParams;
   const category = params.category;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
+  const baseUrl = getBaseUrl();
   
   const title = category 
     ? `${formatCategoryName(category)} - Jewelry Collection`

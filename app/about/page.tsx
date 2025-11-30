@@ -3,11 +3,12 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
   title: 'About Us',
   description: 'Learn about Jewels by NavKush and our commitment to quality craftsmanship. Discover our story, values, and dedication to creating timeless jewelry pieces.',
-  url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/about`,
+  url: `${getBaseUrl()}/about`,
 });
 
 export default function AboutPage() {

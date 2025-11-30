@@ -73,3 +73,21 @@ export function getCategoryImageSource(
   return null;
 }
 
+/**
+ * Extract alt text from Sanity image source
+ * Handles different Sanity image source formats
+ */
+export function getImageAltText(
+  imageSource: SanityImageSource | undefined,
+  fallback: string
+): string {
+  if (!imageSource) {
+    return fallback;
+  }
+
+  if (typeof imageSource === 'object' && imageSource !== null && 'alt' in imageSource) {
+    return imageSource.alt || fallback;
+  }
+
+  return fallback;
+}

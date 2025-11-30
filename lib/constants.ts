@@ -47,6 +47,11 @@ export const COLORS = {
   textSecondary: 'rgb(106, 106, 106)',  // Secondary text
   textMuted: 'rgb(145, 140, 135)',      // Muted text - warm gray with beige undertones
   
+  // Hover & Interactive Colors
+  beigeHover: '#b8afa3',                 // Darker beige for hover states
+  textOnBeigeHover: '#f5f1eb',          // Lighter white for hover on beige
+  activeDark: '#4a4a4a',                 // Dark gray for active states (buttons, filters)
+  
   // UI Colors
   white: 'rgb(255, 255, 255)',
   borderLight: 'rgba(255, 255, 255, 0.2)',

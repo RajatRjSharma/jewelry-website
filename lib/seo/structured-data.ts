@@ -2,8 +2,9 @@ import { JewelryDesign } from '@/types/cms';
 import { urlFor } from '@/lib/cms/client';
 import { formatCategoryName, getBrandName } from '@/lib/utils/text-formatting';
 import { CURRENCY } from '@/lib/utils/price-formatting';
+import { getBaseUrl } from '@/lib/utils/env';
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
+const baseUrl = getBaseUrl();
 const siteName = getBrandName();
 
 /**

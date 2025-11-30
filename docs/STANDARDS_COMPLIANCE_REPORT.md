@@ -245,5 +245,25 @@ The website is ready for deployment and can easily be extended with e-commerce f
 
 ---
 
-**Last Updated:** December 2024  
+**Last Updated:** December 2024 (Overall best practices and consistency improvements)  
 **Next Review:** After major feature additions
+
+---
+
+## 📋 **RECENT OVERALL BEST PRACTICES IMPROVEMENTS (December 2024)**
+
+### **1. Centralized Environment Variable Access** ✅
+
+**Issue:** `baseUrl` was defined inconsistently across multiple files using the same pattern repeatedly.
+
+**Solution:** Created centralized `getBaseUrl()` utility function in `lib/utils/env.ts`.
+
+**Files Updated (19 files):**
+- All pages and SEO utilities now use `getBaseUrl()` from `lib/utils/env.ts`
+
+**Impact:**
+- ✅ DRY (Don't Repeat Yourself) principle
+- ✅ Single source of truth for base URL
+- ✅ Easier to maintain and update
+- ✅ Consistent fallback value
+- ✅ Better type safety

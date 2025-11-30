@@ -12,23 +12,52 @@ const MAX_REQUEST_SIZE = 10 * 1024;
 // Security headers helper
 function getSecurityHeaders() {
   return {
+    'X-DNS-Prefetch-Control': 'on',
+    'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
     'X-Content-Type-Options': 'nosniff',
     'X-Frame-Options': 'DENY',
     'X-XSS-Protection': '1; mode=block',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
     'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+    'Content-Security-Policy': [
+      "default-src 'self'",
+      "script-src 'self'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https:",
+      "font-src 'self' data: https:",
+      "connect-src 'self'",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "object-src 'none'",
+    ].join('; '),
   };
 }
 
-// Validate request origin (basic check)
-function isValidOrigin(origin: string | null): boolean {
-  if (!origin) return true; // Same-origin requests don't have Origin header
+// Validate request origin (CSRF protection)
+function isValidOrigin(request: NextRequest): boolean {
+  const origin = request.headers.get('origin');
+  const referer = request.headers.get('referer');
+  
+  // Same-origin requests may not have Origin header
+  // Check Referer header as fallback
+  const originToCheck = origin || referer;
+  
+  if (!originToCheck) {
+    // No origin or referer - could be same-origin or direct API call
+    // In production, be more strict
+    if (process.env.NODE_ENV === 'production') {
+      return false;
+    }
+    // In development, allow (for testing)
+    return true;
+  }
   
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   if (baseUrl) {
     try {
       const baseUrlObj = new URL(baseUrl);
-      const originObj = new URL(origin);
+      const originObj = new URL(originToCheck);
       // Allow same origin
       if (originObj.origin === baseUrlObj.origin) return true;
     } catch {
@@ -40,7 +69,7 @@ function isValidOrigin(origin: string | null): boolean {
   // In development, allow localhost
   if (process.env.NODE_ENV === 'development') {
     try {
-      const originObj = new URL(origin);
+      const originObj = new URL(originToCheck);
       if (originObj.hostname === 'localhost' || originObj.hostname === '127.0.0.1') {
         return true;
       }
@@ -55,9 +84,8 @@ function isValidOrigin(origin: string | null): boolean {
 
 export async function POST(request: NextRequest) {
   try {
-    // Origin validation
-    const origin = request.headers.get('origin');
-    if (!isValidOrigin(origin)) {
+    // Origin validation (CSRF protection)
+    if (!isValidOrigin(request)) {
       return NextResponse.json(
         { success: false, error: 'Invalid origin' },
         { 
@@ -105,7 +133,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check request size
+    // Check request size (validate both header and actual body)
     const contentLength = request.headers.get('content-length');
     if (contentLength && parseInt(contentLength) > MAX_REQUEST_SIZE) {
       return NextResponse.json(
@@ -120,7 +148,20 @@ export async function POST(request: NextRequest) {
     // Parse and validate body
     let body;
     try {
-      body = await request.json();
+      const bodyText = await request.text();
+      
+      // Validate actual body size (not just Content-Length header)
+      if (bodyText.length > MAX_REQUEST_SIZE) {
+        return NextResponse.json(
+          { success: false, error: 'Request too large' },
+          { 
+            status: 413,
+            headers: getSecurityHeaders(),
+          }
+        );
+      }
+      
+      body = JSON.parse(bodyText);
     } catch {
       return NextResponse.json(
         { success: false, error: 'Invalid JSON' },
@@ -215,14 +256,21 @@ export async function POST(request: NextRequest) {
       'errors' in error
     ) {
       const zodError = error as { errors: Array<{ path: (string | number)[]; message: string }> };
+      
+      // In production, limit error details to prevent information disclosure
+      const isProduction = process.env.NODE_ENV === 'production';
+      
       return NextResponse.json(
         { 
           success: false, 
           error: 'Validation failed',
-          details: zodError.errors.map((e) => ({
-            field: e.path.join('.'),
-            message: e.message,
-          })),
+          // Only include field-level details in development
+          ...(isProduction ? {} : {
+            details: zodError.errors.map((e) => ({
+              field: e.path.join('.'),
+              message: e.message,
+            })),
+          }),
         },
         { 
           status: 400,
@@ -249,8 +297,47 @@ export async function GET() {
     { 
       status: 405,
       headers: {
-        'X-Content-Type-Options': 'nosniff',
-        'X-Frame-Options': 'DENY',
+        ...getSecurityHeaders(),
+        'Allow': 'POST',
+      },
+    }
+  );
+}
+
+// Handle all other HTTP methods
+export async function PUT() {
+  return NextResponse.json(
+    { error: 'Method not allowed' },
+    { 
+      status: 405,
+      headers: {
+        ...getSecurityHeaders(),
+        'Allow': 'POST',
+      },
+    }
+  );
+}
+
+export async function PATCH() {
+  return NextResponse.json(
+    { error: 'Method not allowed' },
+    { 
+      status: 405,
+      headers: {
+        ...getSecurityHeaders(),
+        'Allow': 'POST',
+      },
+    }
+  );
+}
+
+export async function DELETE() {
+  return NextResponse.json(
+    { error: 'Method not allowed' },
+    { 
+      status: 405,
+      headers: {
+        ...getSecurityHeaders(),
         'Allow': 'POST',
       },
     }

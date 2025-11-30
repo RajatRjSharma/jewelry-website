@@ -6,11 +6,12 @@ import { Metadata } from 'next';
 import { getSiteSettings } from '@/lib/cms/queries';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
 import { urlFor } from '@/lib/cms/client';
+import { getBaseUrl } from '@/lib/utils/env';
 import { SiteSettings } from '@/types/cms';
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings<SiteSettings>();
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
+  const baseUrl = getBaseUrl();
   
   const title = settings.brandName 
     ? `${settings.brandName} - ${settings.tagline || 'Luxury Jewelry'}` 

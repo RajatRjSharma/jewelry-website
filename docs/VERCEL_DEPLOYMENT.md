@@ -1,6 +1,7 @@
 # Vercel Deployment Guide
+**Complete Step-by-Step Guide to Deploy Your Jewelry Website to Vercel**
 
-Complete guide to deploy your jewelry website to Vercel.
+**Date:** December 2024
 
 ## 📋 Table of Contents
 
@@ -324,4 +325,5 @@ After deployment:
 ---
 
 **Deployment complete!** Your jewelry website is now live on Vercel! 🚀
+
 

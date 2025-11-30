@@ -6,6 +6,40 @@ This guide documents the typography system matching the CELESTIQUE design.
 
 ---
 
+## 📋 **RECENT TYPOGRAPHY UPDATES (December 2024)**
+
+### **1. Brand Name (CELESTIQUE)**
+- ✅ **Size:** Now responsive and much larger (clamp: 2rem - 4rem)
+- ✅ **Font:** Playfair Display serif
+- ✅ **Decoration:** Star/diamond (✦) on the 'I' character
+- ✅ **Letter Spacing:** 0.15em (wide, elegant)
+- ✅ **Color:** #2c2c2c (dark grey)
+
+### **2. Section Headings** (ABOUT US, OUR PRODUCTS, etc.)
+- ✅ **Size:** Much larger (clamp: 2.5rem - 5rem)
+- ✅ **Font:** Playfair Display serif
+- ✅ **Color:** #9a9a9a (light grey)
+- ✅ **Letter Spacing:** 0.1em
+- ✅ **Style:** Uppercase, elegant
+
+### **3. Hero Collection Title** (COLLECTION 2025)
+- ✅ **Size:** Larger (clamp: 1.5rem - 3rem)
+- ✅ **Font:** Bold sans-serif
+- ✅ **Letter Spacing:** 0.15em
+- ✅ **Style:** Uppercase, bold
+
+### **4. Body Text**
+- ✅ **Size:** Increased to text-base md:text-lg (16px - 18px)
+- ✅ **Line Height:** Relaxed for better readability
+- ✅ **Color:** #6a6a6a (medium grey)
+
+### **5. Spacing Improvements**
+- ✅ Increased section padding: `py-16 md:py-24`
+- ✅ More space between sections
+- ✅ Better breathing room
+
+---
+
 ## 📝 Font Families
 
 ### **Serif Font (Playfair Display)**
@@ -177,4 +211,5 @@ All typography styles are defined in:
 ---
 
 **Typography matches the elegant CELESTIQUE design!** ✨
+
 

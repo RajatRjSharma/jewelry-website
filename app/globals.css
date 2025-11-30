@@ -23,6 +23,11 @@
   --text-secondary: rgb(106, 106, 106);     /* Secondary text */
   --text-muted: rgb(145, 140, 135);        /* Muted text - warm gray with beige undertones */
   
+  /* Hover & Interactive Colors - Standardized */
+  --beige-hover: #b8afa3;                   /* Darker beige for hover states */
+  --text-on-beige-hover: #f5f1eb;          /* Lighter white for hover on beige */
+  --active-dark: #4a4a4a;                   /* Dark gray for active states */
+  
   /* Legacy variables for compatibility */
   --background: #faf8f5;
   --foreground: #2a2a2a;
@@ -184,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-bold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-wider);
-  color: #918c87; /* Warm gray with beige undertones */
+  color: var(--text-muted); /* Uses standardized muted text color */
 }
 
 /* Screen reader only - for accessibility */
@@ -270,10 +275,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-inter);
 }
 
-/* Smooth scrolling */
+/* Smooth scrolling - Prevent horizontal scroll */
 html {
   scroll-behavior: smooth;
-  /* Prevent horizontal scroll */
   overflow-x: hidden;
   width: 100%;
 }
@@ -329,11 +333,6 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--dark-grey);
-}
-
-/* Smooth scrolling for better animation experience */
-html {
-  scroll-behavior: smooth;
 }
 
 /* Reduce motion for users who prefer it */

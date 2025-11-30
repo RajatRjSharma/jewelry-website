@@ -6,12 +6,13 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = {
   ...generateStandardMetadata({
     title: 'My Profile',
     description: 'Manage your account and profile settings.',
-    url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/profile`,
+    url: `${getBaseUrl()}/profile`,
   }),
   robots: {
     index: false, // Profile pages should not be indexed

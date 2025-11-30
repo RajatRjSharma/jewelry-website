@@ -2,9 +2,10 @@ import { MetadataRoute } from 'next';
 import { getDesigns } from '@/lib/cms/queries';
 import { CATEGORIES } from '@/lib/constants';
 import { logError } from '@/lib/security/error-handler';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
+  const baseUrl = getBaseUrl();
   const now = new Date();
 
   // Static pages

@@ -3,11 +3,12 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
   title: 'Terms of Service - Terms & Conditions',
   description: 'Read our terms of service to understand the terms and conditions for using Jewels by NavKush website and purchasing our jewelry products.',
-  url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/terms`,
+  url: `${getBaseUrl()}/terms`,
 });
 
 export default function TermsPage() {

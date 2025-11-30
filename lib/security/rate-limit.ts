@@ -1,6 +1,13 @@
 /**
  * Simple in-memory rate limiter for API routes
- * For production, consider using Redis or a dedicated service
+ * 
+ * ⚠️ IMPORTANT: This is an in-memory rate limiter that resets on server restart.
+ * For production with multiple instances or serverless functions, consider:
+ * - Redis-based rate limiting (Upstash, Vercel KV)
+ * - Dedicated rate limiting service
+ * - Vercel Edge Config for distributed rate limiting
+ * 
+ * Current implementation is suitable for single-instance deployments.
  */
 
 interface RateLimitStore {
@@ -47,8 +54,9 @@ export function checkRateLimit(
   const now = Date.now();
   const key = `${clientId}:${Math.floor(now / config.windowMs)}`;
 
-  // Clean up old entries (simple cleanup)
-  if (Object.keys(store).length > 10000) {
+  // Clean up old entries periodically (prevent memory leaks)
+  // Clean up when store gets large or periodically
+  if (Object.keys(store).length > 10000 || Math.random() < 0.01) {
     Object.keys(store).forEach((k) => {
       if (store[k].resetTime < now) {
         delete store[k];
@@ -75,4 +83,5 @@ export function checkRateLimit(
     resetTime: store[key].resetTime,
   };
 }
+
 

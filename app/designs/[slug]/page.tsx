@@ -10,6 +10,7 @@ import { generateProductMetadata } from '@/lib/seo/metadata';
 import { generateProductSchema, generateBreadcrumbSchema } from '@/lib/seo/structured-data';
 import { formatCategoryName } from '@/lib/utils/text-formatting';
 import { formatPrice, getStockStatus } from '@/lib/utils/price-formatting';
+import { getBaseUrl } from '@/lib/utils/env';
 
 interface PageProps {
   params: { slug: string };
@@ -24,12 +25,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
+  const baseUrl = getBaseUrl();
   const url = `${baseUrl}/designs/${design.slug?.current || design._id}`;
+
+  // Optimize description for SEO (ensure it's descriptive even if short)
+  const productDescription = design.description 
+    ? design.description.trim()
+    : `${design.title} - Exquisite handcrafted jewelry piece. Discover our collection of unique, beautifully designed jewelry.`;
 
   return generateProductMetadata({
     title: design.title,
-    description: design.description || `${design.title} - Exquisite handcrafted jewelry piece.`,
+    description: productDescription,
     image: design.image,
     url,
   });
@@ -46,7 +52,7 @@ export default async function DesignDetailPage({ params }: PageProps) {
     ? await getRelatedDesigns(design.category, design._id, 4)
     : [];
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
+  const baseUrl = getBaseUrl();
   const productSchema = generateProductSchema(design);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: baseUrl },
@@ -104,7 +110,7 @@ export default async function DesignDetailPage({ params }: PageProps) {
           {/* Product Details */}
           <ScrollReveal delay={0.2}>
             <div className="space-y-4 sm:space-y-5 md:space-y-6">
-            <h1 className="font-section-heading text-left text-[#2a2a2a] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+            <h1 className="font-playfair font-bold text-left text-[#2a2a2a] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-wider">
               {design.title}
             </h1>
             

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ANIMATION_3D } from '@/lib/animations/constants';
+import { formatPrice } from '@/lib/utils/price-formatting';
 
 interface PlaceholderCard3DProps {
   imageSrc: string;
@@ -230,7 +231,7 @@ export default function PlaceholderCard3D({ imageSrc, index }: PlaceholderCard3D
               Material
             </p>
             <p className="text-[#2a2a2a] text-body-sm md:text-body-base font-bold font-playfair">
-              $0.00
+              {formatPrice(0)}
             </p>
           </motion.div>
         </motion.div>

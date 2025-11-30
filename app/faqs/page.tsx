@@ -5,11 +5,12 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
   title: 'FAQs - Frequently Asked Questions',
   description: 'Find answers to common questions about our jewelry, ordering process, shipping, care instructions, and more. Get the information you need to make the perfect jewelry purchase.',
-  url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/faqs`,
+  url: `${getBaseUrl()}/faqs`,
 });
 
 export default function FAQsPage() {

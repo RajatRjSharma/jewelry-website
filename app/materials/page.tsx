@@ -3,11 +3,12 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
   title: 'Materials - Premium Jewelry Materials',
   description: 'Learn about the premium materials we use in our jewelry collection. Discover our commitment to quality with precious metals, gemstones, and sustainable sourcing.',
-  url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/materials`,
+  url: `${getBaseUrl()}/materials`,
 });
 
 export default function MaterialsPage() {

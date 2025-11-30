@@ -323,3 +323,4 @@ Integrate email service for order confirmations.
 7. Analytics & Email (Week 5)
 8. Advanced Features (Week 6-7)
 
+

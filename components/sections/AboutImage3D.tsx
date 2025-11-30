@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { urlFor } from '@/lib/cms/client';
+import { getImageAltText } from '@/lib/utils/image-helpers';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface AboutImage3DProps {
@@ -17,9 +18,10 @@ export default function AboutImage3D({ aboutImage, isMobile = false }: AboutImag
     ? urlFor(aboutImage).width(800).height(800).url()
     : '/about-image.png';
   
-  const imageAlt = (typeof aboutImage === 'object' && aboutImage && 'alt' in aboutImage) 
-    ? aboutImage.alt || 'About Jewels by NavKush - Our craftsmanship and dedication to creating timeless jewelry'
-    : 'About Jewels by NavKush - Our craftsmanship and dedication to creating timeless jewelry';
+  const imageAlt = getImageAltText(
+    aboutImage,
+    'About Jewels by NavKush - Our craftsmanship and dedication to creating timeless jewelry'
+  );
 
   const heightClass = isMobile 
     ? 'h-[300px] sm:h-[400px]' 

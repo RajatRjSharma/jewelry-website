@@ -19,7 +19,7 @@ export default function Textarea({
   ...props 
 }: TextareaProps) {
   const textareaId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
-  const baseStyles = 'w-full px-4 py-3 sm:py-2.5 border border-[#e8e5e0] rounded-lg focus:outline-none focus:border-[#2a2a2a] bg-[#faf8f5] min-h-[120px] text-base resize-y';
+  const baseStyles = 'w-full px-4 py-3 border border-[#e8e5e0] rounded-lg focus:outline-none focus:border-[#2a2a2a] bg-[#faf8f5] min-h-[120px] text-base resize-y';
 
   return (
     <div>
@@ -43,7 +43,7 @@ export default function Textarea({
       {error && (
         <p 
           id={`${textareaId}-error`} 
-          className="mt-1 text-sm text-red-600" 
+          className="mt-1 text-body-sm text-red-600" 
           role="alert"
         >
           {error}

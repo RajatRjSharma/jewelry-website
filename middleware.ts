@@ -14,13 +14,13 @@ export function middleware(request: NextRequest) {
 
   const response = NextResponse.next();
 
-  // Security headers
+  // Security headers (consistent with API routes)
   response.headers.set('X-DNS-Prefetch-Control', 'on');
   response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
-  response.headers.set('X-Frame-Options', 'SAMEORIGIN');
+  response.headers.set('X-Frame-Options', 'DENY'); // Changed from SAMEORIGIN for better security
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('X-XSS-Protection', '1; mode=block');
-  response.headers.set('Referrer-Policy', 'origin-when-cross-origin');
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin'); // Changed for consistency
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
   // Content Security Policy

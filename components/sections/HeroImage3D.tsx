@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { urlFor } from '@/lib/cms/client';
+import { getImageAltText } from '@/lib/utils/image-helpers';
 import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface HeroImage3DProps {
@@ -17,9 +18,10 @@ export default function HeroImage3D({ heroImage, isMobile = false }: HeroImage3D
     ? urlFor(heroImage).width(800).height(800).url()
     : '/hero-image.png';
   
-  const imageAlt = (typeof heroImage === 'object' && heroImage && 'alt' in heroImage) 
-    ? heroImage.alt || 'Jewelry collection'
-    : 'Elegant mannequin hand displaying two gold rings - one with rectangular gemstone, one with round brilliant-cut stone';
+  const imageAlt = getImageAltText(
+    heroImage,
+    'Elegant mannequin hand displaying two gold rings - one with rectangular gemstone, one with round brilliant-cut stone'
+  );
 
   const heightClass = isMobile 
     ? 'h-[300px] sm:h-[400px]' 

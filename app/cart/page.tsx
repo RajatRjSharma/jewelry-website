@@ -5,11 +5,12 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
   title: 'Shopping Cart',
   description: 'View and manage your shopping cart. Add beautiful jewelry pieces to your cart and proceed to checkout.',
-  url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com'}/cart`,
+  url: `${getBaseUrl()}/cart`,
 });
 
 export default function CartPage() {

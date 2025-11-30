@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { generateStandardMetadata } from "@/lib/seo/metadata";
 import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/seo/structured-data";
+import { getBaseUrl } from "@/lib/utils/env";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -20,7 +21,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = generateStandardMetadata({
   title: "Jewels by NavKush - Exquisite Handcrafted Jewelry",
   description: "Discover our collection of unique, beautifully designed jewelry pieces that reflect your personal style. Handcrafted with precision and elegance.",
-  url: process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com',
+  url: getBaseUrl(),
 });
 
 export const viewport = {
