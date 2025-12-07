@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/utils/cn';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -18,21 +19,21 @@ export default function Input({
   ...props 
 }: InputProps) {
   const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
-  const baseStyles = 'w-full px-4 py-2 border border-[#e8e5e0] rounded-lg focus:outline-none focus:border-[#2a2a2a] bg-[#faf8f5] min-h-[44px] text-base';
+  const baseStyles = 'w-full px-4 py-2 border border-[var(--border-light)] rounded-lg focus:outline-none focus:border-[var(--text-on-cream)] bg-[var(--cream)] min-h-[44px] text-base';
 
   return (
     <div>
       {label && (
         <label 
           htmlFor={inputId} 
-          className="block text-[#2a2a2a] text-body-sm font-medium mb-2 sm:mb-2.5"
+          className="block text-[var(--text-on-cream)] text-body-sm font-medium mb-2 sm:mb-2.5"
         >
-          {label} {required && <span className="text-red-600">*</span>}
+          {label} {required && <span className="text-[var(--required-indicator)]">*</span>}
         </label>
       )}
       <input
         id={inputId}
-        className={`${baseStyles} ${className}`}
+        className={cn(baseStyles, className)}
         aria-required={required}
         aria-invalid={error ? 'true' : 'false'}
         aria-describedby={error ? `${inputId}-error` : undefined}
@@ -41,7 +42,7 @@ export default function Input({
       {error && (
         <p 
           id={`${inputId}-error`} 
-          className="mt-1 text-body-sm text-red-600" 
+          className="mt-1 text-body-sm text-[var(--error-text)]" 
           role="alert"
         >
           {error}

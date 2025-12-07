@@ -1,8 +1,8 @@
-import { JewelryDesign } from '@/types/cms';
-import { urlFor } from '@/lib/cms/client';
+import { Product } from '@/types/data';
 import { formatCategoryName, getBrandName } from '@/lib/utils/text-formatting';
 import { CURRENCY } from '@/lib/utils/price-formatting';
 import { getBaseUrl } from '@/lib/utils/env';
+import { sanitizeForJsonLd } from '@/lib/utils/json-ld-sanitize';
 
 const baseUrl = getBaseUrl();
 const siteName = getBrandName();
@@ -14,10 +14,10 @@ export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: siteName,
+    name: sanitizeForJsonLd(siteName),
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
-    description: 'Exquisite handcrafted jewelry pieces that reflect your personal style.',
+    description: sanitizeForJsonLd('Exquisite handcrafted jewelry pieces that reflect your personal style.'),
     sameAs: [
       // Add social media URLs here
       // 'https://www.facebook.com/yourpage',
@@ -36,34 +36,34 @@ export function generateOrganizationSchema() {
 /**
  * Generate Product structured data (JSON-LD)
  */
-export function generateProductSchema(design: JewelryDesign) {
-  const imageUrl = design.image 
-    ? urlFor(design.image).width(1200).height(1200).url()
+export function generateProductSchema(product: Product) {
+  const imageUrl = product.image 
+    ? `${baseUrl}${product.image}`
     : `${baseUrl}/og-image.jpg`;
 
-  const productUrl = `${baseUrl}/designs/${design.slug?.current || design._id}`;
+  const productUrl = `${baseUrl}/designs/${product.slug}`;
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: design.title,
-    description: design.description,
+    name: sanitizeForJsonLd(product.title),
+    description: sanitizeForJsonLd(product.description || `${product.title} - Exquisite handcrafted jewelry piece${product.material ? ` made from ${product.material}` : ''}`),
     image: [imageUrl],
     url: productUrl,
-    sku: design._id,
-    mpn: design._id,
+    sku: product.id,
+    mpn: product.id,
     brand: {
       '@type': 'Brand',
-      name: siteName,
+      name: sanitizeForJsonLd(siteName),
     },
-    category: design.category,
-    material: design.material,
-    ...(design.price && {
+    category: product.category ? sanitizeForJsonLd(formatCategoryName(product.category)) : 'Jewelry',
+    ...(product.material && { material: sanitizeForJsonLd(product.material) }),
+    ...(product.price && {
       offers: {
         '@type': 'Offer',
-        price: design.price.toFixed(2),
+        price: product.price.toFixed(2),
         priceCurrency: CURRENCY.code,
-        availability: design.inStock !== false ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+        availability: product.inStock !== false ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
         url: productUrl,
         itemCondition: 'https://schema.org/NewCondition',
         priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Valid for 1 year
@@ -86,8 +86,8 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
     itemListElement: items.map((item, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      name: item.name,
-      item: item.url,
+      name: sanitizeForJsonLd(item.name),
+      item: item.url, // URL is already validated by Next.js routing
     })),
   };
 }
@@ -99,7 +99,7 @@ export function generateWebsiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: siteName,
+    name: sanitizeForJsonLd(siteName),
     url: baseUrl,
     potentialAction: {
       '@type': 'SearchAction',
@@ -120,9 +120,8 @@ export function generateCollectionPageSchema(category?: string) {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: category 
-      ? `${formatCategoryName(category)} Collection`
+      ? sanitizeForJsonLd(`${formatCategoryName(category)} Collection`)
       : 'Jewelry Collection',
     url: category ? `${baseUrl}/designs?category=${category}` : `${baseUrl}/designs`,
   };
 }
-

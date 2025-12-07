@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getDesigns } from '@/lib/cms/queries';
+import { getProducts } from '@/lib/data/products';
 import { CATEGORIES } from '@/lib/constants';
 import { logError } from '@/lib/security/error-handler';
 import { getBaseUrl } from '@/lib/utils/env';
@@ -82,10 +82,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic product pages
   try {
-    const designs = await getDesigns();
-      const productPages: MetadataRoute.Sitemap = designs.map((design) => ({
-        url: `${baseUrl}/designs/${design.slug?.current || design._id}`,
-        lastModified: design._updatedAt ? new Date(design._updatedAt) : now,
+    const products = await getProducts();
+      const productPages: MetadataRoute.Sitemap = products.map((product) => ({
+        url: `${baseUrl}/designs/${product.slug}`,
+        lastModified: product.updatedAt ? new Date(product.updatedAt) : now,
         changeFrequency: 'weekly' as const,
         priority: 0.6,
       }));

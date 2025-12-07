@@ -34,13 +34,28 @@ const defaultConfig: RateLimitConfig = {
 
 /**
  * Get client identifier (IP address or custom identifier)
+ * Sanitizes IP address to prevent injection
  */
 function getClientId(request: Request): string {
   // Try to get IP from headers (Vercel, Cloudflare, etc.)
   const forwarded = request.headers.get('x-forwarded-for');
   const realIp = request.headers.get('x-real-ip');
-  const ip = forwarded?.split(',')[0] || realIp || 'unknown';
-  return ip;
+  const rawIp = forwarded?.split(',')[0]?.trim() || realIp?.trim() || 'unknown';
+  
+  // Sanitize IP address (basic validation)
+  // Allow IPv4, IPv6, and 'unknown' for fallback
+  if (rawIp === 'unknown') return 'unknown';
+  
+  // Basic IP format validation (simplified)
+  const ipv4Pattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+  const ipv6Pattern = /^([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}$/;
+  
+  if (ipv4Pattern.test(rawIp) || ipv6Pattern.test(rawIp) || rawIp.startsWith('::')) {
+    return rawIp;
+  }
+  
+  // If IP doesn't match pattern, use 'unknown' for safety
+  return 'unknown';
 }
 
 /**

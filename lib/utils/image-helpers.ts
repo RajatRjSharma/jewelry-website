@@ -1,6 +1,4 @@
-import { urlFor } from '@/lib/cms/client';
 import { CATEGORIES } from '@/lib/constants';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 /**
  * Category type from constants
@@ -13,10 +11,10 @@ export type CategoryType = typeof CATEGORIES[number];
  */
 export function getRandomCategoryImages(count: number): string[] {
   const categoryImages = [
-    '/category-rings.png',
-    '/category-earrings.png',
-    '/category-necklaces.png',
-    '/category-bracelets.png',
+    '/assets/categories/rings.png',
+    '/assets/categories/earrings.png',
+    '/assets/categories/necklaces.png',
+    '/assets/categories/bracelets.png',
   ];
   
   // Randomly select images, allowing repeats
@@ -34,39 +32,38 @@ export function getRandomCategoryImages(count: number): string[] {
  */
 export interface CategoryImageSource {
   src: string;
-  isSanity: boolean;
+  alt?: string;
 }
 
 /**
- * Get image source for category - prioritizes Sanity, falls back to public folder
- * Future: When Sanity images are added, they will automatically be used
+ * Get image source for category - uses provided image URL or falls back to public folder
  */
 export function getCategoryImageSource(
   category: CategoryType, 
-  sanityImage?: SanityImageSource
+  imageUrl?: string
 ): CategoryImageSource | null {
-  // Priority 1: Sanity image (when available in future)
-  if (sanityImage) {
+  // Priority 1: Provided image URL
+  if (imageUrl) {
     return {
-      src: urlFor(sanityImage).width(800).height(800).url(),
-      isSanity: true,
+      src: imageUrl,
+      alt: `${category.name} jewelry collection`,
     };
   }
   
-  // Priority 2: Public folder image (current implementation)
-  // Map category slugs to public folder image paths
+  // Priority 2: Public folder image (fallback)
+  // Map category slugs to structured asset paths
   const publicImageMap: Record<string, string> = {
-    'rings': '/category-rings.png',
-    'earrings': '/category-earrings.png',
-    'necklaces': '/category-necklaces.png',
-    'bracelets': '/category-bracelets.png',
+    'rings': '/assets/categories/rings.png',
+    'earrings': '/assets/categories/earrings.png',
+    'necklaces': '/assets/categories/necklaces.png',
+    'bracelets': '/assets/categories/bracelets.png',
   };
   
   const publicImagePath = publicImageMap[category.slug];
   if (publicImagePath) {
     return {
       src: publicImagePath,
-      isSanity: false,
+      alt: `${category.name} jewelry collection - Exquisite handcrafted ${category.name.toLowerCase()} pieces`,
     };
   }
   
@@ -74,20 +71,11 @@ export function getCategoryImageSource(
 }
 
 /**
- * Extract alt text from Sanity image source
- * Handles different Sanity image source formats
+ * Get image alt text - simple helper for string alt text
  */
 export function getImageAltText(
-  imageSource: SanityImageSource | undefined,
+  altText: string | undefined,
   fallback: string
 ): string {
-  if (!imageSource) {
-    return fallback;
-  }
-
-  if (typeof imageSource === 'object' && imageSource !== null && 'alt' in imageSource) {
-    return imageSource.alt || fallback;
-  }
-
-  return fallback;
+  return altText || fallback;
 }

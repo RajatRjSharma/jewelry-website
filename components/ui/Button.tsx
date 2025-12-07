@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils/cn';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline';
@@ -25,29 +26,29 @@ export default function Button({
   const variants = {
     primary: {
       style: {
-        backgroundColor: 'rgb(42, 42, 42)',
-        color: 'rgb(255, 255, 255)',
+        backgroundColor: 'var(--active-dark)',
+        color: 'var(--text-on-beige)',
       },
     },
     secondary: {
       style: {
         backgroundColor: 'transparent',
-        color: 'rgb(42, 42, 42)',
-        border: '2px solid rgb(42, 42, 42)',
+        color: 'var(--text-on-cream)',
+        border: '2px solid var(--text-on-cream)',
       },
     },
     outline: {
       style: {
         backgroundColor: 'transparent',
-        color: 'rgb(42, 42, 42)',
-        border: '2px solid rgb(42, 42, 42)',
+        color: 'var(--text-on-cream)',
+        border: '2px solid var(--text-on-cream)',
       },
     },
   };
 
   const buttonContent = (
     <motion.div
-      className={`${baseStyles} ${className}`}
+      className={cn(baseStyles, className)}
       style={variants[variant].style}
       whileHover={{ 
         scale: 1.05,
@@ -88,7 +89,7 @@ export default function Button({
     <motion.button
       type={type}
       onClick={onClick}
-      className={`${baseStyles} ${className}`}
+      className={cn(baseStyles, className)}
       style={variants[variant].style}
       whileHover={disabled ? {} : { 
         scale: 1.05,

@@ -1,38 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/firebase/config';
-import { collection, addDoc } from 'firebase/firestore';
 import { contactFormSchema } from '@/lib/validations/schemas';
 import { checkRateLimit } from '@/lib/security/rate-limit';
 import { sanitizeString, sanitizeEmail, sanitizePhone } from '@/lib/security/sanitize';
 import { logError } from '@/lib/security/error-handler';
+import { getSecurityHeaders } from '@/lib/security/api-headers';
+
+// Optional: Import Firebase if you want to keep contact form submissions
+// import { db } from '@/lib/firebase/config';
+// import { collection, addDoc } from 'firebase/firestore';
 
 // Request size limit (10KB)
 const MAX_REQUEST_SIZE = 10 * 1024;
-
-// Security headers helper
-function getSecurityHeaders() {
-  return {
-    'X-DNS-Prefetch-Control': 'on',
-    'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
-    'X-Content-Type-Options': 'nosniff',
-    'X-Frame-Options': 'DENY',
-    'X-XSS-Protection': '1; mode=block',
-    'Referrer-Policy': 'strict-origin-when-cross-origin',
-    'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-    'Content-Security-Policy': [
-      "default-src 'self'",
-      "script-src 'self'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https:",
-      "font-src 'self' data: https:",
-      "connect-src 'self'",
-      "frame-ancestors 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "object-src 'none'",
-    ].join('; '),
-  };
-}
 
 // Validate request origin (CSRF protection)
 function isValidOrigin(request: NextRequest): boolean {
@@ -212,27 +190,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate Firebase is initialized
-    if (!db) {
-      logError('contact API', new Error('Firebase not initialized - check environment variables'));
-      return NextResponse.json(
-        { success: false, error: 'Service unavailable' },
-        { 
-          status: 503,
-          headers: getSecurityHeaders(),
-        }
-      );
+    // Contact form submission - data validated and sanitized
+    // Note: Currently just returns success. You can add:
+    // - Email sending (using nodemailer, sendgrid, etc.)
+    // - Save to JSON file
+    // - Save to database
+    // - Webhook to external service
+    
+    // Log submission (optional - for debugging)
+    // Using logError utility for consistent logging
+    if (process.env.NODE_ENV === 'development') {
+      logError('contact form submission', {
+        name: sanitizedData.name,
+        email: sanitizedData.email,
+        messageLength: sanitizedData.message.length,
+      });
     }
 
-    // Save to Firestore
-    const docRef = await addDoc(collection(db, 'contacts'), {
-      ...sanitizedData,
-      createdAt: new Date(),
-      ip: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
-    });
-
     return NextResponse.json(
-      { success: true, id: docRef.id },
+      { success: true, message: 'Thank you for your message. We will get back to you soon!' },
       { 
         status: 200,
         headers: {

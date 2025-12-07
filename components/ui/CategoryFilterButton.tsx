@@ -1,7 +1,8 @@
 'use client';
 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import SmoothLink from '@/components/ui/SmoothLink';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import { ANIMATION_3D } from '@/lib/animations/constants';
 
 interface CategoryFilterButtonProps {
@@ -20,23 +21,39 @@ export default function CategoryFilterButton({
   isActive, 
   index = 0 
 }: CategoryFilterButtonProps) {
+  // Check if element is in viewport on mount
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { 
+    once: ANIMATION_3D.VIEWPORT.ONCE, 
+    margin: ANIMATION_3D.VIEWPORT.MARGIN,
+    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
+    initial: true,
+  });
+  
+  // Professional animation: visible content animates immediately, hidden content animates on scroll
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
+      ref={ref}
+      initial={{ opacity: 1, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : undefined}
+      whileInView={!isInView ? { opacity: 1, y: 0 } : undefined}
+      viewport={{ 
+        once: ANIMATION_3D.VIEWPORT.ONCE, 
+        margin: ANIMATION_3D.VIEWPORT.MARGIN,
+        amount: ANIMATION_3D.VIEWPORT.AMOUNT 
+      }}
       transition={{ 
         duration: ANIMATION_3D.ENTRY.DURATION, 
         delay: index * 0.1,
         ease: ANIMATION_3D.ENTRY.EASE
       }}
     >
-      <Link href={href} aria-label={`Filter by ${name}`}>
+      <SmoothLink href={href} aria-label={`Filter by ${name}`}>
         <motion.button
           className={`px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-2 rounded-lg font-medium transition-colors text-sm sm:text-base min-h-[44px] flex items-center justify-center ${
             isActive
-              ? 'bg-[#4a4a4a] text-white' /* Active state uses dark gray for contrast */
-              : 'bg-[#CCC4BA] text-white hover:bg-[#b8afa3]' /* Standardized hover color */
+              ? 'bg-[var(--active-dark)] text-[var(--text-on-beige)]' /* Active state uses dark gray for contrast */
+              : 'bg-[var(--beige)] text-[var(--text-on-beige)] hover:bg-[var(--beige-hover)]' /* Standardized hover color */
           }`}
           aria-pressed={isActive}
           whileHover={{ 
@@ -52,7 +69,7 @@ export default function CategoryFilterButton({
         >
           {name}
         </motion.button>
-      </Link>
+      </SmoothLink>
     </motion.div>
   );
 }

@@ -40,10 +40,10 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center bg-[#faf8f5] px-4">
+        <div className="min-h-screen flex items-center justify-center bg-[var(--cream)] px-4">
           <div className="max-w-md w-full text-center">
-            <h1 className="text-2xl font-bold text-[#2a2a2a] mb-4 sm:mb-6">Something went wrong</h1>
-            <p className="text-[#6a6a6a] mb-6 sm:mb-8">
+            <h1 className="text-2xl font-bold text-[var(--text-on-cream)] mb-4 sm:mb-6">Something went wrong</h1>
+            <p className="text-[var(--text-secondary)] mb-6 sm:mb-8">
               We&apos;re sorry, but something unexpected happened. Please try refreshing the page.
             </p>
             <Button

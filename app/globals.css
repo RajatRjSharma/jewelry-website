@@ -28,6 +28,33 @@
   --text-on-beige-hover: #f5f1eb;          /* Lighter white for hover on beige */
   --active-dark: #4a4a4a;                   /* Dark gray for active states */
   
+  /* Border Colors - Standardized */
+  --border-light: #e8e5e0;                  /* Light border color for cards, inputs */
+  --border-white-light: rgba(255, 255, 255, 0.3);  /* White border with opacity for beige backgrounds */
+  
+  /* White with Opacity - Standardized */
+  --white-opacity-20: rgba(255, 255, 255, 0.2);    /* White 20% opacity */
+  --white-opacity-30: rgba(255, 255, 255, 0.3);    /* White 30% opacity */
+  
+  /* E-commerce Accent Colors - Warm tones that complement beige/cream */
+  --accent-new: #8B7355;           /* Warm brown for "New" badge */
+  --accent-featured: #A68B5B;       /* Warm gold for "Featured" badge */
+  --accent-most-loved: #C9A882;    /* Warm rose-beige for "Most Loved" badge */
+  --accent-sale: #B8866B;          /* Warm tan for "Sale" badge */
+  --accent-out-of-stock: #9B8B7A;  /* Muted beige-gray for "Out of Stock" */
+  --accent-success: #7A8B6F;       /* Muted green for success/security */
+  --accent-info: #8B9BA8;          /* Muted blue-gray for info */
+  --accent-warning: #B8A082;       /* Warm beige-yellow for warranty */
+  
+  /* Status Colors - Success/Error states with warm undertones */
+  --success-text: #6B7A5F;         /* Muted green text - warm undertones */
+  --success-bg: #F0F4ED;            /* Very light green background */
+  --success-border: #C4D4B8;       /* Light green border */
+  --error-text: #9B6B6B;           /* Muted red text - warm undertones */
+  --error-bg: #F4EDED;              /* Very light red background */
+  --error-border: #D4B8B8;         /* Light red border */
+  --required-indicator: #B8866B;   /* Warm tan for required field asterisks */
+  
   /* Legacy variables for compatibility */
   --background: #faf8f5;
   --foreground: #2a2a2a;
@@ -41,6 +68,17 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-inter);
+  
+  /* Standardized Color Palette - Use these in Tailwind classes */
+  --color-beige: var(--beige);
+  --color-cream: var(--cream);
+  --color-beige-hover: var(--beige-hover);
+  --color-active-dark: var(--active-dark);
+  --color-text-on-cream: var(--text-on-cream);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-on-beige: var(--text-on-beige);
+  --color-text-on-beige-hover: var(--text-on-beige-hover);
 }
 
 /* Font Family Variables */
@@ -275,17 +313,62 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-inter);
 }
 
-/* Smooth scrolling - Prevent horizontal scroll */
+/* Smooth scrolling - Apply globally for better UX */
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   width: 100%;
 }
 
+/* Ensure body also has smooth scrolling */
+body {
+  scroll-behavior: smooth;
+}
+
+/* Smooth scrolling for common scrollable containers */
+main,
+section,
+article,
+aside,
+div[role="main"],
+.scroll-container {
+  scroll-behavior: smooth;
+}
+
+/* Override for specific elements that might need instant scroll */
+.scroll-instant {
+  scroll-behavior: auto;
+}
+
 /* Ensure containers don't overflow */
 .container {
   width: 100%;
   max-width: 100%;
+}
+
+/* Responsive Typography - Fluid scaling */
+@media (max-width: 640px) {
+  .font-section-heading {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+  
+  .font-brand-display {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+}
+
+/* Mobile-first responsive utilities */
+@media (max-width: 640px) {
+  /* Ensure proper spacing on mobile */
+  .section-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* Touch-friendly spacing */
+  .touch-spacing {
+    gap: 1rem;
+  }
 }
 
 /* Standardized Design System Utility Classes */
@@ -309,12 +392,68 @@ html {
   @apply gap-3 sm:gap-4 md:gap-6;
 }
 
+/* Responsive Grid Utilities */
+.responsive-grid-2 {
+  @apply grid grid-cols-2 gap-4 sm:gap-5 md:gap-6 lg:gap-8;
+}
+
+.responsive-grid-3 {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8;
+}
+
+.responsive-grid-4 {
+  @apply grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-8;
+}
+
+/* Touch Target - Minimum 44x44px for accessibility */
+.touch-target {
+  @apply min-h-[44px] min-w-[44px];
+}
+
+/* Responsive Container Max Widths */
+.container-content {
+  @apply max-w-7xl mx-auto;
+}
+
+.container-text {
+  @apply max-w-4xl mx-auto;
+}
+
+.container-narrow {
+  @apply max-w-2xl mx-auto;
+}
+
 .standard-card {
-  @apply bg-[#faf8f5] rounded-lg border border-[#e8e5e0] p-6 sm:p-8;
+  @apply bg-[var(--cream)] rounded-lg border border-[var(--border-light)] p-6 sm:p-8;
 }
 
 .standard-input {
-  @apply w-full px-4 py-3 border border-[#e8e5e0] rounded-lg focus:outline-none focus:border-[#2a2a2a] bg-[#faf8f5] min-h-[44px] text-base;
+  @apply w-full px-4 py-3 border border-[var(--border-light)] rounded-lg focus:outline-none focus:border-[var(--text-on-cream)] bg-[var(--cream)] min-h-[44px] text-base;
+}
+
+/* Standardized Spacing Utilities */
+.standard-space-y {
+  @apply space-y-4 sm:space-y-5 md:space-y-6;
+}
+
+.standard-space-y-small {
+  @apply space-y-2 sm:space-y-3;
+}
+
+.standard-mb {
+  @apply mb-6 sm:mb-8 md:mb-10;
+}
+
+.standard-mb-small {
+  @apply mb-4 sm:mb-6;
+}
+
+.standard-mt {
+  @apply mt-6 sm:mt-8 md:mt-10;
+}
+
+.standard-mt-small {
+  @apply mt-4 sm:mt-6;
 }
 
 /* Custom scrollbar */
@@ -333,6 +472,24 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--dark-grey);
+}
+
+/* Custom select dropdown styling for consistent design */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+/* Select dropdown arrow styling */
+select option {
+  background-color: var(--beige);
+  color: var(--text-on-beige);
+  padding: 0.5rem;
 }
 
 /* Reduce motion for users who prefer it */

@@ -7,6 +7,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { generateStandardMetadata } from "@/lib/seo/metadata";
 import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/seo/structured-data";
 import { getBaseUrl } from "@/lib/utils/env";
+import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -41,27 +42,29 @@ export default function RootLayout({
   const websiteSchema = generateWebsiteSchema();
 
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema).replace(/</g, '\\u003c').replace(/>/g, '\\u003e') }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema).replace(/</g, '\\u003c').replace(/>/g, '\\u003e') }}
         />
       </head>
       <body className={`${inter.className} ${inter.variable} ${playfair.variable} flex flex-col min-h-screen`}>
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#CCC4BA] focus:text-white focus:rounded-lg">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--beige)] focus:text-[var(--text-on-beige)] focus:rounded-lg">
           Skip to main content
         </a>
         <ErrorBoundary>
-          <TopHeader />
-          <main id="main-content" className="flex-grow" role="main">
-            {children}
-          </main>
-          <Footer />
+          <SmoothScrollProvider>
+            <TopHeader />
+            <main id="main-content" className="flex-grow" role="main">
+              {children}
+            </main>
+            <Footer />
+          </SmoothScrollProvider>
         </ErrorBoundary>
       </body>
     </html>

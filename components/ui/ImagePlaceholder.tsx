@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils/cn';
+
 interface ImagePlaceholderProps {
   text?: string;
   className?: string;
@@ -10,14 +12,14 @@ interface ImagePlaceholderProps {
 export default function ImagePlaceholder({ 
   text = 'No image', 
   className = '',
-  bgColor = '#f5f1eb'
+  bgColor = 'var(--cream)'
 }: ImagePlaceholderProps) {
   return (
     <div 
-      className={`w-full h-full flex items-center justify-center ${className}`}
+      className={cn('w-full h-full flex items-center justify-center', className)}
       style={{ backgroundColor: bgColor }}
     >
-      <p className="text-white text-body-sm opacity-50">{text}</p>
+      <p className="text-[var(--text-on-beige)] text-body-sm opacity-50">{text}</p>
     </div>
   );
 }

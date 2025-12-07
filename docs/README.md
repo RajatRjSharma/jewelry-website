@@ -15,10 +15,15 @@ Complete documentation for the Jewels by NavKush jewelry website.
 
 ### **Initial Setup**
 - **[Quick Start Guide](./SETUP_QUICK_START.md)** - Initial project setup
-- **[Sanity Setup](./SANITY_SETUP.md)** - Configure Sanity.io CMS
-- **[Sanity Schema Setup](./SANITY_SCHEMA_SETUP.md)** - Define content types
-- **[Sanity Studio Guide](./SANITY_STUDIO_GUIDE.md)** - Using Sanity Studio
-- **[Firebase Setup](./FIREBASE_SETUP.md)** - Configure Firebase Firestore
+- **[JSON-Based Architecture](./JSON_BASED_ARCHITECTURE_PLAN.md)** - Current architecture (JSON-based)
+- **[Migration Complete](./MIGRATION_COMPLETE.md)** - Migration from Sanity/Firebase to JSON
+
+### **Legacy Setup (Historical Reference)**
+- **[Sanity Setup](./SANITY_SETUP.md)** - Sanity.io CMS (no longer used)
+- **[Sanity Schema Setup](./SANITY_SCHEMA_SETUP.md)** - Sanity schema (no longer used)
+- **[Sanity Studio Guide](./SANITY_STUDIO_GUIDE.md)** - Sanity Studio (no longer used)
+- **[Firebase Setup](./FIREBASE_SETUP.md)** - Firebase Firestore (no longer used)
+- **[Firebase & Sanity Usage Report](./FIREBASE_SANITY_USAGE_REPORT.md)** - Historical analysis
 
 ### **Deployment**
 - **[Deployment Plan](./DEPLOYMENT_PLAN.md)** - Complete deployment strategy & checklist
@@ -81,10 +86,18 @@ Complete documentation for the Jewels by NavKush jewelry website.
 - **[Cache Clearing Guide](./CACHE_CLEARING_GUIDE.md)** - Clear Next.js cache
 
 ### **Quality Reports**
-- **[Code Quality Report](./CODE_QUALITY_REPORT.md)** - Code quality & modularity
-- **[Color Consistency Report](./COLOR_CONSISTENCY_REPORT.md)** - Color system consistency (includes recent updates)
-- **[CSS Consistency Report](./CSS_CONSISTENCY_REPORT.md)** - CSS & responsiveness consistency (includes recent updates)
-- **[E-commerce Best Practices Report](./E_COMMERCE_BEST_PRACTICES_REPORT.md)** - E-commerce consistency (includes recent updates)
+- **[Code Quality Update](./CODE_QUALITY_UPDATE.md)** - Code quality & modularity
+- **[Color Consistency Report](./COLOR_CONSISTENCY_REPORT.md)** - Color system consistency
+- **[CSS Consistency Report](./CSS_CONSISTENCY_REPORT.md)** - CSS & responsiveness consistency (includes verification)
+- **[E-commerce Best Practices Report](./E_COMMERCE_BEST_PRACTICES_REPORT.md)** - E-commerce consistency
+
+### **Migration & Architecture**
+- **[Migration Complete](./MIGRATION_COMPLETE.md)** - JSON-based architecture migration
+- **[JSON-Based Architecture Plan](./JSON_BASED_ARCHITECTURE_PLAN.md)** - Architecture overview
+- **[Firebase & Sanity Usage Report](./FIREBASE_SANITY_USAGE_REPORT.md)** - Historical reference (outdated)
+
+### **Image Management**
+- **[Image Fix Summary](./IMAGE_FIX_SUMMARY.md)** - Image path fixes and structure
 
 ---
 

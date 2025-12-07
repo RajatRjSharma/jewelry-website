@@ -42,7 +42,7 @@ export default function SectionHeading({
     section: 'mb-8 sm:mb-10 md:mb-12',
   };
 
-  const textColor = size === 'section' ? '' : 'text-[#2a2a2a]';
+  const textColor = size === 'section' ? '' : 'text-[var(--text-on-cream)]';
   const fontWeight = size === 'md' || size === 'lg' || size === 'xl' ? 'font-playfair font-bold' : '';
 
   return (

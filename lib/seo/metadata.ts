@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
-import { urlFor } from '@/lib/cms/client';
 import { getBrandName } from '@/lib/utils/text-formatting';
 import { getBaseUrl } from '@/lib/utils/env';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 const baseUrl = getBaseUrl();
 const siteName = getBrandName();
@@ -33,12 +31,14 @@ export function generateStandardMetadata({
   image,
   url,
   type = 'website',
+  keywords = [],
 }: {
   title: string;
   description: string;
   image?: string;
   url?: string;
   type?: 'website' | 'article';
+  keywords?: string[];
 }): Metadata {
   const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
   const optimizedDescription = optimizeDescription(description);
@@ -99,6 +99,29 @@ export function generateStandardMetadata({
         'max-snippet': -1,
       },
     },
+    keywords: (() => {
+      const defaultKeywords = [
+        'jewelry',
+        'handcrafted jewelry',
+        'luxury jewelry',
+        'rings',
+        'earrings',
+        'necklaces',
+        'bracelets',
+        'precious metals',
+        'gemstones',
+        'custom jewelry',
+        'fine jewelry',
+        'jewelry store',
+        'elegant jewelry',
+        'timeless pieces',
+        'ethical jewelry',
+        'sustainable jewelry',
+      ];
+      // Combine default keywords with page-specific keywords, removing duplicates
+      const combined = [...defaultKeywords, ...keywords];
+      return Array.from(new Set(combined));
+    })(),
   };
 }
 
@@ -110,14 +133,16 @@ export function generateProductMetadata({
   description,
   image,
   url,
+  keywords = [],
 }: {
   title: string;
   description: string;
-  image?: SanityImageSource;
+  image?: string;
   url?: string;
+  keywords?: string[];
 }): Metadata {
   const imageUrl = image 
-    ? urlFor(image).width(1200).height(1200).url()
+    ? `${baseUrl}${image}`
     : `${baseUrl}/og-image.jpg`;
 
   return generateStandardMetadata({
@@ -126,6 +151,7 @@ export function generateProductMetadata({
     image: imageUrl,
     url,
     type: 'website', // OpenGraph doesn't support 'product', use 'website'
+    keywords,
   });
 }
 

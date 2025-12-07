@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion';
 import { ANIMATION_3D } from '@/lib/animations/constants';
 
 interface CategoryCard3DProps {
@@ -76,12 +76,26 @@ export default function CategoryCard3D({
     y.set(0);
   };
 
+  // Check if element is in viewport on mount
+  const isInView = useInView(cardRef, { 
+    once: ANIMATION_3D.VIEWPORT.ONCE, 
+    margin: ANIMATION_3D.VIEWPORT.MARGIN,
+    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
+    initial: true,
+  });
+  
+  // Professional animation: visible content animates immediately, hidden content animates on scroll
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
+      initial={{ opacity: 1, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : undefined}
+      whileInView={!isInView ? { opacity: 1, y: 0 } : undefined}
+      viewport={{ 
+        once: ANIMATION_3D.VIEWPORT.ONCE, 
+        margin: ANIMATION_3D.VIEWPORT.MARGIN,
+        amount: ANIMATION_3D.VIEWPORT.AMOUNT 
+      }}
       transition={{ 
         duration: 0.6, 
         delay: index * 0.15,
@@ -107,7 +121,7 @@ export default function CategoryCard3D({
           className="relative"
         >
           <motion.div
-            className="relative h-64 sm:h-72 md:h-80 lg:h-96 rounded-lg overflow-hidden bg-[#CCC4BA]"
+            className="relative h-64 sm:h-72 md:h-80 lg:h-96 rounded-lg overflow-hidden bg-[var(--beige)]"
             animate={{
               boxShadow: isHovered 
                 ? '0 20px 40px -10px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)'
@@ -162,7 +176,7 @@ export default function CategoryCard3D({
               />
               <Image
                 src={imageSrc}
-                alt={`${name} jewelry collection`}
+                alt={`${name} jewelry collection - Handcrafted ${name.toLowerCase()} pieces`}
                 fill
                 className="object-cover mix-blend-multiply"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -177,7 +191,7 @@ export default function CategoryCard3D({
               whileHover={{ opacity: 1 }}
             >
               <motion.h3
-                className="text-white font-section-heading text-2xl sm:text-3xl md:text-4xl uppercase"
+                className="text-[var(--text-on-beige)] font-section-heading text-2xl sm:text-3xl md:text-4xl uppercase"
                 animate={isHovered ? { 
                   scale: ANIMATION_3D.SCALE.TEXT_HOVER, 
                   y: ANIMATION_3D.HOVER.TEXT_LIFT 

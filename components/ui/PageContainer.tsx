@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/utils/cn';
 
 interface PageContainerProps {
   children: React.ReactNode;
@@ -27,10 +28,10 @@ export default function PageContainer({
   };
 
   return (
-    <div className="bg-[#faf8f5] min-h-screen">
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 lg:py-24">
+    <div className="bg-[var(--cream)] min-h-screen">
+      <div className="section-container section-padding">
         {maxWidth !== 'full' ? (
-          <div className={`${maxWidthClasses[maxWidth]} mx-auto ${className}`}>
+          <div className={cn(maxWidthClasses[maxWidth], 'mx-auto', className)}>
             {children}
           </div>
         ) : (

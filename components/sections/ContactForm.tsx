@@ -109,13 +109,13 @@ export default function ContactForm() {
         />
 
         {submitStatus === 'success' && (
-          <div className="p-4 bg-green-100 text-green-700 rounded-lg" role="alert" aria-live="polite">
+          <div className="p-4 sm:p-5 rounded-lg text-body-sm sm:text-body-base border border-[var(--success-border)]" style={{ backgroundColor: 'var(--success-bg)', color: 'var(--success-text)' }} role="alert" aria-live="polite">
             Thank you! Your message has been sent successfully.
           </div>
         )}
 
         {submitStatus === 'error' && (
-          <div className="p-4 bg-red-100 text-red-700 rounded-lg" role="alert" aria-live="assertive">
+          <div className="p-4 sm:p-5 rounded-lg text-body-sm sm:text-body-base border border-[var(--error-border)]" style={{ backgroundColor: 'var(--error-bg)', color: 'var(--error-text)' }} role="alert" aria-live="assertive">
             Something went wrong. Please try again.
           </div>
         )}

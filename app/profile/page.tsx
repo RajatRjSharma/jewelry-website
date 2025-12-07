@@ -24,7 +24,8 @@ export default function ProfilePage() {
   return (
     <PageContainer maxWidth="2xl">
       <ScrollReveal>
-        <SectionHeading>MY PROFILE</SectionHeading>
+        <h1 className="sr-only">My Profile - Manage your account settings</h1>
+        <SectionHeading as="h2">MY PROFILE</SectionHeading>
       </ScrollReveal>
       <ScrollReveal delay={0.1}>
         <Card>

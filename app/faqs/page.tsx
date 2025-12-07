@@ -5,6 +5,7 @@ import PageContainer from '@/components/ui/PageContainer';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
+import { generateFAQPageSchema } from '@/lib/seo/faq-schema';
 import { getBaseUrl } from '@/lib/utils/env';
 
 export const metadata: Metadata = generateStandardMetadata({
@@ -14,6 +15,7 @@ export const metadata: Metadata = generateStandardMetadata({
 });
 
 export default function FAQsPage() {
+  const baseUrl = getBaseUrl();
   const faqs = [
     {
       question: 'What materials do you use in your jewelry?',
@@ -49,20 +51,28 @@ export default function FAQsPage() {
     },
   ];
 
+  const faqSchema = generateFAQPageSchema(faqs, `${baseUrl}/faqs`);
+
   return (
-    <PageContainer maxWidth="4xl">
-      <ScrollReveal>
-        <SectionHeading>FREQUENTLY ASKED QUESTIONS</SectionHeading>
-      </ScrollReveal>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c').replace(/>/g, '\\u003e') }}
+      />
+      <PageContainer maxWidth="4xl">
+        <ScrollReveal>
+          <h1 className="sr-only">Frequently Asked Questions - Jewelry FAQs</h1>
+          <SectionHeading as="h2">FREQUENTLY ASKED QUESTIONS</SectionHeading>
+        </ScrollReveal>
       
-      <div className="space-y-4 sm:space-y-6">
+      <div className="standard-space-y">
         {faqs.map((faq, index) => (
           <ScrollReveal key={index} delay={index * 0.1}>
             <Card padding="sm">
               <SectionHeading as="h2" size="sm" align="left" className="mb-3 sm:mb-4">
                 {faq.question}
               </SectionHeading>
-              <p className="text-[#6a6a6a] text-body-sm sm:text-body-base md:text-body-lg">
+              <p className="text-[var(--text-secondary)] text-body-sm sm:text-body-base md:text-body-lg">
                 {faq.answer}
               </p>
             </Card>
@@ -71,8 +81,8 @@ export default function FAQsPage() {
       </div>
 
       <ScrollReveal delay={0.5}>
-        <div className="mt-8 sm:mt-12 text-center">
-          <p className="text-[#6a6a6a] text-body-sm sm:text-body-base mb-4">
+        <div className="mt-6 sm:mt-8 md:mt-10 text-center">
+          <p className="text-[var(--text-secondary)] text-body-sm sm:text-body-base mb-4">
             Still have questions? We&apos;re here to help!
           </p>
           <Button href="/contact">
@@ -80,7 +90,8 @@ export default function FAQsPage() {
           </Button>
         </div>
       </ScrollReveal>
-    </PageContainer>
+      </PageContainer>
+    </>
   );
 }
 

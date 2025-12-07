@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import { COLORS } from '@/lib/constants';
+import { ANIMATION_3D } from '@/lib/animations/constants';
 
 interface CategoryLinkProps {
   name: string;
@@ -27,19 +29,35 @@ export default function CategoryLink({
   const isProductsVariant = variant === 'products';
   
   const baseStyles = isProductsVariant
-    ? 'flex items-center justify-between text-white hover:text-[#f5f1eb] transition-colors w-full py-3 sm:py-3.5 md:py-4 lg:py-5 uppercase text-heading-sm min-h-[44px] sm:min-h-[48px] relative overflow-hidden'
-    : 'flex items-center justify-between text-white hover:text-[#f5f1eb] transition-colors w-full py-2.5 sm:py-3 md:py-3.5 lg:py-4 uppercase text-category-link min-h-[44px] relative overflow-hidden';
+    ? 'flex items-center justify-between text-[var(--text-on-beige)] hover:text-[var(--text-on-beige-hover)] transition-colors w-full py-3 sm:py-3.5 md:py-4 lg:py-5 uppercase text-heading-sm min-h-[44px] sm:min-h-[48px] relative overflow-hidden'
+    : 'flex items-center justify-between text-[var(--text-on-beige)] hover:text-[var(--text-on-beige-hover)] transition-colors w-full py-2.5 sm:py-3 md:py-3.5 lg:py-4 uppercase text-category-link min-h-[44px] relative overflow-hidden';
 
   const borderStyle = {
     borderTop: index === 0 ? `1px solid ${COLORS.borderLight}` : 'none',
     borderBottom: index < total - 1 ? `1px solid ${COLORS.borderLight}` : 'none',
   };
 
+  // Check if element is in viewport on mount
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { 
+    once: ANIMATION_3D.VIEWPORT.ONCE, 
+    margin: ANIMATION_3D.VIEWPORT.MARGIN,
+    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
+    initial: true,
+  });
+  
+  // Professional animation: visible content animates immediately, hidden content animates on scroll
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
+      ref={ref}
+      initial={{ opacity: 1, x: -20 }}
+      animate={isInView ? { opacity: 1, x: 0 } : undefined}
+      whileInView={!isInView ? { opacity: 1, x: 0 } : undefined}
+      viewport={{ 
+        once: ANIMATION_3D.VIEWPORT.ONCE, 
+        margin: ANIMATION_3D.VIEWPORT.MARGIN,
+        amount: ANIMATION_3D.VIEWPORT.AMOUNT 
+      }}
       transition={{ 
         duration: 0.5, 
         delay: index * 0.1,

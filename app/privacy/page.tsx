@@ -15,14 +15,15 @@ export default function PrivacyPage() {
   return (
     <PageContainer maxWidth="4xl">
       <ScrollReveal>
-        <SectionHeading>PRIVACY POLICY</SectionHeading>
+        <h1 className="sr-only">Privacy Policy - Data Protection & Privacy</h1>
+        <SectionHeading as="h2">PRIVACY POLICY</SectionHeading>
       </ScrollReveal>
       
-      <div className="space-y-6 sm:space-y-8 md:space-y-10 text-[#6a6a6a] text-body-sm sm:text-body-base md:text-body-lg">
+      <div className="space-y-6 sm:space-y-8 md:space-y-10 text-[var(--text-secondary)] text-body-sm sm:text-body-base md:text-body-lg">
         <ScrollReveal delay={0.1}>
           <section>
             <p className="mb-4">
-              <strong className="text-[#2a2a2a]">Last Updated:</strong> November 2024
+              <strong className="text-[var(--text-on-cream)]">Last Updated:</strong> November 2024
             </p>
             <p>
               At Jewels by NavKush, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or make a purchase.
@@ -108,7 +109,7 @@ export default function PrivacyPage() {
             </SectionHeading>
               <p>
                 If you have questions about this Privacy Policy, please contact us at{' '}
-                <a href="/contact" className="text-[#CCC4BA] hover:text-[#b8afa3] underline">
+                <a href="/contact" className="text-[var(--beige)] hover:text-[var(--beige-hover)] underline">
                   our contact page
                 </a>.
             </p>

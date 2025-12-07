@@ -59,9 +59,9 @@ export function getStockStatus(inStock: boolean | undefined) {
   
   return {
     text: isAvailable ? 'In Stock' : 'Out of Stock',
-    color: isAvailable ? 'text-green-600' : 'text-red-600',
-    bgColor: isAvailable ? 'bg-green-50' : 'bg-red-50',
-    borderColor: isAvailable ? 'border-green-200' : 'border-red-200',
+    color: isAvailable ? 'text-[var(--success-text)]' : 'text-[var(--error-text)]',
+    bgColor: isAvailable ? 'bg-[var(--success-bg)]' : 'bg-[var(--error-bg)]',
+    borderColor: isAvailable ? 'border-[var(--success-border)]' : 'border-[var(--error-border)]',
     ariaLabel: isAvailable ? 'Product is in stock' : 'Product is out of stock',
     available: isAvailable,
   };

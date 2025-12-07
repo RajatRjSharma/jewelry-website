@@ -29,8 +29,20 @@ export function sanitizeString(input: string): string {
   sanitized = sanitized.replace(/vbscript:/gi, '');
   sanitized = sanitized.replace(/file:/gi, '');
   
-  // Remove HTML entities that could be used for XSS
-  sanitized = sanitized.replace(/&#x?[0-9a-f]+;/gi, '');
+  // Remove HTML entities that could be used for XSS (but keep safe ones like &amp;)
+  // Only remove numeric entities that could be used maliciously
+  sanitized = sanitized.replace(/&#[0-9]+;/g, '');
+  sanitized = sanitized.replace(/&#x[0-9a-f]+;/gi, '');
+  
+  // Remove null bytes and control characters
+  sanitized = sanitized.replace(/\0/g, '');
+  sanitized = sanitized.replace(/[\x00-\x1F\x7F]/g, '');
+  
+  // Limit length to prevent DoS (reasonable limit)
+  const MAX_LENGTH = 10000;
+  if (sanitized.length > MAX_LENGTH) {
+    sanitized = sanitized.substring(0, MAX_LENGTH);
+  }
   
   // Trim whitespace
   sanitized = sanitized.trim();

@@ -24,16 +24,16 @@ export function middleware(request: NextRequest) {
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
   // Content Security Policy
-  // Note: 'unsafe-eval' and 'unsafe-inline' are required for Next.js and Sanity
+  // Note: 'unsafe-eval' and 'unsafe-inline' are required for Next.js
   // Consider using nonces or hashes in the future for better security
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.sanity.io",
+    "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: https: blob:",
     "font-src 'self' data: https://fonts.gstatic.com",
-    "connect-src 'self' https://*.sanity.io https://*.firebaseio.com https://*.googleapis.com",
-    "frame-ancestors 'self'",
+    "connect-src 'self'",
+    "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
     "object-src 'none'",

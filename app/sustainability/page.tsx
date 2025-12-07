@@ -15,10 +15,11 @@ export default function SustainabilityPage() {
   return (
     <PageContainer maxWidth="4xl">
       <ScrollReveal>
-        <SectionHeading>SUSTAINABILITY</SectionHeading>
+        <h1 className="sr-only">Sustainability - Ethical Jewelry Practices</h1>
+        <SectionHeading as="h2">SUSTAINABILITY</SectionHeading>
       </ScrollReveal>
       
-      <div className="space-y-6 sm:space-y-8 md:space-y-10 text-[#6a6a6a] text-body-sm sm:text-body-base md:text-body-lg">
+      <div className="space-y-6 sm:space-y-8 md:space-y-10 text-[var(--text-secondary)] text-body-sm sm:text-body-base md:text-body-lg">
         <ScrollReveal delay={0.1}>
           <section>
             <SectionHeading as="h2" size="md" align="left">

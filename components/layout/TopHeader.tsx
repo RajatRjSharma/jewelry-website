@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import SmoothLink from '@/components/ui/SmoothLink';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -228,7 +228,7 @@ export default function TopHeader() {
 
           {/* Brand Name - Center (only on non-home pages) */}
           {!isHomePage && (
-            <Link href="/" className="flex-1 text-center">
+            <SmoothLink href="/" className="flex-1 text-center">
               <motion.h1 
                 className="text-base sm:text-lg md:text-xl lg:text-2xl font-playfair font-bold"
                 style={{
@@ -241,7 +241,7 @@ export default function TopHeader() {
               >
                 Jewels by NavKush
               </motion.h1>
-            </Link>
+            </SmoothLink>
           )}
 
           {/* Right Icons: Cart and User - Larger touch targets for mobile */}
@@ -251,7 +251,7 @@ export default function TopHeader() {
               whileTap={{ scale: 0.9 }}
               transition={{ type: 'spring', stiffness: 400, damping: 17 }}
             >
-              <Link
+              <SmoothLink
                 href="/cart"
                 className="transition-colors p-2 -mr-2 sm:p-0 sm:mr-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"
                 style={{ color: textColor }}
@@ -260,14 +260,14 @@ export default function TopHeader() {
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
-              </Link>
+              </SmoothLink>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.15, rotate: -5 }}
               whileTap={{ scale: 0.9 }}
               transition={{ type: 'spring', stiffness: 400, damping: 17 }}
             >
-              <Link
+              <SmoothLink
                 href="/profile"
                 className="transition-colors p-2 sm:p-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"
                 style={{ color: textColor }}
@@ -276,7 +276,7 @@ export default function TopHeader() {
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-              </Link>
+              </SmoothLink>
             </motion.div>
           </div>
         </div>
@@ -301,7 +301,7 @@ export default function TopHeader() {
                     animate={{ y: 0 }}
                     transition={{ duration: 0.3, delay: 0.1 }}
                   >
-              <Link 
+              <SmoothLink 
                 key={`all-products-${textColor}`}
                 href="/designs" 
                 className="text-nav transition-colors"
@@ -309,9 +309,9 @@ export default function TopHeader() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 ALL PRODUCTS
-              </Link>
+              </SmoothLink>
               {categories.map((category) => (
-                <Link
+                <SmoothLink
                   key={`${category.slug}-${textColor}`}
                   href={category.href}
                   className="text-nav transition-colors"
@@ -319,9 +319,9 @@ export default function TopHeader() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {category.name}
-                </Link>
+                </SmoothLink>
               ))}
-              <Link 
+              <SmoothLink 
                 key={`about-${textColor}`}
                 href="/about" 
                 className="text-nav transition-colors"
@@ -329,8 +329,8 @@ export default function TopHeader() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 ABOUT US
-              </Link>
-              <Link 
+              </SmoothLink>
+              <SmoothLink 
                 key={`contact-${textColor}`}
                 href="/contact" 
                 className="text-nav transition-colors"
@@ -338,7 +338,7 @@ export default function TopHeader() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 CONTACT
-              </Link>
+              </SmoothLink>
                   </motion.div>
                 </motion.nav>
               )}

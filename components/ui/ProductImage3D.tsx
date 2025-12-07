@@ -2,13 +2,11 @@
 
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { urlFor } from '@/lib/cms/client';
+import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion';
 import { ANIMATION_3D } from '@/lib/animations/constants';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface ProductImage3DProps {
-  image: SanityImageSource;
+  image: string;
   alt: string;
   priority?: boolean;
 }
@@ -71,17 +69,26 @@ export default function ProductImage3D({ image, alt, priority = false }: Product
     y.set(0);
   };
 
+  // Check if element is in viewport on mount
+  const isInView = useInView(imageRef, { 
+    once: ANIMATION_3D.VIEWPORT.ONCE, 
+    margin: ANIMATION_3D.VIEWPORT.MARGIN,
+    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
+    initial: true,
+  });
+  
+  // Professional animation: visible content animates immediately, hidden content animates on scroll
   return (
     <motion.div
       ref={imageRef}
-      initial={{ 
-        opacity: 0, 
-        y: ANIMATION_3D.ENTRY.INITIAL_Y, 
-        scale: ANIMATION_3D.ENTRY.INITIAL_SCALE, 
-        rotateY: ANIMATION_3D.ENTRY.INITIAL_ROTATE_Y 
+      initial={{ opacity: 1, y: 30, scale: 0.95, rotateY: 0 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1, rotateY: 0 } : undefined}
+      whileInView={!isInView ? { opacity: 1, y: 0, scale: 1, rotateY: 0 } : undefined}
+      viewport={{ 
+        once: ANIMATION_3D.VIEWPORT.ONCE, 
+        margin: ANIMATION_3D.VIEWPORT.MARGIN,
+        amount: ANIMATION_3D.VIEWPORT.AMOUNT 
       }}
-      whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
-      viewport={{ once: ANIMATION_3D.VIEWPORT.ONCE, margin: ANIMATION_3D.VIEWPORT.MARGIN }}
       transition={{ 
         duration: ANIMATION_3D.ENTRY.DURATION, 
         delay: 0.2,
@@ -93,7 +100,7 @@ export default function ProductImage3D({ image, alt, priority = false }: Product
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] bg-[#CCC4BA] rounded-lg overflow-hidden"
+      className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] bg-[var(--beige)] rounded-lg overflow-hidden"
       style={{
         perspective: ANIMATION_3D.PERSPECTIVE,
         transformStyle: 'preserve-3d',
@@ -118,7 +125,7 @@ export default function ProductImage3D({ image, alt, priority = false }: Product
           transition={{ duration: ANIMATION_3D.HOVER.DURATION, ease: ANIMATION_3D.HOVER.EASE }}
         >
           <Image
-            src={urlFor(image).width(1200).height(1200).url()}
+            src={image}
             alt={alt}
             fill
             className="object-contain relative z-10"

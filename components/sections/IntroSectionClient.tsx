@@ -7,14 +7,14 @@ import Button from '@/components/ui/Button';
 import CategoryLink from '@/components/ui/CategoryLink';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import HeroImage3D from './HeroImage3D';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface IntroSectionClientProps {
   brandName?: string;
   heroTitle?: string;
   heroDescription?: string;
   heroButtonText?: string;
-  heroImage?: SanityImageSource;
+  heroImage?: string;
+  heroImageAlt?: string;
   rightColumnSlogan?: string;
 }
 
@@ -24,6 +24,7 @@ export default function IntroSectionClient({
   heroDescription = 'Discover exquisite jewelry inspired by the beauty of the heavens. Each piece is crafted to bring elegance and grace to your most cherished occasions.',
   heroButtonText = DEFAULTS.heroButtonText,
   heroImage,
+  heroImageAlt,
   rightColumnSlogan = DEFAULTS.rightColumnSlogan,
 }: IntroSectionClientProps) {
   // Ensure animations trigger on mount/navigation
@@ -31,12 +32,12 @@ export default function IntroSectionClient({
   const [isMounted] = useState(true);
 
   return (
-    <section id="intro-section" className="bg-[#CCC4BA]">
+    <section id="intro-section" className="bg-[var(--beige)]">
       {/* Brand Heading */}
       <ScrollReveal>
-        <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16 lg:py-20">
+        <div className="section-container section-padding-small">
           <motion.h1 
-            className="text-white text-center font-brand-display"
+            className="text-[var(--text-on-beige)] text-center font-brand-display"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isMounted ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -47,14 +48,14 @@ export default function IntroSectionClient({
       </ScrollReveal>
 
       {/* 3-Column Hero Section - Responsive Layout */}
-      <div className="container mx-auto px-4 sm:px-6">
+      <div className="section-container">
         {/* Mobile: Stacked Layout */}
         <div className="flex flex-col md:hidden gap-6 sm:gap-8 pb-12 md:pb-16 lg:pb-20">
           {/* Mobile: Brand Heading */}
           <ScrollReveal delay={0.2}>
             <div className="text-center space-y-4">
               <motion.h2 
-                className="text-white font-hero-title uppercase text-2xl sm:text-3xl"
+                className="text-[var(--text-on-beige)] font-hero-title uppercase text-2xl sm:text-3xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -62,7 +63,7 @@ export default function IntroSectionClient({
                 {heroTitle}
               </motion.h2>
               <motion.p 
-                className="text-white text-body-sm sm:text-body-base"
+                className="text-[var(--text-on-beige)] text-body-sm sm:text-body-base"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -83,12 +84,12 @@ export default function IntroSectionClient({
 
               {/* Mobile: Hero Image */}
               <ScrollReveal delay={0.3}>
-                <HeroImage3D heroImage={heroImage} isMobile={true} />
+                <HeroImage3D heroImage={heroImage} heroImageAlt={heroImageAlt} isMobile={true} />
               </ScrollReveal>
 
           {/* Mobile: Slogan */}
           <div className="text-center">
-            <p className="text-white text-heading-sm sm:text-heading-md">
+            <p className="text-[var(--text-on-beige)] text-heading-sm sm:text-heading-md">
               {rightColumnSlogan}
             </p>
           </div>
@@ -115,7 +116,7 @@ export default function IntroSectionClient({
           <ScrollReveal delay={0.2}>
             <div className="space-y-4 lg:space-y-6 pb-12 md:pb-16 lg:pb-20">
               <motion.h2 
-                className="text-white font-hero-title uppercase text-3xl lg:text-4xl xl:text-5xl"
+                className="text-[var(--text-on-beige)] font-hero-title uppercase text-3xl lg:text-4xl xl:text-5xl"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6 }}
@@ -123,7 +124,7 @@ export default function IntroSectionClient({
                 {heroTitle}
               </motion.h2>
               <motion.p 
-                className="text-white text-body-sm lg:text-body-base xl:text-body-lg"
+                className="text-[var(--text-on-beige)] text-body-sm lg:text-body-base xl:text-body-lg"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
@@ -144,7 +145,7 @@ export default function IntroSectionClient({
 
           {/* Center Column: Hero Image */}
           <ScrollReveal delay={0.3}>
-            <HeroImage3D heroImage={heroImage} isMobile={false} />
+            <HeroImage3D heroImage={heroImage} heroImageAlt={heroImageAlt} isMobile={false} />
           </ScrollReveal>
 
           {/* Right Column: Slogan and Category Menu */}
@@ -157,7 +158,7 @@ export default function IntroSectionClient({
                 animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6 }}
               >
-                <p className="text-white text-heading-sm lg:text-heading-md xl:text-heading-lg text-right w-full">
+                <p className="text-[var(--text-on-beige)] text-heading-sm lg:text-heading-md xl:text-heading-lg text-right w-full">
                   {rightColumnSlogan}
                 </p>
               </motion.div>

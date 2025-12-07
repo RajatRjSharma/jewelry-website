@@ -1,0 +1,37 @@
+{
+  "categories": [
+    {
+      "slug": "rings",
+      "name": "Rings",
+      "displayName": "RINGS",
+      "image": "/assets/categories/rings.png",
+      "alt": "Rings category",
+      "description": "Beautiful handcrafted rings for every occasion"
+    },
+    {
+      "slug": "earrings",
+      "name": "Earrings",
+      "displayName": "EARRINGS",
+      "image": "/assets/categories/earrings.png",
+      "alt": "Earrings category",
+      "description": "Elegant earrings to complement your style"
+    },
+    {
+      "slug": "necklaces",
+      "name": "Necklaces",
+      "displayName": "NECKLACES",
+      "image": "/assets/categories/necklaces.png",
+      "alt": "Necklaces category",
+      "description": "Stunning necklaces that make a statement"
+    },
+    {
+      "slug": "bracelets",
+      "name": "Bracelets",
+      "displayName": "BRACELETS",
+      "image": "/assets/categories/bracelets.png",
+      "alt": "Bracelets category",
+      "description": "Charming bracelets for everyday elegance"
+    }
+  ]
+}
+

@@ -1,0 +1,45 @@
+{
+  "brand": {
+    "name": "Jewels by NavKush",
+    "tagline": "A CELESTIAL TOUCH FOR TIMELESS MOMENTS"
+  },
+  "hero": {
+    "title": "COLLECTION 2025",
+    "description": "Discover our collection of unique, beautifully designed jewelry pieces that reflect your personal style. Handcrafted with precision and elegance.",
+    "buttonText": "DISCOVER",
+    "image": "/assets/hero/hero-image.png",
+    "alt": "Elegant jewelry display featuring handcrafted rings"
+  },
+  "about": {
+    "title": "ABOUT US",
+    "content": [
+      "We carefully select the finest materials—precious metals, sparkling gemstones, and luxurious pearls—to create each piece. Every design is meticulously crafted by skilled artisans, ensuring that each item is not only beautiful but built to last.",
+      "Our commitment to excellence is reflected in every detail, from the intricate designs to the flawless finish. At Jewels by NavKush, we are dedicated to creating jewelry that transcends trends, offering pieces that will remain cherished for generations.",
+      "At Jewels by NavKush, we believe that jewelry is more than just an accessory; it's a timeless expression of elegance and a celebration of life's most precious moments. With a legacy spanning over decades, our brand has become synonymous with exceptional craftsmanship and sophistication."
+    ],
+    "image": "/assets/about/about-image.png",
+    "alt": "About Jewels by NavKush",
+    "buttonText": "MORE ABOUT US"
+  },
+  "mostLoved": {
+    "title": "OUR MOST LOVED CREATIONS",
+    "slogan": "Discover our most cherished pieces"
+  },
+  "products": {
+    "title": "OUR PRODUCTS"
+  },
+  "contact": {
+    "email": "info@jewelrystore.com",
+    "phone": "+1 (555) 123-4567",
+    "address": "123 Jewelry Street, City, State 12345"
+  },
+  "social": {
+    "facebook": "https://facebook.com/jewelsbynavkush",
+    "instagram": "https://instagram.com/jewelsbynavkush",
+    "pinterest": "https://pinterest.com/jewelsbynavkush"
+  },
+  "intro": {
+    "rightColumnSlogan": "Discover our most cherished pieces"
+  }
+}
+

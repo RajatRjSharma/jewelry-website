@@ -1,23 +1,19 @@
-import { getSiteSettings, getCategoryImages } from '@/lib/cms/queries';
+import { getSiteSettings } from '@/lib/data/site-settings';
+import { getCategoryImages } from '@/lib/data/products';
 import { CATEGORIES } from '@/lib/constants';
 import CategoryLink from '@/components/ui/CategoryLink';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import CategoryImage3D from './CategoryImage3D';
 import { getCategoryImageSource, CategoryType } from '@/lib/utils/image-helpers';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
-
-interface SiteSettings {
-  productsTitle?: string;
-}
 
 interface CategoryImageSectionProps {
   category: CategoryType;
-  sanityImage?: SanityImageSource;
+  imageUrl?: string;
   index?: number;
 }
 
-function CategoryImageSection({ category, sanityImage, index = 0 }: CategoryImageSectionProps) {
-  const imageSource = getCategoryImageSource(category, sanityImage);
+function CategoryImageSection({ category, imageUrl, index = 0 }: CategoryImageSectionProps) {
+  const imageSource = getCategoryImageSource(category, imageUrl);
   
   return (
     <CategoryImage3D 
@@ -29,7 +25,7 @@ function CategoryImageSection({ category, sanityImage, index = 0 }: CategoryImag
 }
 
 export default async function ProductCategories() {
-  const settings = await getSiteSettings<SiteSettings>();
+  const settings = await getSiteSettings();
   const categoryImages = await getCategoryImages();
 
   // Left column: RINGS, NECKLACES
@@ -41,10 +37,10 @@ export default async function ProductCategories() {
     <section id="products-section">
       {/* Heading Section - Light Background */}
       <ScrollReveal>
-        <div className="bg-[#faf8f5] py-12 sm:py-16 md:py-20 lg:py-24">
-          <div className="container mx-auto px-4 sm:px-6">
+        <div className="bg-[var(--cream)] section-padding">
+          <div className="section-container">
             <h2 className="font-section-heading text-center">
-              {settings.productsTitle || 'OUR PRODUCTS'}
+              {settings.products.title || 'OUR PRODUCTS'}
             </h2>
           </div>
         </div>
@@ -52,10 +48,10 @@ export default async function ProductCategories() {
 
       {/* Main Content Area - Beige Background */}
       <ScrollReveal delay={0.1}>
-        <div className="bg-[#CCC4BA] py-12 sm:py-16 md:py-20 lg:py-24">
-          <div className="container mx-auto px-4 sm:px-6">
+        <div className="bg-[var(--beige)] section-padding">
+          <div className="section-container">
             {/* Mobile: Single Column Stacked */}
-            <div className="flex flex-col md:hidden gap-6 sm:gap-8">
+            <div className="flex flex-col md:hidden standard-gap-small">
               {CATEGORIES.map((category, index) => (
                 <ScrollReveal key={category.slug} delay={0.1 + index * 0.1}>
                   <div className="w-full">
@@ -68,7 +64,7 @@ export default async function ProductCategories() {
                     />
                     <CategoryImageSection 
                       category={category} 
-                      sanityImage={categoryImages[category.slug]}
+                      imageUrl={categoryImages[category.slug]}
                       index={index}
                     />
                   </div>
@@ -77,10 +73,10 @@ export default async function ProductCategories() {
             </div>
 
             {/* Tablet & Desktop: 2-Column Grid */}
-            <div className="hidden md:grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 max-w-6xl mx-auto">
+            <div className="hidden md:grid md:grid-cols-2 standard-gap container-content max-w-6xl">
               {/* Left Column */}
               <ScrollReveal delay={0.2}>
-                <div className="flex flex-col justify-between min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
+                <div className="flex flex-col justify-between min-h-[500px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-[650px] xl:min-h-[700px]">
                   {leftCategories.map((category, index) => (
                     <ScrollReveal key={category.slug} delay={0.2 + index * 0.1}>
                       <div className="w-full">
@@ -94,7 +90,7 @@ export default async function ProductCategories() {
                         {index === 0 && (
                           <CategoryImageSection 
                             category={category} 
-                            sanityImage={categoryImages[category.slug]}
+                            imageUrl={categoryImages[category.slug]}
                             index={index * 2}
                           />
                         )}
@@ -104,7 +100,7 @@ export default async function ProductCategories() {
                   <ScrollReveal delay={0.4}>
                     <CategoryImageSection 
                       category={leftCategories[1]} 
-                      sanityImage={categoryImages[leftCategories[1].slug]}
+                      imageUrl={categoryImages[leftCategories[1].slug]}
                       index={1}
                     />
                   </ScrollReveal>
@@ -113,7 +109,7 @@ export default async function ProductCategories() {
 
               {/* Right Column */}
               <ScrollReveal delay={0.3}>
-                <div className="flex flex-col justify-between min-h-[500px] md:min-h-[600px] lg:min-h-[700px]">
+                <div className="flex flex-col justify-between min-h-[500px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-[650px] xl:min-h-[700px]">
                   {rightCategories.map((category, index) => (
                     <ScrollReveal key={category.slug} delay={0.3 + index * 0.1}>
                       <div className="w-full">
@@ -127,7 +123,7 @@ export default async function ProductCategories() {
                         {index === 0 && (
                           <CategoryImageSection 
                             category={category} 
-                            sanityImage={categoryImages[category.slug]}
+                            imageUrl={categoryImages[category.slug]}
                             index={index * 2 + 2}
                           />
                         )}
@@ -137,7 +133,7 @@ export default async function ProductCategories() {
                   <ScrollReveal delay={0.5}>
                     <CategoryImageSection 
                       category={rightCategories[1]} 
-                      sanityImage={categoryImages[rightCategories[1].slug]}
+                      imageUrl={categoryImages[rightCategories[1].slug]}
                       index={3}
                     />
                   </ScrollReveal>

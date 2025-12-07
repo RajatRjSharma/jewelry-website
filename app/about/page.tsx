@@ -15,11 +15,12 @@ export default function AboutPage() {
   return (
     <PageContainer maxWidth="5xl">
       <ScrollReveal>
-        <SectionHeading>ABOUT US</SectionHeading>
+        <h1 className="sr-only">About Us - Jewels by NavKush</h1>
+        <SectionHeading as="h2">ABOUT US</SectionHeading>
       </ScrollReveal>
-      <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-start">
+      <div className="grid md:grid-cols-2 standard-gap items-start">
         <ScrollReveal delay={0.1}>
-          <div className="space-y-4 sm:space-y-5 md:space-y-6 text-[#6a6a6a] text-body-sm sm:text-body-base md:text-body-lg">
+          <div className="standard-space-y text-[var(--text-secondary)] text-body-sm sm:text-body-base md:text-body-lg">
             <section>
               <p className="mb-4">
                 We carefully select the finest materials—precious metals, sparkling gemstones, and luxurious pearls—to create each piece. Every design is meticulously crafted by skilled artisans, ensuring that each item is not only beautiful but built to last.
@@ -31,7 +32,7 @@ export default function AboutPage() {
           </div>
         </ScrollReveal>
         <ScrollReveal delay={0.2}>
-          <div className="space-y-4 sm:space-y-5 md:space-y-6 text-[#6a6a6a] text-body-sm sm:text-body-base md:text-body-lg">
+          <div className="standard-space-y text-[var(--text-secondary)] text-body-sm sm:text-body-base md:text-body-lg">
             <p>
               At Jewels by NavKush, we believe that jewelry is more than just an accessory; it&apos;s a timeless expression of elegance and a celebration of life&apos;s most precious moments. With a legacy spanning over decades, our brand has become synonymous with exceptional craftsmanship and sophistication.
             </p>

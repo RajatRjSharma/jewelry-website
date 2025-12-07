@@ -18,7 +18,7 @@ export default function InfoCard({
 }: InfoCardProps) {
   return (
     <Card className={className}>
-      <SectionHeading as="h3" size="xs" align="left" className="mb-3 sm:mb-4 text-[#2a2a2a]">
+      <SectionHeading as="h3" size="xs" align="left" className="mb-3 sm:mb-4 text-[var(--text-on-cream)]">
         {title}
       </SectionHeading>
       {children}

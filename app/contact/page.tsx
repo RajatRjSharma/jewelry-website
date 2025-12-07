@@ -17,30 +17,31 @@ export default function ContactPage() {
   return (
     <PageContainer maxWidth="3xl">
       <ScrollReveal>
-        <SectionHeading>CONTACT US</SectionHeading>
+        <h1 className="sr-only">Contact Us - Get in Touch with Jewels by NavKush</h1>
+        <SectionHeading as="h2">CONTACT US</SectionHeading>
       </ScrollReveal>
       <ScrollReveal delay={0.1}>
-        <p className="text-center text-[#6a6a6a] mb-8 sm:mb-10 md:mb-12 text-body-sm sm:text-body-base md:text-body-lg">
+        <p className="text-center text-[var(--text-secondary)] mb-6 sm:mb-8 md:mb-10 text-body-sm sm:text-body-base md:text-body-lg">
           Have a question or want to learn more about our jewelry? We&apos;d love to hear from you.
         </p>
       </ScrollReveal>
       <ScrollReveal delay={0.2}>
-        <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-10 md:mb-12">
+        <div className="grid md:grid-cols-2 standard-gap-small mb-6 sm:mb-8 md:mb-10">
           <InfoCard title="Get in Touch">
-            <div className="space-y-4 text-[#6a6a6a] text-body-base">
+            <div className="standard-space-y-small text-[var(--text-secondary)] text-body-base">
               <p>
-                <strong className="text-[#2a2a2a]">Email:</strong> info@jewelrystore.com
+                <strong className="text-[var(--text-on-cream)]">Email:</strong> info@jewelrystore.com
               </p>
               <p>
-                <strong className="text-[#2a2a2a]">Phone:</strong> +1 (555) 123-4567
+                <strong className="text-[var(--text-on-cream)]">Phone:</strong> +1 (555) 123-4567
               </p>
               <p>
-                <strong className="text-[#2a2a2a]">Address:</strong> 123 Jewelry Street, City, State 12345
+                <strong className="text-[var(--text-on-cream)]">Address:</strong> 123 Jewelry Street, City, State 12345
               </p>
             </div>
           </InfoCard>
           <InfoCard title="Business Hours">
-            <div className="space-y-2 text-[#6a6a6a] text-body-base">
+            <div className="space-y-2 text-[var(--text-secondary)] text-body-base">
               <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
               <p>Saturday: 10:00 AM - 4:00 PM</p>
               <p>Sunday: Closed</p>

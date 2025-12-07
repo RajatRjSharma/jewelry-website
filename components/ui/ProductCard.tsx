@@ -3,30 +3,45 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { urlFor } from '@/lib/cms/client';
-import { JewelryDesign } from '@/types/cms';
+import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion';
+import { Product } from '@/types/data';
 import { ANIMATION_3D } from '@/lib/animations/constants';
 import { formatPrice } from '@/lib/utils/price-formatting';
+import ProductBadge from './ProductBadge';
 
 interface ProductCardProps {
-  design: JewelryDesign;
+  product?: Product;
   variant?: 'default' | 'compact';
   showDescription?: boolean;
   index?: number;
+  // Placeholder mode props
+  placeholderImage?: string;
+  placeholderTitle?: string;
+  placeholderMaterial?: string;
+  placeholderPrice?: number;
+  placeholderHref?: string;
 }
 
 /**
  * Reusable Product Card component
  */
 export default function ProductCard({ 
-  design, 
+  product,
   variant = 'default',
   showDescription = false,
-  index = 0
+  index = 0,
+  // Placeholder props
+  placeholderImage,
+  placeholderTitle = 'Product Name',
+  placeholderMaterial = 'Material',
+  placeholderPrice = 0,
+  placeholderHref = '/designs',
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Check if this is a placeholder card
+  const isPlaceholder = !product && !!placeholderImage;
   
   // 3D tilt effect values
   const x = useMotionValue(0);
@@ -68,12 +83,12 @@ export default function ProductCard({
     damping: ANIMATION_3D.SPRING.DAMPING
   });
 
-  const imageUrl = design.image 
-    ? urlFor(design.image).width(600).height(600).url()
-    : null;
-  
-  const href = `/designs/${design.slug?.current || design._id}`;
-  const productAriaLabel = `View ${design.title}${design.price ? ` - ${formatPrice(design.price)}` : ''}`;
+  // Use product data or placeholder data
+  const imageUrl = product?.image || placeholderImage || null;
+  const href = product ? `/designs/${product.slug}` : placeholderHref;
+  const productAriaLabel = product 
+    ? `View ${product.title}${product.price ? ` - ${formatPrice(product.price)}` : ''}`
+    : 'View all designs';
   
   const isCompact = variant === 'compact';
   const imageHeight = isCompact 
@@ -103,17 +118,26 @@ export default function ProductCard({
     y.set(0);
   };
 
+  // Check if element is in viewport on mount
+  const isInView = useInView(cardRef, { 
+    once: ANIMATION_3D.VIEWPORT.ONCE, 
+    margin: ANIMATION_3D.VIEWPORT.MARGIN,
+    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
+    initial: true,
+  });
+  
+  // Professional animation: visible content animates immediately, hidden content animates on scroll
   return (
     <motion.div
       ref={cardRef}
-      initial={{ 
-        opacity: 0, 
-        y: ANIMATION_3D.ENTRY.INITIAL_Y, 
-        scale: ANIMATION_3D.ENTRY.INITIAL_SCALE, 
-        rotateY: ANIMATION_3D.ENTRY.INITIAL_ROTATE_Y 
+      initial={{ opacity: 1, y: 30, scale: 0.95, rotateY: 0 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1, rotateY: 0 } : undefined}
+      whileInView={!isInView ? { opacity: 1, y: 0, scale: 1, rotateY: 0 } : undefined}
+      viewport={{ 
+        once: ANIMATION_3D.VIEWPORT.ONCE, 
+        margin: ANIMATION_3D.VIEWPORT.MARGIN,
+        amount: ANIMATION_3D.VIEWPORT.AMOUNT 
       }}
-      whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
-      viewport={{ once: ANIMATION_3D.VIEWPORT.ONCE, margin: ANIMATION_3D.VIEWPORT.MARGIN }}
       transition={{ 
         duration: ANIMATION_3D.ENTRY.DURATION, 
         delay: index * ANIMATION_3D.STAGGER.PRODUCT_CARD,
@@ -142,8 +166,23 @@ export default function ProductCard({
           }}
           className="relative"
         >
+          {/* Product Badges */}
+          <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-30 flex flex-wrap gap-1 sm:gap-2">
+            {product?.featured && <ProductBadge type="featured" />}
+            {product?.mostLoved && <ProductBadge type="mostLoved" />}
+            {product && (() => {
+              const createdAt = new Date(product.createdAt).getTime();
+              const now = new Date().getTime();
+              const daysSinceCreation = Math.floor((now - createdAt) / (1000 * 60 * 60 * 24));
+              if (daysSinceCreation < 30) {
+                return <ProductBadge type="new" />;
+              }
+              return null;
+            })()}
+            {product?.inStock === false && <ProductBadge type="outOfStock" />}
+          </div>
           <motion.div 
-            className={`relative ${imageHeight} rounded-lg overflow-hidden mb-3 sm:mb-4 bg-[#faf8f5] p-2 sm:p-3 md:p-4`}
+            className={`relative ${imageHeight} rounded-lg overflow-hidden mb-3 sm:mb-4 bg-[var(--cream)] p-2 sm:p-3 md:p-4`}
             animate={{
               boxShadow: isHovered ? ANIMATION_3D.SHADOW.HOVER : ANIMATION_3D.SHADOW.DEFAULT,
             }}
@@ -209,11 +248,12 @@ export default function ProductCard({
                 
                 <Image
                   src={imageUrl}
-                  alt={design.image?.alt || design.title}
+                  alt={product?.alt || `${product?.title || placeholderTitle} - Handcrafted jewelry piece${product?.material ? ` made from ${product.material}` : ''}`}
                   fill
                   className="object-contain mix-blend-multiply relative z-10"
                   loading="lazy"
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                  unoptimized={isPlaceholder}
                 />
                 
                 {/* Edge highlight */}
@@ -228,11 +268,11 @@ export default function ProductCard({
                   }}
                 />
               </motion.div>
-            ) : (
-              <div className="w-full h-full flex items-center justify-center z-10 relative">
-                <p className="text-[#918c87] text-body-sm">No image</p>
-              </div>
-            )}
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center z-10 relative">
+                      <p className="text-[var(--text-muted)] text-body-sm">No image</p>
+                    </div>
+                  )}
           </motion.div>
           
           <motion.div 
@@ -250,26 +290,26 @@ export default function ProductCard({
             }}
           >
             {/* SEO-critical content: All props come from server components, so content is server-rendered */}
-            <h3 className="text-[#2a2a2a] text-lg sm:text-xl md:text-2xl uppercase font-playfair font-bold">
-              {design.title}
+            <h3 className="text-[var(--text-on-cream)] text-base sm:text-lg md:text-xl uppercase font-playfair font-bold">
+              {product?.title || placeholderTitle}
             </h3>
-            {design.material && (
-              <p className="text-[#6a6a6a] text-sm sm:text-base font-inter font-normal">
-                {design.material}
+            {(product?.material || isPlaceholder) && (
+              <p className="text-[var(--text-secondary)] text-xs sm:text-sm font-inter font-normal">
+                {product?.material || placeholderMaterial}
               </p>
             )}
-            {showDescription && design.description && (
-              <p className="text-[#6a6a6a] text-body-base line-clamp-2 font-inter">
-                {design.description}
+            {showDescription && product?.description && (
+              <p className="text-[var(--text-secondary)] text-body-sm line-clamp-2 font-inter">
+                {product.description}
               </p>
             )}
-            {design.price && (
+            {(product?.price || isPlaceholder) && (
               <motion.p 
-                className="text-[#2a2a2a] text-lg sm:text-xl md:text-2xl font-bold font-playfair"
+                className="text-[var(--text-on-cream)] text-base sm:text-lg md:text-xl font-bold font-playfair"
                 animate={isHovered ? { scale: 1.03 } : { scale: 1 }}
                 transition={{ duration: 0.2 }}
               >
-                {formatPrice(design.price)}
+                {formatPrice(product?.price || placeholderPrice)}
               </motion.p>
             )}
           </motion.div>

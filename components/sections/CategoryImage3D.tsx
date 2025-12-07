@@ -85,17 +85,17 @@ export default function CategoryImage3D({ category, imageSource, index = 0 }: Ca
     y.set(0);
   };
 
+  // Professional animation: always visible, subtle entrance on scroll
   return (
     <motion.div
       ref={cardRef}
-      initial={{ 
-        opacity: 0, 
-        y: ANIMATION_3D.ENTRY.INITIAL_Y, 
-        scale: ANIMATION_3D.ENTRY.INITIAL_SCALE, 
-        rotateY: ANIMATION_3D.ENTRY.INITIAL_ROTATE_Y 
-      }}
+      initial={{ opacity: 1, y: 30, scale: 0.95, rotateY: 0 }}
       whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
-      viewport={{ once: ANIMATION_3D.VIEWPORT.ONCE, margin: ANIMATION_3D.VIEWPORT.MARGIN }}
+      viewport={{ 
+        once: ANIMATION_3D.VIEWPORT.ONCE, 
+        margin: ANIMATION_3D.VIEWPORT.MARGIN,
+        amount: ANIMATION_3D.VIEWPORT.AMOUNT 
+      }}
       transition={{ 
         duration: ANIMATION_3D.ENTRY.DURATION, 
         delay: index * ANIMATION_3D.STAGGER.CATEGORY_IMAGE,
@@ -189,11 +189,11 @@ export default function CategoryImage3D({ category, imageSource, index = 0 }: Ca
               
               <Image
                 src={imageSource.src}
-                alt={category.name}
+                alt={imageSource.alt || `${category.name} jewelry collection - Exquisite handcrafted ${category.name.toLowerCase()} pieces`}
                 fill
                 className="object-contain mix-blend-multiply relative z-10"
                 sizes="(max-width: 768px) 100vw, 50vw"
-                unoptimized={!imageSource.isSanity}
+                unoptimized={false}
               />
               
               {/* Edge highlight */}

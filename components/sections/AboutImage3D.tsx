@@ -1,27 +1,20 @@
 'use client';
 
 import Image from 'next/image';
-import { urlFor } from '@/lib/cms/client';
-import { getImageAltText } from '@/lib/utils/image-helpers';
-import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 interface AboutImage3DProps {
-  aboutImage?: SanityImageSource;
+  aboutImage?: string;
+  aboutImageAlt?: string;
   isMobile?: boolean;
 }
 
 /**
  * Simple about us image component without any effects
  */
-export default function AboutImage3D({ aboutImage, isMobile = false }: AboutImage3DProps) {
-  const imageUrl = aboutImage 
-    ? urlFor(aboutImage).width(800).height(800).url()
-    : '/about-image.png';
+export default function AboutImage3D({ aboutImage, aboutImageAlt, isMobile = false }: AboutImage3DProps) {
+  const imageUrl = aboutImage || '/about-image.png';
   
-  const imageAlt = getImageAltText(
-    aboutImage,
-    'About Jewels by NavKush - Our craftsmanship and dedication to creating timeless jewelry'
-  );
+  const imageAlt = aboutImageAlt || 'About Jewels by NavKush - Our craftsmanship and dedication to creating timeless jewelry';
 
   const heightClass = isMobile 
     ? 'h-[300px] sm:h-[400px]' 
@@ -29,7 +22,7 @@ export default function AboutImage3D({ aboutImage, isMobile = false }: AboutImag
 
   return (
     <div
-      className={`relative ${heightClass} w-full bg-[#CCC4BA]`}
+      className={`relative ${heightClass} w-full bg-[var(--beige)]`}
       style={{ 
         borderTopLeftRadius: '40px', 
         paddingTop: isMobile ? '12px' : '16px', 
@@ -46,7 +39,6 @@ export default function AboutImage3D({ aboutImage, isMobile = false }: AboutImag
           fill
           className="object-cover object-top"
           sizes={isMobile ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 50vw"}
-          unoptimized={!aboutImage}
         />
       </div>
     </div>

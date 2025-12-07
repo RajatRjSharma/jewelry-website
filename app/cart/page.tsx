@@ -17,15 +17,16 @@ export default function CartPage() {
   return (
     <PageContainer maxWidth="4xl">
       <ScrollReveal>
-        <SectionHeading>SHOPPING CART</SectionHeading>
+        <h1 className="sr-only">Shopping Cart - View and manage your jewelry cart</h1>
+        <SectionHeading as="h2">SHOPPING CART</SectionHeading>
       </ScrollReveal>
       <ScrollReveal delay={0.1}>
         <Card className="text-center">
           <div className="space-y-4">
-            <p className="text-[#6a6a6a] text-body-lg mb-4" role="status" aria-live="polite">
+            <p className="text-[var(--text-secondary)] text-body-lg mb-4" role="status" aria-live="polite">
               Your cart is empty
             </p>
-            <p className="text-[#918c87] text-body-base">
+            <p className="text-[var(--text-muted)] text-body-base">
               Add beautiful jewelry pieces to your cart to get started.
             </p>
             <Button href="/designs" aria-label="Continue shopping to browse jewelry collection">

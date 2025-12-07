@@ -1,19 +1,19 @@
-import { getSiteSettings } from '@/lib/cms/queries';
+import { getSiteSettings } from '@/lib/data/site-settings';
 import { DEFAULTS } from '@/lib/constants';
 import IntroSectionClient from './IntroSectionClient';
-import { SiteSettings } from '@/types/cms';
 
 export default async function IntroSection() {
-  const settings = await getSiteSettings<SiteSettings>();
+  const settings = await getSiteSettings();
 
   return (
     <IntroSectionClient
-      brandName={settings.brandName || DEFAULTS.brandName}
-      heroTitle={settings.heroTitle || DEFAULTS.heroTitle}
-      heroDescription={settings.heroDescription}
-      heroButtonText={settings.heroButtonText || DEFAULTS.heroButtonText}
-      heroImage={settings.heroImage}
-      rightColumnSlogan={settings.rightColumnSlogan || DEFAULTS.rightColumnSlogan}
+      brandName={settings.brand.name || DEFAULTS.brandName}
+      heroTitle={settings.hero.title || DEFAULTS.heroTitle}
+      heroDescription={settings.hero.description}
+      heroButtonText={settings.hero.buttonText || DEFAULTS.heroButtonText}
+      heroImage={settings.hero.image}
+      heroImageAlt={settings.hero.alt}
+      rightColumnSlogan={settings.intro.rightColumnSlogan || DEFAULTS.rightColumnSlogan}
     />
   );
 }

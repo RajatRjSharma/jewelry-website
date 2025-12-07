@@ -95,10 +95,11 @@ export const ANIMATION_3D = {
     CATEGORY_IMAGE: 0.15, // Delay between category images
   },
   
-  // Viewport settings
+  // Viewport settings - Standard approach for reliable animations
   VIEWPORT: {
-    ONCE: true,
-    MARGIN: '-50px',
+    ONCE: false, // Allow re-animation on navigation/scroll for better UX
+    MARGIN: '0px', // Less restrictive margin for better trigger reliability
+    AMOUNT: 0.2, // Trigger when 20% of element is visible (standard practice)
   },
 } as const;
 

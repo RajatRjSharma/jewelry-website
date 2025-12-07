@@ -23,21 +23,19 @@ All documentation is organized in the [`docs/`](./docs/) folder.
 - [Quick Start Guide](./docs/SETUP_QUICK_START.md) - Get started in minutes
 - [Development Guide](./docs/DEVELOPMENT_GUIDE.md) - Complete development workflow
 - [Standards Compliance Report](./docs/STANDARDS_COMPLIANCE_REPORT.md) - Security, SEO, Best Practices
-- [SEO Implementation](./docs/SEO_IMPLEMENTATION.md) - SEO best practices
+- [SEO Guide](./docs/SEO_GUIDE.md) - SEO best practices
+- [Security Guide](./docs/SECURITY_GUIDE.md) - Security best practices
 - [3D Animations Guide](./docs/3D_ANIMATIONS_GUIDE.md) - Animation system
-- [Sanity Setup](./docs/SANITY_SETUP.md) - CMS configuration
-- [Firebase Setup](./docs/FIREBASE_SETUP.md) - Database setup
 - [Vercel Deployment](./docs/VERCEL_DEPLOYMENT.md) - Deployment guide
 
 **See [docs/README.md](./docs/README.md) for complete documentation index.**
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js 14+ (App Router)
+- **Framework:** Next.js 16+ (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
-- **CMS:** Sanity.io
-- **Database:** Firebase Firestore
+- **Data:** JSON-based (local files)
 - **Hosting:** Vercel
 
 ## 📝 Project Structure
@@ -54,7 +52,6 @@ jewelry-website/
 
 ## 🔗 Important Links
 
-- **Sanity Studio:** `/studio` (when running locally)
 - **Documentation:** See `docs/` folder
 - **Project README:** [docs/PROJECT_README.md](./docs/PROJECT_README.md)
 

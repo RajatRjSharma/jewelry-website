@@ -16,7 +16,8 @@ export default function ShippingPage() {
   return (
     <PageContainer maxWidth="4xl">
       <ScrollReveal>
-        <SectionHeading>SHIPPING & RETURNS</SectionHeading>
+        <h1 className="sr-only">Shipping & Returns - Jewelry Delivery Information</h1>
+        <SectionHeading as="h2">SHIPPING & RETURNS</SectionHeading>
       </ScrollReveal>
       
       <div className="space-y-8 sm:space-y-10 md:space-y-12">
@@ -25,7 +26,7 @@ export default function ShippingPage() {
             <SectionHeading as="h2" size="md" align="left">
               Shipping Information
             </SectionHeading>
-            <div className="space-y-4 text-[#6a6a6a] text-body-sm sm:text-body-base md:text-body-lg">
+            <div className="space-y-4 text-[var(--text-secondary)] text-body-sm sm:text-body-base md:text-body-lg">
               <p>
                 We offer secure shipping to ensure your jewelry arrives safely. All orders are carefully packaged in protective materials and shipped via trusted carriers.
               </p>
@@ -51,7 +52,7 @@ export default function ShippingPage() {
             <SectionHeading as="h2" size="md" align="left">
               Returns & Exchanges
             </SectionHeading>
-            <div className="space-y-4 text-[#6a6a6a] text-body-sm sm:text-body-base md:text-body-lg">
+            <div className="space-y-4 text-[var(--text-secondary)] text-body-sm sm:text-body-base md:text-body-lg">
               <p>
                 We want you to be completely satisfied with your purchase. If you&apos;re not happy with your jewelry, we offer a hassle-free return and exchange policy.
               </p>
@@ -78,7 +79,7 @@ export default function ShippingPage() {
             <SectionHeading as="h2" size="md" align="left">
               International Shipping
             </SectionHeading>
-            <div className="space-y-4 text-[#6a6a6a] text-body-sm sm:text-body-base md:text-body-lg">
+            <div className="space-y-4 text-[var(--text-secondary)] text-body-sm sm:text-body-base md:text-body-lg">
               <p>
                 We currently ship to select international destinations. International shipping times and costs vary by location. Please note that customers are responsible for any customs duties or taxes that may apply.
               </p>

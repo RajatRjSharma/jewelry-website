@@ -1,18 +1,19 @@
 import { Metadata } from 'next';
-import { getDesigns } from '@/lib/cms/queries';
+import { Suspense } from 'react';
+import { getProducts } from '@/lib/data/products';
 import { CATEGORIES } from '@/lib/constants';
 import ProductCard from '@/components/ui/ProductCard';
 import CategoryFilterButton from '@/components/ui/CategoryFilterButton';
+import ProductSort from '@/components/ui/ProductSort';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
 import { generateCollectionPageSchema } from '@/lib/seo/structured-data';
 import { formatCategoryName } from '@/lib/utils/text-formatting';
+import { getBaseUrl } from '@/lib/utils/env';
 
 interface PageProps {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; sort?: string }>;
 }
-
-import { getBaseUrl } from '@/lib/utils/env';
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const params = await searchParams;
@@ -31,17 +32,55 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     ? `${baseUrl}/designs?category=${category}`
     : `${baseUrl}/designs`;
 
+  const keywords = [
+    'jewelry designs',
+    'jewelry collection',
+    'handcrafted jewelry',
+    'luxury jewelry',
+    'fine jewelry',
+    category ? formatCategoryName(category).toLowerCase() : '',
+    category ? `${formatCategoryName(category)} jewelry` : '',
+    'rings',
+    'earrings',
+    'necklaces',
+    'bracelets',
+    'precious metals',
+    'gemstones',
+  ].filter(Boolean); // Remove empty strings
+
   return generateStandardMetadata({
     title,
     description,
     url,
+    keywords,
   });
 }
 
 export default async function DesignsPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const category = params.category;
-  const designs = await getDesigns(category);
+  const sort = params.sort || 'default';
+  let products = await getProducts(category);
+  
+  // Apply sorting
+  if (sort !== 'default') {
+    products = [...products].sort((a, b) => {
+      switch (sort) {
+        case 'price-asc':
+          return (a.price || 0) - (b.price || 0);
+        case 'price-desc':
+          return (b.price || 0) - (a.price || 0);
+        case 'name-asc':
+          return a.title.localeCompare(b.title);
+        case 'name-desc':
+          return b.title.localeCompare(a.title);
+        case 'newest':
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        default:
+          return 0;
+      }
+    });
+  }
   
   const collectionSchema = generateCollectionPageSchema(category);
 
@@ -58,54 +97,59 @@ export default async function DesignsPage({ searchParams }: PageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema).replace(/</g, '\\u003c').replace(/>/g, '\\u003e') }}
       />
-      <div className="bg-[#faf8f5] min-h-screen">
-        <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 lg:py-24">
+      <div className="bg-[var(--cream)] min-h-screen">
+        <div className="section-container section-padding">
         <ScrollReveal>
-          <h1 className="font-section-heading text-center mb-8 sm:mb-10 md:mb-12">
+          <h1 className="font-section-heading text-center mb-6 sm:mb-8 md:mb-10">
             {category ? formatCategoryName(category).toUpperCase() : 'OUR DESIGNS'}
           </h1>
         </ScrollReveal>
         
-        {/* Category Filter */}
+        {/* Category Filter and Sort */}
         <ScrollReveal delay={0.1}>
-          <nav className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-10 md:mb-12" aria-label="Category filter">
-            {filterCategories.map((cat, index) => (
-              <CategoryFilterButton
-                key={cat.value}
-                name={cat.name}
-                href={cat.href}
-                isActive={(!category && !cat.value) || category === cat.value}
-                index={index}
-              />
-            ))}
-          </nav>
+          <div className="flex flex-col sm:flex-row items-center justify-between standard-gap-small mb-6 sm:mb-8 md:mb-10">
+            <nav className="flex flex-wrap justify-center standard-gap-small" aria-label="Category filter">
+              {filterCategories.map((cat, index) => (
+                <CategoryFilterButton
+                  key={cat.value}
+                  name={cat.name}
+                  href={cat.href}
+                  isActive={(!category && !cat.value) || category === cat.value}
+                  index={index}
+                />
+              ))}
+            </nav>
+            {products.length > 0 && (
+              <Suspense fallback={<div className="w-32 h-10" />}>
+                <ProductSort />
+              </Suspense>
+            )}
+          </div>
         </ScrollReveal>
 
-            {designs.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-[#6a6a6a] text-body-lg mb-4">
-              No designs available {category ? `in ${category} category` : 'yet'}.
-            </p>
-                <p className="text-[#918c87] text-body-base">
-              Please add designs in Sanity.io CMS to see them here.
-            </p>
-          </div>
+            {products.length === 0 ? (
+          <ScrollReveal>
+            <div className="text-center py-8 sm:py-10 md:py-12">
+              <p className="text-[var(--text-secondary)] text-body-lg mb-4">
+                No products available {category ? `in ${formatCategoryName(category)} category` : 'yet'}.
+              </p>
+              <p className="text-[var(--text-muted)] text-body-base">
+                Please add products to data/products.json to see them here.
+              </p>
+            </div>
+          </ScrollReveal>
         ) : (
-          <ScrollReveal delay={0.2}>
+          <ScrollReveal delay={0.2} key={`products-${category || 'all'}`}>
             <div 
-              className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-8"
+              className="responsive-grid-4 container-content"
               role="list"
               aria-label="Jewelry products"
             >
-              {designs.map((design, index) => (
-                <div
-                  key={design._id}
-                  className="bg-[#faf8f5] rounded-lg overflow-hidden border border-[#e8e5e0]"
-                  role="listitem"
-                >
-                  <ProductCard design={design} showDescription index={index} />
+              {products.map((product, index) => (
+                <div key={product.id} role="listitem">
+                  <ProductCard product={product} showDescription index={index} />
                 </div>
               ))}
             </div>
