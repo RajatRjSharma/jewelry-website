@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ANIMATION_3D } from '@/lib/animations/constants';
 
 interface ProductImage3DProps {
@@ -69,21 +69,12 @@ export default function ProductImage3D({ image, alt, priority = false }: Product
     y.set(0);
   };
 
-  // Check if element is in viewport on mount
-  const isInView = useInView(imageRef, { 
-    once: ANIMATION_3D.VIEWPORT.ONCE, 
-    margin: ANIMATION_3D.VIEWPORT.MARGIN,
-    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
-    initial: true,
-  });
-  
-  // Professional animation: visible content animates immediately, hidden content animates on scroll
+  // Professional animation: always visible, subtle entrance on scroll
   return (
     <motion.div
       ref={imageRef}
-      initial={{ opacity: 1, y: 30, scale: 0.95, rotateY: 0 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1, rotateY: 0 } : undefined}
-      whileInView={!isInView ? { opacity: 1, y: 0, scale: 1, rotateY: 0 } : undefined}
+      initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y, scale: ANIMATION_3D.ENTRY.INITIAL_SCALE, rotateY: ANIMATION_3D.ENTRY.INITIAL_ROTATE_Y }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
       viewport={{ 
         once: ANIMATION_3D.VIEWPORT.ONCE, 
         margin: ANIMATION_3D.VIEWPORT.MARGIN,
@@ -93,9 +84,8 @@ export default function ProductImage3D({ image, alt, priority = false }: Product
         duration: ANIMATION_3D.ENTRY.DURATION, 
         delay: 0.2,
         ease: ANIMATION_3D.ENTRY.EASE,
-        type: ANIMATION_3D.ENTRY.TYPE,
-        stiffness: ANIMATION_3D.ENTRY.STIFFNESS,
-        damping: ANIMATION_3D.ENTRY.DAMPING
+        // Use 'tween' for entry animations (better scroll performance)
+        type: 'tween' as const,
       }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}

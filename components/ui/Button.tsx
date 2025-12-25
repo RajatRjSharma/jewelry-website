@@ -1,13 +1,13 @@
 'use client';
 
-import React from 'react';
+import { ReactNode, ButtonHTMLAttributes } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils/cn';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline';
-  children: React.ReactNode;
+  children: ReactNode;
   href?: string;
 }
 

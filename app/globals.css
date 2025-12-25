@@ -35,6 +35,19 @@
   /* White with Opacity - Standardized */
   --white-opacity-20: rgba(255, 255, 255, 0.2);    /* White 20% opacity */
   --white-opacity-30: rgba(255, 255, 255, 0.3);    /* White 30% opacity */
+  --white-opacity-40: rgba(255, 255, 255, 0.4);    /* White 40% opacity */
+  --white-opacity-60: rgba(255, 255, 255, 0.6);    /* White 60% opacity */
+  
+  /* Gradient Colors - Standardized for consistency */
+  --gradient-beige-light: rgba(204, 196, 186, 0.15);  /* Light beige for gradients */
+  --gradient-beige-medium: rgba(204, 196, 186, 0.2);  /* Medium beige for gradients */
+  --gradient-cream-light: rgba(250, 248, 245, 0.25);  /* Light cream for gradients */
+  --gradient-cream-medium: rgba(250, 248, 245, 0.3);  /* Medium cream for gradients */
+  
+  /* Shadow Colors - Standardized */
+  --shadow-light: rgba(0, 0, 0, 0.1);                 /* Light shadow */
+  --shadow-medium: rgba(0, 0, 0, 0.25);               /* Medium shadow */
+  --shadow-dark: rgba(0, 0, 0, 0.3);                   /* Dark shadow */
   
   /* E-commerce Accent Colors - Warm tones that complement beige/cream */
   --accent-new: #8B7355;           /* Warm brown for "New" badge */
@@ -221,13 +234,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Section Headings - Extra Large */
+/* Note: Color should be overridden based on background context */
+/* On cream backgrounds: use var(--text-muted) */
+/* On beige backgrounds: use var(--text-on-beige) */
 .font-section-heading {
   font-family: var(--font-playfair);
   font-size: clamp(3rem, 7vw, 6rem);
   font-weight: var(--font-bold);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-wider);
-  color: var(--text-muted); /* Uses standardized muted text color */
+  color: var(--text-muted); /* Default: muted text for cream backgrounds */
+}
+
+/* Section heading on beige background */
+.font-section-heading-on-beige {
+  font-family: var(--font-playfair);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-wider);
+  color: var(--text-on-beige); /* White text for beige backgrounds */
 }
 
 /* Screen reader only - for accessibility */
@@ -369,6 +395,21 @@ div[role="main"],
   .touch-spacing {
     gap: 1rem;
   }
+  
+  /* Reduce padding on mobile for better space utilization */
+  .page-padding-mobile {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+/* Responsive padding utilities - Mobile optimized */
+.page-padding {
+  @apply py-6 sm:py-8 md:py-12 lg:py-16;
+}
+
+.page-padding-compact {
+  @apply py-4 sm:py-6 md:py-8 lg:py-10;
 }
 
 /* Standardized Design System Utility Classes */
@@ -429,6 +470,40 @@ div[role="main"],
 
 .standard-input {
   @apply w-full px-4 py-3 border border-[var(--border-light)] rounded-lg focus:outline-none focus:border-[var(--text-on-cream)] bg-[var(--cream)] min-h-[44px] text-base;
+}
+
+/* Text Color Utility Classes - For consistent text color hierarchy */
+.text-primary {
+  color: var(--text-on-cream); /* Primary text on cream backgrounds */
+}
+
+.text-secondary {
+  color: var(--text-secondary); /* Secondary text for descriptions */
+}
+
+.text-muted {
+  color: var(--text-muted); /* Muted text for subtle content */
+}
+
+.text-on-beige {
+  color: var(--text-on-beige); /* White text on beige backgrounds */
+}
+
+.text-on-beige-hover {
+  color: var(--text-on-beige-hover); /* Hover state for text on beige */
+}
+
+/* Context-aware text colors - Use these when background is known */
+.text-on-cream {
+  color: var(--text-on-cream); /* Explicit: text on cream background */
+}
+
+.text-on-cream-secondary {
+  color: var(--text-secondary); /* Secondary text on cream */
+}
+
+.text-on-cream-muted {
+  color: var(--text-muted); /* Muted text on cream */
 }
 
 /* Standardized Spacing Utilities */
@@ -501,4 +576,20 @@ select option {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Scroll performance optimization - GPU acceleration for animated elements */
+[data-framer-component] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize scroll performance */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  /* Improve scroll performance */
+  -webkit-overflow-scrolling: touch;
 }

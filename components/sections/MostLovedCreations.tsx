@@ -1,6 +1,5 @@
 import { getMostLovedProducts } from '@/lib/data/products';
 import ProductCard from '@/components/ui/ProductCard';
-import ScrollReveal from '@/components/ui/ScrollReveal';
 import MostLovedHeading from './MostLovedHeading';
 import { getRandomCategoryImages } from '@/lib/utils/image-helpers';
 
@@ -19,31 +18,29 @@ export default async function MostLovedCreations() {
         {/* Heading - Stacked vertically */}
         <MostLovedHeading />
         
-        <ScrollReveal delay={0.2} key={`most-loved-${displayProducts.length}`}>
-          <div 
-            className="responsive-grid-4 container-content"
-            role="list"
-            aria-label="Most loved jewelry creations"
-          >
-            {displayProducts.length === 0 ? (
-              // Placeholder cards with 3D effects
-              placeholderImages.map((imageSrc, index) => (
-                <div key={index} role="listitem">
-                  <ProductCard 
-                    placeholderImage={imageSrc} 
-                    index={index}
-                  />
-                </div>
-              ))
-            ) : (
-              displayProducts.map((product, index) => (
-                <div key={product.id} role="listitem">
-                  <ProductCard product={product} index={index} />
-                </div>
-              ))
-            )}
-          </div>
-        </ScrollReveal>
+        <div 
+          className="responsive-grid-4 container-content"
+          role="list"
+          aria-label="Most loved jewelry creations"
+        >
+          {displayProducts.length === 0 ? (
+            // Placeholder cards with 3D effects - each card handles its own animation
+            placeholderImages.map((imageSrc, index) => (
+              <div key={index} role="listitem">
+                <ProductCard 
+                  placeholderImage={imageSrc} 
+                  index={index}
+                />
+              </div>
+            ))
+          ) : (
+            displayProducts.map((product, index) => (
+              <div key={product.id} role="listitem">
+                <ProductCard product={product} index={index} />
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </section>
   );

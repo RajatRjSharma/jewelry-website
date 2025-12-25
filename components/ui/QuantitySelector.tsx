@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { cn } from '@/lib/utils/cn';
 
 interface QuantitySelectorProps {
@@ -42,7 +42,7 @@ export default function QuantitySelector({
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value) && value >= min && value <= max && !disabled) {
       setQuantity(value);

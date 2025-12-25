@@ -1,7 +1,7 @@
 'use client';
 
 import SmoothLink from '@/components/ui/SmoothLink';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRef } from 'react';
 import { ANIMATION_3D } from '@/lib/animations/constants';
 
@@ -21,22 +21,14 @@ export default function CategoryFilterButton({
   isActive, 
   index = 0 
 }: CategoryFilterButtonProps) {
-  // Check if element is in viewport on mount
+  // Professional animation: always visible, subtle entrance on scroll
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { 
-    once: ANIMATION_3D.VIEWPORT.ONCE, 
-    margin: ANIMATION_3D.VIEWPORT.MARGIN,
-    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
-    initial: true,
-  });
   
-  // Professional animation: visible content animates immediately, hidden content animates on scroll
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 1, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : undefined}
-      whileInView={!isInView ? { opacity: 1, y: 0 } : undefined}
+      initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ 
         once: ANIMATION_3D.VIEWPORT.ONCE, 
         margin: ANIMATION_3D.VIEWPORT.MARGIN,
@@ -44,8 +36,9 @@ export default function CategoryFilterButton({
       }}
       transition={{ 
         duration: ANIMATION_3D.ENTRY.DURATION, 
-        delay: index * 0.1,
-        ease: ANIMATION_3D.ENTRY.EASE
+        delay: index * ANIMATION_3D.STAGGER.SECTION,
+        ease: ANIMATION_3D.ENTRY.EASE,
+        type: 'tween' as const,
       }}
     >
       <SmoothLink href={href} aria-label={`Filter by ${name}`}>

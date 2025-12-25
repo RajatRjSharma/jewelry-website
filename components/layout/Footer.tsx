@@ -2,6 +2,7 @@ import { getSiteSettings } from '@/lib/data/site-settings';
 import { CATEGORIES, FOOTER_LEFT_LINKS, FOOTER_RIGHT_LINKS, DEFAULTS } from '@/lib/constants';
 import SmoothLink from '@/components/ui/SmoothLink';
 import SocialIcon from '@/components/ui/SocialIcon';
+import { FooterSection } from './FooterClient';
 
 export default async function Footer() {
   const settings = await getSiteSettings();
@@ -10,22 +11,23 @@ export default async function Footer() {
     <footer className="bg-[var(--beige)] section-padding mt-auto" role="contentinfo" aria-label="Site footer">
       <div className="section-container">
         {/* Top Section: Categories and Social Media */}
-        <div className="flex flex-col md:flex-row justify-between items-center standard-gap-small pb-6 sm:pb-8 border-b" style={{ borderColor: 'var(--border-white-light)' }}>
-          {/* Left: Category Links */}
-          <div className="flex flex-wrap justify-center md:justify-start standard-gap-small">
-            {CATEGORIES.map((category) => (
-              <SmoothLink
-                key={category.name}
-                href={category.href}
-                className="text-[var(--text-on-beige)] text-category-link transition-colors hover:text-[var(--text-on-beige-hover)]"
-              >
-                {category.name}
-              </SmoothLink>
-            ))}
-          </div>
+        <FooterSection delay={0.1}>
+          <div className="flex flex-col md:flex-row justify-between items-center standard-gap-small pb-6 sm:pb-8 border-b" style={{ borderColor: 'var(--border-white-light)' }}>
+            {/* Left: Category Links */}
+            <div className="flex flex-wrap justify-center md:justify-start standard-gap-small">
+              {CATEGORIES.map((category) => (
+                <SmoothLink
+                  key={category.name}
+                  href={category.href}
+                  className="text-[var(--text-on-beige)] text-category-link transition-colors hover:text-[var(--text-on-beige-hover)]"
+                >
+                  {category.name}
+                </SmoothLink>
+              ))}
+            </div>
 
-          {/* Right: Social Media Icons */}
-          <div className="flex standard-gap-small">
+            {/* Right: Social Media Icons */}
+            <div className="flex standard-gap-small">
             {settings.social.facebook && (
               <SocialIcon href={settings.social.facebook} ariaLabel="Visit our Facebook page">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -47,23 +49,27 @@ export default async function Footer() {
                 </svg>
               </SocialIcon>
             )}
+            </div>
           </div>
-        </div>
+        </FooterSection>
 
         {/* Middle Section: Brand Name */}
-        <div className="text-center py-6 sm:py-8 md:py-10 lg:py-12 border-b" style={{ borderColor: 'var(--border-white-light)' }}>
-          <h3 
-            className="font-serif-brand text-[var(--text-on-beige)] relative inline-block"
-            style={{
-              fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-            }}
-          >
-            {settings.brand.name || DEFAULTS.brandName}
-          </h3>
-        </div>
+        <FooterSection delay={0.2}>
+          <div className="text-center py-6 sm:py-8 md:py-10 lg:py-12 border-b" style={{ borderColor: 'var(--border-white-light)' }}>
+            <h3 
+              className="font-serif-brand text-[var(--text-on-beige)] relative inline-block"
+              style={{
+                fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+              }}
+            >
+              {settings.brand.name || DEFAULTS.brandName}
+            </h3>
+          </div>
+        </FooterSection>
 
         {/* Bottom Section: Company Links and Copyright */}
-        <div className="pt-6 sm:pt-8 md:pt-10 lg:pt-12">
+        <FooterSection delay={0.3}>
+          <div className="pt-6 sm:pt-8 md:pt-10 lg:pt-12">
           {/* Links Row */}
           <div className="flex flex-col md:flex-row justify-between items-center standard-gap-small mb-4 sm:mb-6">
             {/* Left Links */}
@@ -93,13 +99,14 @@ export default async function Footer() {
             </div>
           </div>
 
-          {/* Copyright */}
-          <div className="text-center">
-            <p className="text-[var(--text-on-beige)] text-body-sm">
-              &copy; {new Date().getFullYear()} {settings.brand.name || DEFAULTS.brandName} Jewelry. All rights reserved.
-            </p>
+            {/* Copyright */}
+            <div className="text-center">
+              <p className="text-[var(--text-on-beige)] text-body-sm">
+                &copy; {new Date().getFullYear()} {settings.brand.name || DEFAULTS.brandName} Jewelry. All rights reserved.
+              </p>
+            </div>
           </div>
-        </div>
+        </FooterSection>
       </div>
     </footer>
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRef } from 'react';
 import { COLORS } from '@/lib/constants';
 import { ANIMATION_3D } from '@/lib/animations/constants';
@@ -37,31 +37,24 @@ export default function CategoryLink({
     borderBottom: index < total - 1 ? `1px solid ${COLORS.borderLight}` : 'none',
   };
 
-  // Check if element is in viewport on mount
+  // Professional animation: always visible, subtle entrance on scroll
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { 
-    once: ANIMATION_3D.VIEWPORT.ONCE, 
-    margin: ANIMATION_3D.VIEWPORT.MARGIN,
-    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
-    initial: true,
-  });
   
-  // Professional animation: visible content animates immediately, hidden content animates on scroll
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 1, x: -20 }}
-      animate={isInView ? { opacity: 1, x: 0 } : undefined}
-      whileInView={!isInView ? { opacity: 1, x: 0 } : undefined}
+      initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, x: -ANIMATION_3D.ENTRY.INITIAL_Y }}
+      whileInView={{ opacity: 1, x: 0 }}
       viewport={{ 
         once: ANIMATION_3D.VIEWPORT.ONCE, 
         margin: ANIMATION_3D.VIEWPORT.MARGIN,
         amount: ANIMATION_3D.VIEWPORT.AMOUNT 
       }}
       transition={{ 
-        duration: 0.5, 
-        delay: index * 0.1,
-        ease: [0.25, 0.1, 0.25, 1]
+        duration: ANIMATION_3D.ENTRY.DURATION, 
+        delay: index * ANIMATION_3D.STAGGER.SECTION,
+        ease: ANIMATION_3D.ENTRY.EASE,
+        type: 'tween' as const,
       }}
     >
       <Link 

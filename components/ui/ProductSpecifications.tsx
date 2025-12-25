@@ -2,6 +2,7 @@
 
 import { Product } from '@/types/data';
 import SmoothLink from './SmoothLink';
+import { formatPrice, getStockStatus } from '@/lib/utils/price-formatting';
 
 interface ProductSpecificationsProps {
   product: Product;
@@ -30,21 +31,24 @@ export default function ProductSpecifications({ product }: ProductSpecifications
     },
     product.price && {
       label: 'Price',
-      value: `$${product.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      value: formatPrice(product.price),
     },
     {
       label: 'Availability',
-      value: product.inStock !== false ? (
-        <span className="text-[var(--success-text)] font-medium">In Stock</span>
-      ) : (
-        <span className="text-[var(--error-text)] font-medium">Out of Stock</span>
-      ),
+      value: (() => {
+        const stockStatus = getStockStatus(product.inStock);
+        return (
+          <span className={`${stockStatus.color} font-medium`} aria-label={stockStatus.ariaLabel}>
+            {stockStatus.text}
+          </span>
+        );
+      })(),
     },
     {
       label: 'SKU',
       value: product.id,
     },
-  ].filter(Boolean) as Array<{ label: string; value: string | React.ReactNode }>;
+  ].filter(Boolean) as Array<{ label: string; value: string | ReactNode }>;
 
   return (
     <div className="standard-space-y-small">

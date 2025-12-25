@@ -1,7 +1,7 @@
-import React from 'react';
 import { cn } from '@/lib/utils/cn';
+import { InputHTMLAttributes } from 'react';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   required?: boolean;

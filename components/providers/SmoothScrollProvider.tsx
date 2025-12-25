@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { scrollToElement } from '@/lib/utils/smooth-scroll';
 
@@ -8,7 +8,8 @@ import { scrollToElement } from '@/lib/utils/smooth-scroll';
  * Provider component that handles smooth scrolling after navigation
  * Ensures smooth scroll behavior for anchor links and cross-page navigation
  */
-export default function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
+
+export default function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   
   useEffect(() => {

@@ -94,7 +94,7 @@ export default async function DesignDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c').replace(/>/g, '\\u003e') }}
       />
-      <div className="bg-[var(--cream)] min-h-screen">
+      <div className="bg-[var(--cream)]">
       <div className="section-container section-padding">
         {/* Breadcrumb */}
         <ScrollReveal>

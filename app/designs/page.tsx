@@ -5,6 +5,7 @@ import { CATEGORIES } from '@/lib/constants';
 import ProductCard from '@/components/ui/ProductCard';
 import CategoryFilterButton from '@/components/ui/CategoryFilterButton';
 import ProductSort from '@/components/ui/ProductSort';
+import Button from '@/components/ui/Button';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import { generateStandardMetadata } from '@/lib/seo/metadata';
 import { generateCollectionPageSchema } from '@/lib/seo/structured-data';
@@ -99,7 +100,7 @@ export default async function DesignsPage({ searchParams }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema).replace(/</g, '\\u003c').replace(/>/g, '\\u003e') }}
       />
-      <div className="bg-[var(--cream)] min-h-screen">
+      <div className="bg-[var(--cream)]">
         <div className="section-container section-padding">
         <ScrollReveal>
           <h1 className="font-section-heading text-center mb-6 sm:mb-8 md:mb-10">
@@ -131,13 +132,26 @@ export default async function DesignsPage({ searchParams }: PageProps) {
 
             {products.length === 0 ? (
           <ScrollReveal>
-            <div className="text-center py-8 sm:py-10 md:py-12">
-              <p className="text-[var(--text-secondary)] text-body-lg mb-4">
-                No products available {category ? `in ${formatCategoryName(category)} category` : 'yet'}.
+            <div className="text-center py-8 sm:py-10 md:py-12" role="status" aria-live="polite">
+              <div className="text-5xl sm:text-6xl mb-4" aria-hidden="true">
+                🔍
+              </div>
+              <h2 className="text-[var(--text-on-cream)] text-xl sm:text-2xl font-bold font-playfair mb-2">
+                No Products Found
+              </h2>
+              <p className="text-[var(--text-secondary)] text-body-lg mb-2">
+                {category 
+                  ? `No products available in ${formatCategoryName(category)} category yet.`
+                  : 'No products available yet.'}
               </p>
-              <p className="text-[var(--text-muted)] text-body-base">
-                Please add products to data/products.json to see them here.
+              <p className="text-[var(--text-muted)] text-body-base mb-6">
+                Check back soon for new additions to our collection.
               </p>
+              {category && (
+                <Button href="/designs" className="min-h-[44px]">
+                  VIEW ALL PRODUCTS →
+                </Button>
+              )}
             </div>
           </ScrollReveal>
         ) : (

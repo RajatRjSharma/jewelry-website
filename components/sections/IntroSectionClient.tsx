@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { CATEGORIES, DEFAULTS } from '@/lib/constants';
+import { ANIMATION_3D } from '@/lib/animations/constants';
 import Button from '@/components/ui/Button';
 import CategoryLink from '@/components/ui/CategoryLink';
 import ScrollReveal from '@/components/ui/ScrollReveal';
@@ -38,9 +39,9 @@ export default function IntroSectionClient({
         <div className="section-container section-padding-small">
           <motion.h1 
             className="text-[var(--text-on-beige)] text-center font-brand-display"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={isMounted ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, scale: ANIMATION_3D.ENTRY.INITIAL_SCALE }}
+            animate={isMounted ? { opacity: 1, scale: 1 } : { opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, scale: ANIMATION_3D.ENTRY.INITIAL_SCALE }}
+            transition={{ duration: ANIMATION_3D.ENTRY.DURATION, ease: ANIMATION_3D.ENTRY.EASE, type: 'tween' as const }}
           >
             {brandName}
           </motion.h1>
@@ -56,24 +57,24 @@ export default function IntroSectionClient({
             <div className="text-center space-y-4">
               <motion.h2 
                 className="text-[var(--text-on-beige)] font-hero-title uppercase text-2xl sm:text-3xl"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                transition={{ duration: ANIMATION_3D.ENTRY.DURATION, delay: 0.2, ease: ANIMATION_3D.ENTRY.EASE, type: 'tween' as const }}
               >
                 {heroTitle}
               </motion.h2>
               <motion.p 
                 className="text-[var(--text-on-beige)] text-body-sm sm:text-body-base"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                transition={{ duration: ANIMATION_3D.ENTRY.DURATION, delay: 0.4, ease: ANIMATION_3D.ENTRY.EASE, type: 'tween' as const }}
               >
                 {heroDescription}
               </motion.p>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
+                initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                transition={{ duration: ANIMATION_3D.ENTRY.DURATION, delay: 0.6, ease: ANIMATION_3D.ENTRY.EASE, type: 'tween' as const }}
               >
                 <Button href="/designs" className="w-full sm:w-auto">
                   {heroButtonText} →
@@ -117,24 +118,24 @@ export default function IntroSectionClient({
             <div className="space-y-4 lg:space-y-6 pb-12 md:pb-16 lg:pb-20">
               <motion.h2 
                 className="text-[var(--text-on-beige)] font-hero-title uppercase text-3xl lg:text-4xl xl:text-5xl"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                transition={{ duration: ANIMATION_3D.ENTRY.DURATION, ease: ANIMATION_3D.ENTRY.EASE, type: 'tween' as const }}
               >
                 {heroTitle}
               </motion.h2>
               <motion.p 
                 className="text-[var(--text-on-beige)] text-body-sm lg:text-body-base xl:text-body-lg"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+                initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                transition={{ duration: ANIMATION_3D.ENTRY.DURATION, delay: 0.1, ease: ANIMATION_3D.ENTRY.EASE, type: 'tween' as const }}
               >
                 {heroDescription}
               </motion.p>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                transition={{ duration: ANIMATION_3D.ENTRY.DURATION, delay: 0.2, ease: ANIMATION_3D.ENTRY.EASE, type: 'tween' as const }}
               >
                 <Button href="/designs" className="w-full lg:w-auto">
                   {heroButtonText} →
@@ -154,9 +155,9 @@ export default function IntroSectionClient({
               {/* Top: Slogan - Full Row */}
               <motion.div 
                 className="w-full mb-4 sm:mb-6 md:mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                animate={isMounted ? { opacity: 1, y: 0 } : { opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y }}
+                transition={{ duration: ANIMATION_3D.ENTRY.DURATION, ease: ANIMATION_3D.ENTRY.EASE, type: 'tween' as const }}
               >
                 <p className="text-[var(--text-on-beige)] text-heading-sm lg:text-heading-md xl:text-heading-lg text-right w-full">
                   {rightColumnSlogan}

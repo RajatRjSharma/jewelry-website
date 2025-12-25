@@ -36,20 +36,19 @@ export default async function ProductCategories() {
   return (
     <section id="products-section">
       {/* Heading Section - Light Background */}
-      <ScrollReveal>
-        <div className="bg-[var(--cream)] section-padding">
-          <div className="section-container">
+      <div className="bg-[var(--cream)] section-padding">
+        <div className="section-container">
+          <ScrollReveal>
             <h2 className="font-section-heading text-center">
               {settings.products.title || 'OUR PRODUCTS'}
             </h2>
-          </div>
+          </ScrollReveal>
         </div>
-      </ScrollReveal>
+      </div>
 
       {/* Main Content Area - Beige Background */}
-      <ScrollReveal delay={0.1}>
-        <div className="bg-[var(--beige)] section-padding">
-          <div className="section-container">
+      <div className="bg-[var(--beige)] section-padding">
+        <div className="section-container">
             {/* Mobile: Single Column Stacked */}
             <div className="flex flex-col md:hidden standard-gap-small">
               {CATEGORIES.map((category, index) => (
@@ -140,9 +139,8 @@ export default async function ProductCategories() {
                 </div>
               </ScrollReveal>
             </div>
-          </div>
         </div>
-      </ScrollReveal>
+      </div>
     </section>
   );
 }

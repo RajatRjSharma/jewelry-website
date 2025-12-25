@@ -1,6 +1,6 @@
 # Jewels by NavKush - Jewelry Website
 
-A professional, SEO-optimized website for a jewelry business built with Next.js, Sanity.io CMS, and Firebase Firestore.
+A professional, SEO-optimized jewelry website built with Next.js, TypeScript, and Tailwind CSS.
 
 ## 🚀 Quick Start
 
@@ -22,9 +22,8 @@ All documentation is organized in the [`docs/`](./docs/) folder.
 **Quick Links:**
 - [Quick Start Guide](./docs/SETUP_QUICK_START.md) - Get started in minutes
 - [Development Guide](./docs/DEVELOPMENT_GUIDE.md) - Complete development workflow
+- [Overall Best Practices](./docs/OVERALL_BEST_PRACTICES_FINAL.md) - Complete best practices verification
 - [Standards Compliance Report](./docs/STANDARDS_COMPLIANCE_REPORT.md) - Security, SEO, Best Practices
-- [SEO Guide](./docs/SEO_GUIDE.md) - SEO best practices
-- [Security Guide](./docs/SECURITY_GUIDE.md) - Security best practices
 - [3D Animations Guide](./docs/3D_ANIMATIONS_GUIDE.md) - Animation system
 - [Vercel Deployment](./docs/VERCEL_DEPLOYMENT.md) - Deployment guide
 
@@ -53,7 +52,7 @@ jewelry-website/
 ## 🔗 Important Links
 
 - **Documentation:** See `docs/` folder
-- **Project README:** [docs/PROJECT_README.md](./docs/PROJECT_README.md)
+- **Documentation Index:** [docs/README.md](./docs/README.md)
 
 ---
 

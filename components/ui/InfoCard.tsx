@@ -1,10 +1,10 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import SectionHeading from './SectionHeading';
 import Card from './Card';
 
 interface InfoCardProps {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }
 

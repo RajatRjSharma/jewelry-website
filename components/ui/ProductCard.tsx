@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, MouseEvent } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Product } from '@/types/data';
 import { ANIMATION_3D } from '@/lib/animations/constants';
 import { formatPrice } from '@/lib/utils/price-formatting';
@@ -38,6 +38,7 @@ export default function ProductCard({
   placeholderHref = '/designs',
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   
   // Check if this is a placeholder card
@@ -86,8 +87,9 @@ export default function ProductCard({
   // Use product data or placeholder data
   const imageUrl = product?.image || placeholderImage || null;
   const href = product ? `/designs/${product.slug}` : placeholderHref;
+  const isOutOfStock = product?.inStock === false;
   const productAriaLabel = product 
-    ? `View ${product.title}${product.price ? ` - ${formatPrice(product.price)}` : ''}`
+    ? `${isOutOfStock ? 'Out of stock: ' : ''}View ${product.title}${product.price ? ` - ${formatPrice(product.price)}` : ''}`
     : 'View all designs';
   
   const isCompact = variant === 'compact';
@@ -95,7 +97,7 @@ export default function ProductCard({
     ? 'h-40 sm:h-48 md:h-56 lg:h-64' 
     : 'h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80';
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     
     const rect = cardRef.current.getBoundingClientRect();
@@ -118,21 +120,12 @@ export default function ProductCard({
     y.set(0);
   };
 
-  // Check if element is in viewport on mount
-  const isInView = useInView(cardRef, { 
-    once: ANIMATION_3D.VIEWPORT.ONCE, 
-    margin: ANIMATION_3D.VIEWPORT.MARGIN,
-    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
-    initial: true,
-  });
-  
-  // Professional animation: visible content animates immediately, hidden content animates on scroll
+  // Professional animation: always visible, subtle entrance on scroll
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 1, y: 30, scale: 0.95, rotateY: 0 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1, rotateY: 0 } : undefined}
-      whileInView={!isInView ? { opacity: 1, y: 0, scale: 1, rotateY: 0 } : undefined}
+      initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y, scale: ANIMATION_3D.ENTRY.INITIAL_SCALE, rotateY: ANIMATION_3D.ENTRY.INITIAL_ROTATE_Y }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
       viewport={{ 
         once: ANIMATION_3D.VIEWPORT.ONCE, 
         margin: ANIMATION_3D.VIEWPORT.MARGIN,
@@ -142,9 +135,8 @@ export default function ProductCard({
         duration: ANIMATION_3D.ENTRY.DURATION, 
         delay: index * ANIMATION_3D.STAGGER.PRODUCT_CARD,
         ease: ANIMATION_3D.ENTRY.EASE,
-        type: ANIMATION_3D.ENTRY.TYPE,
-        stiffness: ANIMATION_3D.ENTRY.STIFFNESS,
-        damping: ANIMATION_3D.ENTRY.DAMPING
+        // Use 'tween' for entry animations (better scroll performance)
+        type: 'tween' as const,
       }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -155,7 +147,17 @@ export default function ProductCard({
       }}
       className="group"
     >
-      <Link href={href} aria-label={productAriaLabel}>
+      <Link 
+        href={isOutOfStock ? '#' : href} 
+        aria-label={productAriaLabel}
+        aria-disabled={isOutOfStock}
+        className={isOutOfStock ? 'cursor-not-allowed opacity-75 pointer-events-none' : ''}
+        onClick={(e) => {
+          if (isOutOfStock) {
+            e.preventDefault();
+          }
+        }}
+      >
         <motion.div
           style={{
             rotateX,
@@ -188,11 +190,13 @@ export default function ProductCard({
             }}
             transition={{ duration: ANIMATION_3D.SHADOW.TRANSITION_DURATION, ease: 'easeOut' }}
           >
-            {/* Gradient background */}
+            {/* Gradient background - static, no animation */}
             <div 
               className="absolute inset-0 z-0"
               style={{
                 background: 'linear-gradient(135deg, rgba(204, 196, 186, 0.15) 0%, rgba(250, 248, 245, 0.25) 50%, rgba(204, 196, 186, 0.15) 100%)',
+                transform: 'none', // Prevent inheriting parent transforms
+                willChange: 'auto', // No animation needed
               }}
             />
             
@@ -246,15 +250,22 @@ export default function ProductCard({
                   }}
                 />
                 
-                <Image
-                  src={imageUrl}
-                  alt={product?.alt || `${product?.title || placeholderTitle} - Handcrafted jewelry piece${product?.material ? ` made from ${product.material}` : ''}`}
-                  fill
-                  className="object-contain mix-blend-multiply relative z-10"
-                  loading="lazy"
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-                  unoptimized={isPlaceholder}
-                />
+                {!imageError && imageUrl ? (
+                  <Image
+                    src={imageUrl}
+                    alt={product?.alt || `${product?.title || placeholderTitle} - Handcrafted jewelry piece${product?.material ? ` made from ${product.material}` : ''}`}
+                    fill
+                    className="object-contain mix-blend-multiply relative z-10"
+                    loading="lazy"
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                    unoptimized={isPlaceholder}
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center z-10 relative" role="img" aria-label="Product image unavailable">
+                    <p className="text-[var(--text-muted)] text-body-sm">Image unavailable</p>
+                  </div>
+                )}
                 
                 {/* Edge highlight */}
                 <motion.div

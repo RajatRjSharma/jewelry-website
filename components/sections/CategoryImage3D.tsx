@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, MouseEvent } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
@@ -62,7 +62,7 @@ export default function CategoryImage3D({ category, imageSource, index = 0 }: Ca
     damping: ANIMATION_3D.SPRING.DAMPING
   });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     
     const rect = cardRef.current.getBoundingClientRect();
@@ -89,7 +89,7 @@ export default function CategoryImage3D({ category, imageSource, index = 0 }: Ca
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 1, y: 30, scale: 0.95, rotateY: 0 }}
+      initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y, scale: ANIMATION_3D.ENTRY.INITIAL_SCALE, rotateY: ANIMATION_3D.ENTRY.INITIAL_ROTATE_Y }}
       whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
       viewport={{ 
         once: ANIMATION_3D.VIEWPORT.ONCE, 
@@ -100,9 +100,8 @@ export default function CategoryImage3D({ category, imageSource, index = 0 }: Ca
         duration: ANIMATION_3D.ENTRY.DURATION, 
         delay: index * ANIMATION_3D.STAGGER.CATEGORY_IMAGE,
         ease: ANIMATION_3D.ENTRY.EASE,
-        type: ANIMATION_3D.ENTRY.TYPE,
-        stiffness: ANIMATION_3D.ENTRY.STIFFNESS,
-        damping: ANIMATION_3D.ENTRY.DAMPING
+        // Use 'tween' for entry animations (better scroll performance)
+        type: 'tween' as const,
       }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -129,11 +128,13 @@ export default function CategoryImage3D({ category, imageSource, index = 0 }: Ca
             }}
             className="relative w-full aspect-square rounded-lg overflow-hidden"
           >
-            {/* Gradient background */}
+            {/* Gradient background - static, no animation */}
             <div 
               className="absolute inset-0 z-0"
               style={{
                 background: 'linear-gradient(135deg, rgba(204, 196, 186, 0.15) 0%, rgba(250, 248, 245, 0.25) 50%, rgba(204, 196, 186, 0.15) 100%)',
+                transform: 'none', // Prevent inheriting parent transforms
+                willChange: 'auto', // No animation needed
               }}
             />
             

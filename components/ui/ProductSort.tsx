@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils/cn';
 
@@ -22,7 +22,7 @@ export default function ProductSort({ className = '' }: ProductSortProps) {
     (searchParams.get('sort') as SortOption) || 'default'
   );
 
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newSort = e.target.value as SortOption;
     setSort(newSort);
     

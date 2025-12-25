@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, MouseEvent } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ANIMATION_3D } from '@/lib/animations/constants';
 
 interface CategoryCard3DProps {
@@ -53,7 +53,7 @@ export default function CategoryCard3D({
     damping: ANIMATION_3D.SPRING.DAMPING
   });
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     
     const rect = cardRef.current.getBoundingClientRect();
@@ -76,30 +76,23 @@ export default function CategoryCard3D({
     y.set(0);
   };
 
-  // Check if element is in viewport on mount
-  const isInView = useInView(cardRef, { 
-    once: ANIMATION_3D.VIEWPORT.ONCE, 
-    margin: ANIMATION_3D.VIEWPORT.MARGIN,
-    amount: ANIMATION_3D.VIEWPORT.AMOUNT,
-    initial: true,
-  });
-  
-  // Professional animation: visible content animates immediately, hidden content animates on scroll
+  // Professional animation: always visible, subtle entrance on scroll
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 1, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : undefined}
-      whileInView={!isInView ? { opacity: 1, y: 0 } : undefined}
+      initial={{ opacity: ANIMATION_3D.ENTRY.INITIAL_OPACITY, y: ANIMATION_3D.ENTRY.INITIAL_Y, scale: ANIMATION_3D.ENTRY.INITIAL_SCALE }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ 
         once: ANIMATION_3D.VIEWPORT.ONCE, 
         margin: ANIMATION_3D.VIEWPORT.MARGIN,
         amount: ANIMATION_3D.VIEWPORT.AMOUNT 
       }}
       transition={{ 
-        duration: 0.6, 
-        delay: index * 0.15,
-        ease: [0.25, 0.1, 0.25, 1]
+        duration: ANIMATION_3D.ENTRY.DURATION, 
+        delay: index * ANIMATION_3D.STAGGER.CATEGORY_IMAGE,
+        ease: ANIMATION_3D.ENTRY.EASE,
+        // Use 'tween' for entry animations (better scroll performance)
+        type: 'tween' as const,
       }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -129,11 +122,13 @@ export default function CategoryCard3D({
             }}
             transition={{ duration: 0.3 }}
           >
-            {/* Gradient overlay */}
+            {/* Gradient overlay - static, no animation */}
             <div 
               className="absolute inset-0 z-10"
               style={{
                 background: 'linear-gradient(135deg, rgba(204, 196, 186, 0.2) 0%, rgba(250, 248, 245, 0.3) 50%, rgba(204, 196, 186, 0.2) 100%)',
+                transform: 'none', // Prevent inheriting parent transforms
+                willChange: 'auto', // No animation needed
               }}
             />
             

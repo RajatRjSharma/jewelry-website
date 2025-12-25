@@ -34,14 +34,15 @@ export const ANIMATION_3D = {
   
   // Entry animations
   ENTRY: {
-    DURATION: 0.7,
-    EASE: [0.25, 0.1, 0.25, 1],
+    DURATION: 0.8,
+    EASE: [0.16, 1, 0.3, 1],
     TYPE: 'spring' as const,
     STIFFNESS: 100,
     DAMPING: 15,
-    INITIAL_Y: 50,
-    INITIAL_SCALE: 0.9,
-    INITIAL_ROTATE_Y: -15,
+    INITIAL_OPACITY: 0.3, // Initial opacity for fade-in effect
+    INITIAL_Y: 60, // Initial Y offset for slide-up animation
+    INITIAL_SCALE: 0.88, // Initial scale for zoom-in effect
+    INITIAL_ROTATE_Y: -20, // Initial rotation for 3D effect
   },
   
   // Hover animations
@@ -91,15 +92,22 @@ export const ANIMATION_3D = {
   
   // Stagger delays
   STAGGER: {
-    PRODUCT_CARD: 0.1, // Delay between product cards
-    CATEGORY_IMAGE: 0.15, // Delay between category images
+    PRODUCT_CARD: 0.08, // Delay between product cards
+    CATEGORY_IMAGE: 0.12, // Delay between category images
+    SECTION: 0.1, // Delay between sections
   },
   
-  // Viewport settings - Standard approach for reliable animations
+  // Performance optimizations
+  PERFORMANCE: {
+    WILL_CHANGE: 'transform, opacity', // CSS will-change hint
+    REDUCE_MOTION_DURATION: 0.2, // Duration when reduced motion is preferred
+  },
+  
+  // Viewport settings - Optimized for scroll performance
   VIEWPORT: {
-    ONCE: false, // Allow re-animation on navigation/scroll for better UX
-    MARGIN: '0px', // Less restrictive margin for better trigger reliability
-    AMOUNT: 0.2, // Trigger when 20% of element is visible (standard practice)
+    ONCE: true, // Set to true to prevent re-animation during scroll (fixes hangs)
+    MARGIN: '50px', // Margin for earlier trigger (balanced for performance and visibility)
+    AMOUNT: 0.2, // Trigger when 20% visible (good balance)
   },
 } as const;
 

@@ -1,8 +1,8 @@
-import React from 'react';
 import { cn } from '@/lib/utils/cn';
+import { ReactNode } from 'react';
 
 interface CardProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   padding?: 'sm' | 'md' | 'lg';
   variant?: 'default' | 'bordered';

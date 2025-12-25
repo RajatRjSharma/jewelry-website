@@ -487,7 +487,7 @@ After domain is active:
 - **[GitHub Setup Guide](./GITHUB_SETUP.md)** - Version control setup
 - **[Firebase Setup Guide](./FIREBASE_SETUP.md)** - Firebase configuration
 - **[Sanity Setup Guide](./SANITY_SETUP.md)** - Sanity.io configuration
-- **[Security Guide](./SECURITY_GUIDE.md)** - Security best practices
+- **[Security Final Verification](./SECURITY_FINAL_VERIFICATION.md)** - Complete security best practices & audit
 - **[Standards Compliance Report](./STANDARDS_COMPLIANCE_REPORT.md)** - Quality standards
 
 ---

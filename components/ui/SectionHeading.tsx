@@ -1,8 +1,8 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
 interface SectionHeadingProps {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  children: React.ReactNode;
+  children: ReactNode;
   align?: 'left' | 'center' | 'right';
   className?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'section';

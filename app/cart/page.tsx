@@ -22,16 +22,34 @@ export default function CartPage() {
       </ScrollReveal>
       <ScrollReveal delay={0.1}>
         <Card className="text-center">
-          <div className="space-y-4">
-            <p className="text-[var(--text-secondary)] text-body-lg mb-4" role="status" aria-live="polite">
-              Your cart is empty
-            </p>
-            <p className="text-[var(--text-muted)] text-body-base">
-              Add beautiful jewelry pieces to your cart to get started.
-            </p>
-            <Button href="/designs" aria-label="Continue shopping to browse jewelry collection">
-              CONTINUE SHOPPING →
-            </Button>
+          <div className="space-y-6 sm:space-y-8 py-8 sm:py-12">
+            <div className="space-y-4">
+              <div className="text-6xl sm:text-7xl mb-4" aria-hidden="true">
+                🛒
+              </div>
+              <h2 className="text-[var(--text-on-cream)] text-2xl sm:text-3xl font-bold font-playfair mb-2">
+                Your Cart is Empty
+              </h2>
+              <p className="text-[var(--text-secondary)] text-body-lg mb-2" role="status" aria-live="polite">
+                Start adding beautiful jewelry pieces to your cart
+              </p>
+              <p className="text-[var(--text-muted)] text-body-base">
+                Browse our collection of handcrafted rings, earrings, necklaces, and bracelets.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <Button href="/designs" className="min-h-[44px]" aria-label="Continue shopping to browse jewelry collection">
+                BROWSE COLLECTION →
+              </Button>
+              <Button 
+                href="/" 
+                variant="outline" 
+                className="min-h-[44px]"
+                aria-label="Return to home page"
+              >
+                RETURN HOME
+              </Button>
+            </div>
           </div>
         </Card>
       </ScrollReveal>
