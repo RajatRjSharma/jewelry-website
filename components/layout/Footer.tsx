@@ -27,7 +27,7 @@ export default async function Footer() {
             </div>
 
             {/* Right: Social Media Icons */}
-            <div className="flex standard-gap-small">
+            <div className="flex standard-gap-small pb-2 sm:pb-3">
             {settings.social.facebook && (
               <SocialIcon href={settings.social.facebook} ariaLabel="Visit our Facebook page">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

@@ -435,15 +435,15 @@ div[role="main"],
 
 /* Responsive Grid Utilities */
 .responsive-grid-2 {
-  @apply grid grid-cols-2 gap-4 sm:gap-5 md:gap-6 lg:gap-8;
+  @apply grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10;
 }
 
 .responsive-grid-3 {
-  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8;
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10;
 }
 
 .responsive-grid-4 {
-  @apply grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-8;
+  @apply grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 lg:gap-10;
 }
 
 /* Touch Target - Minimum 44x44px for accessibility */

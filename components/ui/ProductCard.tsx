@@ -49,7 +49,7 @@ export default function ProductCard({
     : 'h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80';
 
   return (
-    <div className="group">
+    <div className="group h-full">
       <Link 
         href={isOutOfStock ? '#' : href} 
         aria-label={productAriaLabel}
