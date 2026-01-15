@@ -18,18 +18,25 @@ const store: RateLimitStore = {};
  * Rate limit configuration
  */
 export interface RateLimitConfig {
-  windowMs: number; // Time window in milliseconds
-  maxRequests: number; // Maximum requests per window
+  /** Time window in milliseconds for rate limiting */
+  windowMs: number;
+  /** Maximum number of requests allowed within the time window */
+  maxRequests: number;
 }
 
 const defaultConfig: RateLimitConfig = {
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  maxRequests: 100, // 100 requests per 15 minutes
+  windowMs: 15 * 60 * 1000,
+  maxRequests: 100,
 };
 
 /**
- * Get client identifier (IP address or custom identifier)
- * Sanitizes IP address to prevent injection
+ * Gets client identifier from request headers (IP address)
+ * 
+ * Sanitizes IP address to prevent injection attacks.
+ * Validates IPv4 and IPv6 formats before returning.
+ * 
+ * @param request - Request object to extract client identifier from
+ * @returns Sanitized IP address or 'unknown' if invalid
  */
 function getClientId(request: Request): string {
   const forwarded = request.headers.get('x-forwarded-for');
@@ -49,7 +56,14 @@ function getClientId(request: Request): string {
 }
 
 /**
- * Check if request should be rate limited
+ * Checks if request should be rate limited
+ * 
+ * Uses time-windowed keys to automatically expire old entries.
+ * Performs periodic cleanup to prevent unbounded memory growth.
+ * 
+ * @param request - Request object to check rate limit for
+ * @param config - Rate limit configuration (window and max requests)
+ * @returns Object with allowed status, remaining requests, and reset time
  */
 export function checkRateLimit(
   request: Request,
@@ -57,10 +71,11 @@ export function checkRateLimit(
 ): { allowed: boolean; remaining: number; resetTime: number } {
   const clientId = getClientId(request);
   const now = Date.now();
+  // Create time-windowed key to automatically expire old entries
   const key = `${clientId}:${Math.floor(now / config.windowMs)}`;
 
-  // Clean up old entries periodically (prevent memory leaks)
-  // Clean up when store gets large or periodically
+  // Periodic cleanup prevents unbounded memory growth
+  // Trigger cleanup when store exceeds threshold or randomly (1% chance)
   if (Object.keys(store).length > 10000 || Math.random() < 0.01) {
     Object.keys(store).forEach((k) => {
       if (store[k].resetTime < now) {
@@ -69,7 +84,7 @@ export function checkRateLimit(
     });
   }
 
-  // Check or create entry
+  // Initialize rate limit entry for this time window if it doesn't exist
   if (!store[key]) {
     store[key] = {
       count: 0,

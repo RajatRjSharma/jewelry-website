@@ -10,7 +10,12 @@ import type { Product, ProductsData } from '@/types/data';
 const DATA_DIR = join(process.cwd(), 'data');
 
 /**
- * Load products from JSON file
+ * Loads products from JSON file
+ * 
+ * Handles file read errors gracefully by returning empty products array
+ * to prevent app crashes if data file is missing or corrupted.
+ * 
+ * @returns Products data object with products array and metadata
  */
 async function loadProducts(): Promise<ProductsData> {
   try {
@@ -24,7 +29,12 @@ async function loadProducts(): Promise<ProductsData> {
 }
 
 /**
- * Get all products
+ * Get all products, optionally filtered by category
+ * 
+ * Products are sorted by most recently updated/created to show latest items first.
+ * 
+ * @param category - Optional category filter (rings, earrings, necklaces, bracelets)
+ * @returns Array of products, sorted by most recent first
  */
 export async function getProducts(category?: string): Promise<Product[]> {
   const data = await loadProducts();
@@ -34,15 +44,19 @@ export async function getProducts(category?: string): Promise<Product[]> {
     products = products.filter(p => p.category === category);
   }
 
+  // Sort by most recently updated/created to show latest products first
   return products.sort((a, b) => {
     const dateA = new Date(a.updatedAt || a.createdAt).getTime();
     const dateB = new Date(b.updatedAt || b.createdAt).getTime();
-    return dateB - dateA; // Newest first
+    return dateB - dateA;
   });
 }
 
 /**
- * Get product by slug
+ * Get a single product by its slug identifier
+ * 
+ * @param slug - Product slug (URL-friendly identifier)
+ * @returns Product object if found, null otherwise
  */
 export async function getProduct(slug: string): Promise<Product | null> {
   const data = await loadProducts();
@@ -50,7 +64,12 @@ export async function getProduct(slug: string): Promise<Product | null> {
 }
 
 /**
- * Get most loved products
+ * Get products marked as "most loved"
+ * 
+ * Products are sorted by most recently updated/created to show latest items first.
+ * 
+ * @param limit - Maximum number of products to return (default: 8)
+ * @returns Array of most loved products, sorted by most recent first
  */
 export async function getMostLovedProducts(limit: number = 8): Promise<Product[]> {
   const data = await loadProducts();
@@ -65,7 +84,14 @@ export async function getMostLovedProducts(limit: number = 8): Promise<Product[]
 }
 
 /**
- * Get related products
+ * Get related products from the same category, excluding the current product
+ * 
+ * Products are sorted by most recently updated/created to show latest items first.
+ * 
+ * @param category - Product category to filter by
+ * @param excludeId - Product ID to exclude from results
+ * @param limit - Maximum number of products to return (default: 4)
+ * @returns Array of related products, sorted by most recent first
  */
 export async function getRelatedProducts(
   category: string,
@@ -84,7 +110,11 @@ export async function getRelatedProducts(
 }
 
 /**
- * Get category images
+ * Get image URLs for each product category
+ * 
+ * Uses the first product found in each category as the category image.
+ * 
+ * @returns Object mapping category slugs to image URLs
  */
 export async function getCategoryImages(): Promise<Record<string, string>> {
   const data = await loadProducts();

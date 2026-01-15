@@ -14,19 +14,15 @@ All documentation files are organized in the `docs/` folder for easy access and 
 
 ### **Third-Party Setup (Legacy - Historical Reference)**
 - `FIREBASE_SETUP.md` - Firebase Firestore configuration (no longer used)
-- `SANITY_SETUP.md` - Sanity.io CMS setup (no longer used)
-- `SANITY_SCHEMA_SETUP.md` - Schema creation and content management
-- `SANITY_SCHEMA_METHODS.md` - All methods to create schemas
-- `SANITY_STUDIO_GUIDE.md` - Using Sanity Studio interface
+- `SANITY_COMPLETE_GUIDE.md` - Complete Sanity.io CMS guide (no longer used - merged from multiple files)
 - `VERCEL_DEPLOYMENT.md` - Deployment to Vercel
-- `GITHUB_SETUP.md` - GitHub repository setup
+- `GITHUB_COMPLETE_GUIDE.md` - Complete GitHub setup and hosting options (merged from multiple files)
 
 ### **Technical Documentation**
 - `TECH_STACK_RECOMMENDATION.md` - Technology choices and rationale
 - `WHAT_IS_NEXTJS.md` - Next.js framework overview
 - `NEXTJS_STATIC_VS_DYNAMIC.md` - Rendering strategies explained
 - `NOSQL_DATABASE_COMPARISON.md` - Database options comparison
-- `GITHUB_HOSTING_OPTIONS.md` - Hosting alternatives
 - `PROJECT_STRUCTURE.md` - Complete technical documentation
 
 ### **Design & Implementation**
@@ -50,13 +46,11 @@ All documentation files are organized in the `docs/` folder for easy access and 
 - `E_COMMERCE_IMPLEMENTATION_GUIDE.md` - E-commerce features
 
 ### **Troubleshooting & Guides**
-- `IMAGE_STRUCTURE.md` - Image directory structure
-- `HERO_IMAGE_SETUP.md` - Hero image configuration
-- `IMAGE_BACKGROUND_FIX.md` - Image background issues
-- `IMAGE_SETUP_ABOUT.md` - About Us image setup
-- `IMAGE_SETUP_CATEGORIES.md` - Category images setup
-- `IMAGE_FIX_SUMMARY.md` - Image path fixes
-- `PLACEHOLDERS_README.md` - Image placeholders
+- `IMAGE_GUIDE.md` - Complete image guide (merged from multiple files)
+  - Image directory structure
+  - Product, hero, about, and category image setup
+  - Image naming conventions and specifications
+  - Troubleshooting and historical notes
 - `CACHE_CLEARING_GUIDE.md` - Clear Next.js cache
 
 ### **Migration & Architecture**
@@ -86,6 +80,7 @@ The following duplicate documents were merged to avoid duplication:
 ### **Color Documentation**
 - ✅ `COLOR_CONSISTENCY_REPORT.md` → Merged into `COLOR_CONSISTENCY_FINAL_VERIFICATION.md`
 - ✅ `COLOR_SHADES_CONSISTENCY.md` → Merged into `COLOR_CONSISTENCY_FINAL_VERIFICATION.md`
+- ✅ `COLOR_BEST_PRACTICES.md` → Merged into `COLOR_CONSISTENCY_FINAL_VERIFICATION.md`
 - **Kept:** `COLOR_CONSISTENCY_FINAL_VERIFICATION.md` (most comprehensive)
 
 ### **CSS & Responsiveness Documentation**
@@ -93,24 +88,29 @@ The following duplicate documents were merged to avoid duplication:
 - ✅ `CSS_VERIFICATION_REPORT.md` → Merged into `CSS_RESPONSIVENESS_FINAL_VERIFICATION.md`
 - ✅ `RESPONSIVE_DESIGN.md` → Merged into `CSS_RESPONSIVENESS_FINAL_VERIFICATION.md`
 - ✅ `RESPONSIVE_BEST_PRACTICES.md` → Merged into `CSS_RESPONSIVENESS_FINAL_VERIFICATION.md`
+- ✅ `CSS_RESPONSIVENESS_BEST_PRACTICES.md` → Merged into `CSS_RESPONSIVENESS_FINAL_VERIFICATION.md`
 - **Kept:** `CSS_RESPONSIVENESS_FINAL_VERIFICATION.md` (most comprehensive)
 
 ### **E-commerce Documentation**
 - ✅ `E_COMMERCE_BEST_PRACTICES_REPORT.md` → Merged into `E_COMMERCE_BEST_PRACTICES_FINAL.md`
 - ✅ `E_COMMERCE_CONSISTENCY_IMPROVEMENTS.md` → Merged into `E_COMMERCE_BEST_PRACTICES_FINAL.md`
+- ✅ `E_COMMERCE_CONSISTENCY_AUDIT.md` → Merged into `E_COMMERCE_BEST_PRACTICES_FINAL.md`
 - **Kept:** `E_COMMERCE_BEST_PRACTICES_FINAL.md` (most comprehensive)
 
 ### **Security Documentation**
 - ✅ `SECURITY_GUIDE.md` → Merged into `SECURITY_FINAL_VERIFICATION.md`
 - ✅ `SECURITY_CHECKLIST.md` → Merged into `SECURITY_FINAL_VERIFICATION.md`
+- ✅ `SECURITY_BEST_PRACTICES.md` → Merged into `SECURITY_FINAL_VERIFICATION.md`
 - **Kept:** `SECURITY_FINAL_VERIFICATION.md` (most comprehensive)
 
 ### **SEO Documentation**
 - ✅ `SEO_GUIDE.md` → Merged into `SEO_FINAL_VERIFICATION.md`
+- ✅ `SEO_BEST_PRACTICES.md` → Merged into `SEO_FINAL_VERIFICATION.md`
 - **Kept:** `SEO_FINAL_VERIFICATION.md` (most comprehensive)
 
 ### **Code Quality Documentation**
 - ✅ `CODE_QUALITY_UPDATE.md` → Merged into `CODE_QUALITY_FINAL_VERIFICATION.md`
+- ✅ `CODE_QUALITY_BEST_PRACTICES.md` → Merged into `CODE_QUALITY_FINAL_VERIFICATION.md`
 - **Kept:** `CODE_QUALITY_FINAL_VERIFICATION.md` (most comprehensive)
 
 ### **Project Documentation**

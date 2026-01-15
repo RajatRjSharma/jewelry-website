@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils/cn';
+import { SCALE, ROTATE, SPRING_CONFIG } from '@/lib/animations/constants';
 
 interface QuantitySelectorProps {
   min?: number;
@@ -10,6 +12,7 @@ interface QuantitySelectorProps {
   onQuantityChange?: (quantity: number) => void;
   disabled?: boolean;
   className?: string;
+  id?: string;
 }
 
 /**
@@ -23,6 +26,7 @@ export default function QuantitySelector({
   onQuantityChange,
   disabled = false,
   className = '',
+  id = 'quantity',
 }: QuantitySelectorProps) {
   const [quantity, setQuantity] = useState(defaultValue);
 
@@ -55,17 +59,25 @@ export default function QuantitySelector({
       <label htmlFor="quantity" className="sr-only">
         Quantity
       </label>
-      <button
+      <motion.button
         type="button"
         onClick={handleDecrease}
         disabled={disabled || quantity <= min}
         aria-label="Decrease quantity"
         className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center border border-[var(--border-light)] rounded-lg bg-[var(--cream)] text-[var(--text-on-cream)] hover:bg-[var(--beige)] hover:text-[var(--text-on-beige)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-[44px] touch-target"
+        whileHover={{ scale: SCALE.ICON_HOVER, rotate: ROTATE.ICON_TAP }}
+        whileTap={{ scale: SCALE.TAP }}
+        transition={SPRING_CONFIG.STANDARD}
       >
-        <span className="text-xl font-bold">−</span>
-      </button>
-      <input
-        id="quantity"
+        <motion.span 
+          className="text-xl font-bold"
+          whileTap={{ scale: 0.8 }}
+        >
+          −
+        </motion.span>
+      </motion.button>
+      <motion.input
+        id={id}
         type="number"
         min={min}
         max={max}
@@ -74,16 +86,26 @@ export default function QuantitySelector({
         disabled={disabled}
         aria-label="Product quantity"
         className="w-16 sm:w-20 h-10 sm:h-12 text-center border border-[var(--border-light)] rounded-lg bg-[var(--cream)] text-[var(--text-on-cream)] font-medium focus:outline-none focus:border-[var(--beige)] disabled:opacity-50 min-h-[44px] touch-target"
+          whileFocus={{ scale: SCALE.HOVER }}
+          transition={SPRING_CONFIG.QUICK}
       />
-      <button
+      <motion.button
         type="button"
         onClick={handleIncrease}
         disabled={disabled || quantity >= max}
         aria-label="Increase quantity"
         className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center border border-[var(--border-light)] rounded-lg bg-[var(--cream)] text-[var(--text-on-cream)] hover:bg-[var(--beige)] hover:text-[var(--text-on-beige)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors min-h-[44px] touch-target"
+        whileHover={{ scale: SCALE.ICON_HOVER, rotate: ROTATE.ICON_HOVER }}
+        whileTap={{ scale: SCALE.TAP }}
+        transition={SPRING_CONFIG.STANDARD}
       >
-        <span className="text-xl font-bold">+</span>
-      </button>
+        <motion.span 
+          className="text-xl font-bold"
+          whileTap={{ scale: 0.8 }}
+        >
+          +
+        </motion.span>
+      </motion.button>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { ANIMATION_PRESETS, SCALE } from '@/lib/animations/constants';
 
 interface CategoryLinkProps {
   name: string;
@@ -12,7 +14,7 @@ interface CategoryLinkProps {
 }
 
 /**
- * Reusable Category Link component
+ * Reusable Category Link component with 3D animations
  * Supports intro and products variants with conditional styling
  */
 export default function CategoryLink({
@@ -35,23 +37,39 @@ export default function CategoryLink({
   };
   
   return (
-    <div>
+    <motion.div
+      whileHover={ANIMATION_PRESETS.MENU_ITEM_HOVER}
+      whileTap={ANIMATION_PRESETS.TAP}
+    >
       <Link 
         href={href} 
         className={baseStyles} 
         style={borderStyle}
         aria-label={`View ${name} collection`}
       >
-        <span className="relative z-10">
+        <motion.span 
+          className="relative z-10"
+          whileHover={{ scale: SCALE.HOVER }}
+        >
           {name}
-        </span>
+        </motion.span>
         
         {showArrow && (
-          <span className="relative z-10">
+          <motion.span 
+            className="relative z-10"
+            whileHover={{ x: 4 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+          >
             →
-          </span>
+          </motion.span>
         )}
+        {/* Hover background effect */}
+        <motion.div
+          className="absolute inset-0 bg-[var(--beige)] opacity-0 -z-0"
+          whileHover={{ opacity: 0.05 }}
+          transition={{ duration: 0.2 }}
+        />
       </Link>
-    </div>
+    </motion.div>
   );
 }

@@ -3,22 +3,27 @@
 import Link, { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode, MouseEvent, ComponentPropsWithoutRef } from 'react';
+import { motion } from 'framer-motion';
 import { isAnchorLink, getAnchorId } from '@/lib/utils/smooth-scroll';
+import { ANIMATION_PRESETS } from '@/lib/animations/constants';
 
 interface SmoothLinkProps extends Omit<LinkProps, 'href'>, Omit<ComponentPropsWithoutRef<'a'>, 'href'> {
   href: string;
   children: ReactNode;
   scroll?: boolean;
+  animated?: boolean;
 }
 
 /**
- * Enhanced Link component with smooth scrolling for anchor links
+ * Enhanced Link component with smooth scrolling and optional animations
  */
 export default function SmoothLink({
   href,
   children,
   scroll = true,
   onClick,
+  animated = true,
+  className = '',
   ...props
 }: SmoothLinkProps) {
   const pathname = usePathname();
@@ -43,16 +48,37 @@ export default function SmoothLink({
       }
     }
   };
+
+  if (!animated) {
+    return (
+      <Link
+        href={href}
+        onClick={handleClick}
+        scroll={scroll}
+        className={className}
+        {...props}
+      >
+        {children}
+      </Link>
+    );
+  }
   
   return (
-    <Link
-      href={href}
-      onClick={handleClick}
-      scroll={scroll}
-      {...props}
+    <motion.div
+      whileHover={ANIMATION_PRESETS.LINK_HOVER}
+      whileTap={ANIMATION_PRESETS.TAP}
+      className="inline-block"
     >
-      {children}
-    </Link>
+      <Link
+        href={href}
+        onClick={handleClick}
+        scroll={scroll}
+        className={className}
+        {...props}
+      >
+        {children}
+      </Link>
+    </motion.div>
   );
 }
 

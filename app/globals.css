@@ -33,6 +33,7 @@
   --border-white-light: rgba(255, 255, 255, 0.3);  /* White border with opacity for beige backgrounds */
   
   /* White with Opacity - Standardized */
+  --white-opacity-10: rgba(255, 255, 255, 0.1);    /* White 10% opacity - for subtle shine effects */
   --white-opacity-20: rgba(255, 255, 255, 0.2);    /* White 20% opacity */
   --white-opacity-30: rgba(255, 255, 255, 0.3);    /* White 30% opacity */
   --white-opacity-40: rgba(255, 255, 255, 0.4);    /* White 40% opacity */
@@ -373,8 +374,13 @@ div[role="main"],
 }
 
 /* Responsive Typography - Fluid scaling */
+/* Mobile optimization for large headings */
 @media (max-width: 640px) {
   .font-section-heading {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+  
+  .font-section-heading-on-beige {
     font-size: clamp(2rem, 8vw, 3rem);
   }
   
@@ -384,6 +390,7 @@ div[role="main"],
 }
 
 /* Mobile-first responsive utilities */
+/* Mobile-specific optimizations */
 @media (max-width: 640px) {
   /* Ensure proper spacing on mobile */
   .section-container {
@@ -400,6 +407,12 @@ div[role="main"],
   .page-padding-mobile {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+  }
+  
+  /* Prevent text overflow on mobile */
+  .text-overflow-safe {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 }
 
@@ -469,7 +482,50 @@ div[role="main"],
 }
 
 .standard-input {
-  @apply w-full px-4 py-3 border border-[var(--border-light)] rounded-lg focus:outline-none focus:border-[var(--text-on-cream)] bg-[var(--cream)] min-h-[44px] text-base;
+  @apply w-full px-4 py-3 border border-[var(--border-light)] rounded-lg focus:outline-none focus:border-[var(--text-on-cream)] bg-[var(--cream)] text-[var(--text-on-cream)] min-h-[44px] text-base;
+}
+
+/* Responsive Image Container */
+.responsive-image-container {
+  @apply relative w-full overflow-hidden;
+}
+
+/* Responsive Aspect Ratios */
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-product {
+  aspect-ratio: 4 / 5;
+}
+
+.aspect-hero {
+  aspect-ratio: 16 / 9;
+}
+
+/* Text Overflow Utilities */
+.text-overflow-safe {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Responsive Visibility Utilities */
+.visible-mobile {
+  @apply block md:hidden;
+}
+
+.visible-desktop {
+  @apply hidden md:block;
+}
+
+.visible-tablet {
+  @apply hidden sm:block md:hidden;
 }
 
 /* Text Color Utility Classes - For consistent text color hierarchy */

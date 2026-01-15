@@ -2,16 +2,15 @@ import { Metadata } from 'next';
 import { getProduct, getRelatedProducts } from '@/lib/data/products';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import Button from '@/components/ui/Button';
 import ProductCard from '@/components/ui/ProductCard';
 import ProductImage3D from '@/components/ui/ProductImage3D';
-import QuantitySelector from '@/components/ui/QuantitySelector';
 import ProductBadge from '@/components/ui/ProductBadge';
 import TrustBadges from '@/components/ui/TrustBadges';
 import SocialShare from '@/components/ui/SocialShare';
 import ProductSpecifications from '@/components/ui/ProductSpecifications';
 import CareInstructions from '@/components/ui/CareInstructions';
 import ScrollReveal from '@/components/ui/ScrollReveal';
+import ProductActions from '@/components/ui/ProductActions';
 import { generateProductMetadata } from '@/lib/seo/metadata';
 import { generateProductSchema, generateBreadcrumbSchema } from '@/lib/seo/structured-data';
 import { formatCategoryName } from '@/lib/utils/text-formatting';
@@ -178,46 +177,8 @@ export default async function DesignDetailPage({ params }: PageProps) {
               </p>
             )}
 
-            {/* Quantity Selector and Add to Cart */}
-            {(() => {
-              const stockStatus = getStockStatus(product.inStock);
-              return (
-                <div className="space-y-4 sm:space-y-5 pt-4 sm:pt-5 md:pt-6">
-                  {stockStatus.available && (
-                    <div>
-                      <label className="block text-[var(--text-on-cream)] text-body-sm sm:text-body-base font-medium mb-2">
-                        Quantity
-                      </label>
-                      <QuantitySelector
-                        min={1}
-                        max={10}
-                        defaultValue={1}
-                        disabled={!stockStatus.available}
-                      />
-                    </div>
-                  )}
-                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <Button 
-                      className="w-full sm:flex-1 min-h-[44px]"
-                      disabled={!stockStatus.available}
-                      aria-label={stockStatus.available 
-                        ? `Add ${product.title} to cart` 
-                        : `${product.title} is out of stock`}
-                      aria-disabled={!stockStatus.available}
-                    >
-                      {stockStatus.available ? 'ADD TO CART' : 'OUT OF STOCK'}
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="w-full sm:w-auto min-h-[44px]"
-                      aria-label={`Add ${product.title} to wishlist`}
-                    >
-                      WISHLIST
-                    </Button>
-                  </div>
-                </div>
-              );
-            })()}
+            {/* Product Actions: Quantity, Add to Cart, Wishlist */}
+            <ProductActions product={product} />
 
             {/* Trust Badges */}
             <TrustBadges />

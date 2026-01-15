@@ -21,7 +21,7 @@ Before deploying, ensure you have:
 
 - ✅ Code pushed to GitHub repository
 - ✅ Firebase project set up (see [Firebase Setup Guide](FIREBASE_SETUP.md))
-- ✅ Sanity.io project set up (see [Sanity.io Setup Guide](SANITY_SETUP.md))
+- ✅ Sanity.io project set up (see [Sanity Complete Guide](./SANITY_COMPLETE_GUIDE.md)) - Note: Legacy, no longer used
 - ✅ All environment variables ready
 - ✅ Vercel account (free)
 

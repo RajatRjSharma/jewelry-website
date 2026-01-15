@@ -2,7 +2,9 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, ChangeEvent } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils/cn';
+import { SCALE, SPRING_CONFIG } from '@/lib/animations/constants';
 
 type SortOption = 'default' | 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc' | 'newest';
 
@@ -36,14 +38,19 @@ export default function ProductSort({ className = '' }: ProductSortProps) {
 
   return (
     <div className={cn('flex items-center gap-2 sm:gap-3', className)}>
-      <label 
+      <motion.label 
         htmlFor="sort" 
         className="text-[var(--text-secondary)] text-body-sm sm:text-body-base font-medium whitespace-nowrap"
+        whileHover={{ scale: SCALE.HOVER }}
       >
         Sort by:
-      </label>
-      <div className="relative">
-        <select
+      </motion.label>
+      <motion.div 
+        className="relative"
+        whileHover={{ scale: SCALE.CARD_HOVER }}
+        whileTap={{ scale: SCALE.TAP }}
+      >
+        <motion.select
           id="sort"
           value={sort}
           onChange={handleSortChange}
@@ -55,6 +62,8 @@ export default function ProductSort({ className = '' }: ProductSortProps) {
             backgroundPosition: 'right 0.75rem center',
             backgroundSize: '12px',
           }}
+          whileFocus={{ scale: SCALE.HOVER }}
+          transition={SPRING_CONFIG.QUICK}
         >
           <option value="default" className="bg-[var(--beige)] text-[var(--text-on-beige)]">Default</option>
           <option value="price-asc" className="bg-[var(--beige)] text-[var(--text-on-beige)]">Price: Low to High</option>
@@ -62,8 +71,8 @@ export default function ProductSort({ className = '' }: ProductSortProps) {
           <option value="name-asc" className="bg-[var(--beige)] text-[var(--text-on-beige)]">Name: A to Z</option>
           <option value="name-desc" className="bg-[var(--beige)] text-[var(--text-on-beige)]">Name: Z to A</option>
           <option value="newest" className="bg-[var(--beige)] text-[var(--text-on-beige)]">Newest First</option>
-        </select>
-      </div>
+        </motion.select>
+      </motion.div>
     </div>
   );
 }

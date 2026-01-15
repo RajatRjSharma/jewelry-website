@@ -8,10 +8,12 @@
  * Removes HTML tags, dangerous protocols, and event handlers
  */
 export function sanitizeForJsonLd(str: string): string {
+  // Sanitize string before JSON-LD injection to prevent XSS
+  // Order matters: remove tags first, then protocols, then event handlers
   return str
-    .replace(/<[^>]*>/g, '') // Remove HTML tags
-    .replace(/javascript:/gi, '') // Remove dangerous protocols
-    .replace(/on\w+\s*=/gi, '') // Remove event handlers
+    .replace(/<[^>]*>/g, '')
+    .replace(/javascript:/gi, '')
+    .replace(/on\w+\s*=/gi, '')
     .trim();
 }
 

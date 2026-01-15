@@ -3,34 +3,68 @@ import { formatCategoryName, getBrandName } from '@/lib/utils/text-formatting';
 import { CURRENCY } from '@/lib/utils/price-formatting';
 import { getBaseUrl } from '@/lib/utils/env';
 import { sanitizeForJsonLd } from '@/lib/utils/json-ld-sanitize';
+import { getSiteSettings } from '@/lib/data/site-settings';
 
 const baseUrl = getBaseUrl();
 const siteName = getBrandName();
 
 /**
  * Generate Organization structured data (JSON-LD)
+ * Pulls social media links and contact info from site settings
  */
-export function generateOrganizationSchema() {
-  return {
+export async function generateOrganizationSchema() {
+  const settings = await getSiteSettings();
+  
+  // Collect social media links for Schema.org sameAs property
+  // Only includes links that are actually configured to avoid empty arrays
+  const sameAs: string[] = [];
+  if (settings.social?.facebook) sameAs.push(settings.social.facebook);
+  if (settings.social?.instagram) sameAs.push(settings.social.instagram);
+  if (settings.social?.pinterest) sameAs.push(settings.social.pinterest);
+  if (settings.social?.twitter) sameAs.push(settings.social.twitter);
+  
+  interface OrganizationSchema {
+    '@context': string;
+    '@type': string;
+    name: string;
+    url: string;
+    logo: string;
+    description: string;
+    sameAs?: string[];
+    contactPoint?: {
+      '@type': string;
+      telephone?: string;
+      contactType: string;
+      email?: string;
+    };
+  }
+  
+  const organizationSchema: OrganizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: sanitizeForJsonLd(siteName),
+    name: sanitizeForJsonLd(settings.brand?.name || siteName),
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
-    description: sanitizeForJsonLd('Exquisite handcrafted jewelry pieces that reflect your personal style.'),
-    sameAs: [
-      // Add social media URLs here
-      // 'https://www.facebook.com/yourpage',
-      // 'https://www.instagram.com/yourpage',
-      // 'https://www.pinterest.com/yourpage',
-    ],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: '+1-555-123-4567',
-      contactType: 'Customer Service',
-      email: 'info@jewelrystore.com',
-    },
+    description: sanitizeForJsonLd(settings.brand?.tagline || 'Exquisite handcrafted jewelry pieces that reflect your personal style.'),
   };
+  
+  // Include sameAs property only if social links exist (Schema.org best practice)
+  if (sameAs.length > 0) {
+    organizationSchema.sameAs = sameAs;
+  }
+  
+  // Add contact point for Schema.org ContactPoint type if contact info exists
+  // Improves SEO by providing structured contact information to search engines
+  if (settings.contact?.email || settings.contact?.phone) {
+    organizationSchema.contactPoint = {
+      '@type': 'ContactPoint',
+      ...(settings.contact.phone && { telephone: settings.contact.phone }),
+      contactType: 'Customer Service',
+      ...(settings.contact.email && { email: settings.contact.email }),
+    };
+  }
+  
+  return organizationSchema;
 }
 
 /**

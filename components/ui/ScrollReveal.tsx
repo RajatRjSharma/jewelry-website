@@ -14,8 +14,10 @@ interface ScrollRevealProps {
 }
 
 /**
- * Simple wrapper component
- * Previously handled scroll-triggered animations (removed for iOS compatibility)
+ * ScrollReveal Component
+ * 
+ * Simple wrapper component maintained for backward compatibility.
+ * Scroll-triggered animations were removed due to iOS Safari performance issues.
  */
 export default function ScrollReveal({ 
   children, 

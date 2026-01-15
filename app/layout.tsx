@@ -4,6 +4,7 @@ import "./globals.css";
 import TopHeader from "@/components/layout/TopHeader";
 import Footer from "@/components/layout/Footer";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import ToastContainer from "@/components/ui/Toast";
 import { generateStandardMetadata } from "@/lib/seo/metadata";
 import { generateOrganizationSchema, generateWebsiteSchema } from "@/lib/seo/structured-data";
 import { getBaseUrl } from "@/lib/utils/env";
@@ -33,12 +34,12 @@ export const viewport = {
   viewportFit: 'cover',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const organizationSchema = generateOrganizationSchema();
+  const organizationSchema = await generateOrganizationSchema();
   const websiteSchema = generateWebsiteSchema();
 
   return (
@@ -64,6 +65,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <ToastContainer />
           </SmoothScrollProvider>
         </ErrorBoundary>
       </body>

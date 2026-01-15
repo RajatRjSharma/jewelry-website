@@ -3,6 +3,8 @@
 import SmoothLink from '@/components/ui/SmoothLink';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { ANIMATION_PRESETS, SCALE, ROTATE, DURATION, STAGGER } from '@/lib/animations/constants';
 
 export default function TopHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,7 +15,13 @@ export default function TopHeader() {
 
   useEffect(() => {
     /**
-     * Get computed background color of an element, traversing up the DOM tree if transparent
+     * Gets computed background color of an element, traversing up the DOM tree if transparent
+     * 
+     * Recursively checks parent elements until a non-transparent background is found.
+     * This ensures accurate color detection even when elements have transparent backgrounds.
+     * 
+     * @param element - HTML element to get background color from
+     * @returns Background color string or null if all parents are transparent
      */
     const getElementBackgroundColor = (element: HTMLElement): string | null => {
       const computedStyle = window.getComputedStyle(element);
@@ -31,7 +39,13 @@ export default function TopHeader() {
     };
 
     /**
-     * Check if color matches beige color scheme
+     * Checks if color matches beige color scheme (#CCC4BA / rgb(204, 196, 186))
+     * 
+     * Validates color in multiple formats (hex, rgb) and checks RGB ranges
+     * to handle slight variations in color representation.
+     * 
+     * @param color - Color string to check (hex or rgb format)
+     * @returns True if color matches beige scheme, false otherwise
      */
     const isBeigeColor = (color: string): boolean => {
       if (color.includes('#CCC4BA') || color.includes('#ccc4ba')) return true;
@@ -50,7 +64,13 @@ export default function TopHeader() {
     };
 
     /**
-     * Check if color matches light cream color scheme
+     * Checks if color matches light cream color scheme (#FAF8F5 / rgb(250, 248, 245))
+     * 
+     * Validates color in multiple formats (hex, rgb) and checks RGB ranges
+     * to handle slight variations in color representation.
+     * 
+     * @param color - Color string to check (hex or rgb format)
+     * @returns True if color matches cream scheme, false otherwise
      */
     const isLightCreamColor = (color: string): boolean => {
       if (color.includes('#FAF8F5') || color.includes('#faf8f5')) return true;
@@ -199,17 +219,35 @@ export default function TopHeader() {
       <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between" style={{ color: textColor }}>
           {/* Menu Button */}
-          <button
+          <motion.button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex items-center gap-1.5 sm:gap-2 transition-colors p-2 -ml-2 sm:p-0 sm:ml-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
+            className="flex items-center gap-1.5 sm:gap-2 p-2 -ml-2 sm:p-0 sm:ml-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
             style={{ color: textColor }}
             aria-label="Toggle menu"
+            whileHover={ANIMATION_PRESETS.ICON_HOVER}
+            whileTap={ANIMATION_PRESETS.ICON_TAP}
           >
-            <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            <span className="text-nav text-xs sm:text-sm">MENU</span>
-          </button>
+            <motion.svg 
+              className="w-5 h-5 sm:w-6 sm:h-6" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+              animate={isMenuOpen ? { rotate: ROTATE.MENU_OPEN } : { rotate: 0 }}
+              transition={{ duration: DURATION.MENU }}
+            >
+              {isMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </motion.svg>
+            <motion.span 
+              className="text-nav text-xs sm:text-sm"
+              whileHover={ANIMATION_PRESETS.LINK_HOVER}
+            >
+              MENU
+            </motion.span>
+          </motion.button>
 
           {/* Brand Name - Center (only on non-home pages) */}
           {!isHomePage && (
@@ -229,76 +267,161 @@ export default function TopHeader() {
 
           {/* Right Icons: Cart and User */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <SmoothLink
-              href="/cart"
-              className="transition-colors p-2 -mr-2 sm:p-0 sm:mr-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"
-              style={{ color: textColor }}
-              aria-label="Shopping cart"
+            <motion.div
+              initial={{ scale: 1, rotate: 0 }}
+              whileHover={ANIMATION_PRESETS.ICON_HOVER}
+              whileTap={ANIMATION_PRESETS.ICON_TAP}
             >
-              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-            </SmoothLink>
-            <SmoothLink
-              href="/profile"
-              className="transition-colors p-2 sm:p-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"
-              style={{ color: textColor }}
-              aria-label="User profile"
+              <SmoothLink
+                href="/cart"
+                className="transition-colors p-2 -mr-2 sm:p-0 sm:mr-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center relative"
+                style={{ color: textColor }}
+                aria-label="Shopping cart"
+              >
+                <motion.svg 
+                  className="w-5 h-5 sm:w-6 sm:h-6" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  initial={{ scale: 1 }}
+                  whileHover={{ scale: SCALE.HOVER }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </motion.svg>
+                {/* Cart badge animation */}
+                <motion.span
+                  className="absolute top-0 right-0 w-2 h-2 bg-[var(--active-dark)] rounded-full"
+                  initial={{ scale: 0 }}
+                  whileHover={{ scale: 1 }}
+                  transition={{ duration: DURATION.MENU }}
+                />
+              </SmoothLink>
+            </motion.div>
+            <motion.div
+              initial={{ scale: 1, rotate: 0 }}
+              whileHover={ANIMATION_PRESETS.ICON_HOVER}
+              whileTap={ANIMATION_PRESETS.ICON_TAP}
             >
-              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </SmoothLink>
+              <SmoothLink
+                href="/profile"
+                className="transition-colors p-2 sm:p-0 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 flex items-center justify-center relative overflow-visible"
+                style={{ color: textColor }}
+                aria-label="User profile"
+              >
+                <motion.svg 
+                  className="w-5 h-5 sm:w-6 sm:h-6" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  initial={{ scale: 1, rotate: 0 }}
+                  whileHover={{ 
+                    scale: SCALE.ICON_HOVER,
+                    rotate: ROTATE.ICON_HOVER,
+                    transition: ANIMATION_PRESETS.ICON_HOVER.transition
+                  }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </motion.svg>
+              </SmoothLink>
+            </motion.div>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <nav 
+          <motion.nav 
             id="mobile-menu"
             className="mt-4 pb-4 border-t pt-4" 
             style={{ borderColor: textColor }}
             role="navigation"
             aria-label="Main navigation"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
           >
             <div className="flex flex-col gap-3 sm:gap-4">
-              <SmoothLink 
-                href="/designs" 
-                className="text-nav transition-colors"
-                style={{ color: textColor }}
-                onClick={() => setIsMenuOpen(false)}
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: STAGGER.MENU_ITEMS * 2 }}
               >
-                ALL PRODUCTS
-              </SmoothLink>
-              {categories.map((category) => (
-                <SmoothLink
-                  key={category.slug}
-                  href={category.href}
-                  className="text-nav transition-colors"
+                <SmoothLink 
+                  href="/designs" 
+                  className="text-nav transition-colors block"
                   style={{ color: textColor }}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {category.name}
+                  <motion.span
+                    whileHover={{ x: 4 }}
+                    transition={ANIMATION_PRESETS.MENU_ITEM_HOVER.transition}
+                  >
+                    ALL PRODUCTS
+                  </motion.span>
                 </SmoothLink>
+              </motion.div>
+              {categories.map((category, index) => (
+                <motion.div
+                  key={category.slug}
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: STAGGER.MENU_ITEMS * 3 + index * STAGGER.MENU_ITEMS }}
+                >
+                  <SmoothLink
+                    href={category.href}
+                    className="text-nav transition-colors block"
+                    style={{ color: textColor }}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <motion.span
+                      whileHover={{ x: 4 }}
+                      transition={ANIMATION_PRESETS.MENU_ITEM_HOVER.transition}
+                    >
+                      {category.name}
+                    </motion.span>
+                  </SmoothLink>
+                </motion.div>
               ))}
-              <SmoothLink 
-                href="/about" 
-                className="text-nav transition-colors"
-                style={{ color: textColor }}
-                onClick={() => setIsMenuOpen(false)}
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: STAGGER.MENU_ITEMS * 7 }}
               >
-                ABOUT US
-              </SmoothLink>
-              <SmoothLink 
-                href="/contact" 
-                className="text-nav transition-colors"
-                style={{ color: textColor }}
-                onClick={() => setIsMenuOpen(false)}
+                <SmoothLink 
+                  href="/about" 
+                  className="text-nav transition-colors block"
+                  style={{ color: textColor }}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <motion.span
+                    whileHover={{ x: 4 }}
+                    transition={ANIMATION_PRESETS.MENU_ITEM_HOVER.transition}
+                  >
+                    ABOUT US
+                  </motion.span>
+                </SmoothLink>
+              </motion.div>
+              <motion.div
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ delay: STAGGER.MENU_ITEMS * 8 }}
               >
-                CONTACT
-              </SmoothLink>
+                <SmoothLink 
+                  href="/contact" 
+                  className="text-nav transition-colors block"
+                  style={{ color: textColor }}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <motion.span
+                    whileHover={{ x: 4 }}
+                    transition={ANIMATION_PRESETS.MENU_ITEM_HOVER.transition}
+                  >
+                    CONTACT
+                  </motion.span>
+                </SmoothLink>
+              </motion.div>
             </div>
-          </nav>
+          </motion.nav>
         )}
       </div>
     </header>

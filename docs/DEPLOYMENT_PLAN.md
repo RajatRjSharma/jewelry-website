@@ -117,7 +117,7 @@ git push -u origin main
 - [ ] All files are present
 - [ ] README.md is in root
 
-**Reference:** See [GitHub Setup Guide](./GITHUB_SETUP.md) for detailed steps.
+**Reference:** See [GitHub Complete Guide](./GITHUB_COMPLETE_GUIDE.md) for detailed steps.
 
 ---
 
@@ -187,7 +187,7 @@ NEXT_PUBLIC_BASE_URL (update after first deployment)
    - [ ] Sanity content loads
    - [ ] Firebase connection works
 
-**Reference:** See [Vercel Deployment Guide](./VERCEL_DEPLOYMENT.md) for detailed steps.
+**Reference:** See [Vercel Deployment Guide](./VERCEL_DEPLOYMENT.md) for detailed step-by-step instructions.
 
 ---
 
@@ -484,9 +484,9 @@ After domain is active:
 ## 📚 **REFERENCE DOCUMENTATION**
 
 - **[Vercel Deployment Guide](./VERCEL_DEPLOYMENT.md)** - Detailed Vercel setup
-- **[GitHub Setup Guide](./GITHUB_SETUP.md)** - Version control setup
+- **[GitHub Complete Guide](./GITHUB_COMPLETE_GUIDE.md)** - Complete GitHub setup and hosting options
 - **[Firebase Setup Guide](./FIREBASE_SETUP.md)** - Firebase configuration
-- **[Sanity Setup Guide](./SANITY_SETUP.md)** - Sanity.io configuration
+- **[Sanity Complete Guide](./SANITY_COMPLETE_GUIDE.md)** - Complete Sanity.io CMS guide (legacy - no longer used)
 - **[Security Final Verification](./SECURITY_FINAL_VERIFICATION.md)** - Complete security best practices & audit
 - **[Overall Best Practices](./OVERALL_BEST_PRACTICES_FINAL.md)** - Quality standards
 

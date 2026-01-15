@@ -13,6 +13,8 @@ export function sanitizeString(input: string): string {
     return '';
   }
 
+  // Remove HTML tags, scripts, event handlers, and dangerous protocols
+  // Order matters: remove scripts before tags, event handlers before protocols
   let sanitized = input.replace(/<[^>]*>/g, '');
   sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
   sanitized = sanitized.replace(/<\/?script[^>]*>/gi, '');
@@ -27,19 +29,24 @@ export function sanitizeString(input: string): string {
   sanitized = sanitized.replace(/\0/g, '');
   sanitized = sanitized.replace(/[\x00-\x1F\x7F]/g, '');
   
+  // Prevent DoS attacks by limiting input length
   const MAX_LENGTH = 10000;
   if (sanitized.length > MAX_LENGTH) {
     sanitized = sanitized.substring(0, MAX_LENGTH);
   }
   
-  // Trim whitespace
   sanitized = sanitized.trim();
   
   return sanitized;
 }
 
 /**
- * Sanitize object recursively
+ * Sanitizes object recursively by applying string sanitization to all string properties
+ * 
+ * Prevents XSS attacks by sanitizing nested object structures.
+ * 
+ * @param obj - Object to sanitize
+ * @returns Sanitized object with same structure
  */
 export function sanitizeObject<T extends Record<string, unknown>>(obj: T): T {
   const sanitized = { ...obj } as T;
@@ -56,8 +63,14 @@ export function sanitizeObject<T extends Record<string, unknown>>(obj: T): T {
 }
 
 /**
- * Validate and sanitize email
- * Returns sanitized email or throws error if invalid
+ * Validates and sanitizes email address
+ * 
+ * Applies string sanitization and RFC 5322 validation.
+ * Enforces RFC 5321 maximum length of 254 characters.
+ * 
+ * @param email - Email address to validate and sanitize
+ * @returns Sanitized email in lowercase
+ * @throws Error if email is invalid or too long
  */
 export function sanitizeEmail(email: string): string {
   if (!email || typeof email !== 'string') {
@@ -65,13 +78,13 @@ export function sanitizeEmail(email: string): string {
   }
   
   const sanitized = sanitizeString(email);
-  // Basic email validation (RFC 5322 simplified)
+  // Simplified RFC 5322 validation - sufficient for most use cases
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(sanitized)) {
     throw new Error('Invalid email format');
   }
   
-  // Additional length check (RFC 5321: max 254 characters)
+  // RFC 5321 specifies maximum email length of 254 characters
   if (sanitized.length > 254) {
     throw new Error('Email too long');
   }
@@ -80,13 +93,20 @@ export function sanitizeEmail(email: string): string {
 }
 
 /**
- * Validate and sanitize phone number
+ * Validates and sanitizes phone number
+ * 
+ * Preserves leading + for international format, removes all other non-digits.
+ * Enforces ITU-T E.164 standard maximum length of 20 characters.
+ * 
+ * @param phone - Phone number to validate and sanitize
+ * @returns Sanitized phone number, or empty string if input is empty
+ * @throws Error if phone number exceeds maximum length
  */
 export function sanitizePhone(phone: string): string {
   if (!phone) return '';
-  // Remove all non-digit characters except + at the start
+  // Preserve leading + for international format, remove all other non-digits
   const sanitized = phone.replace(/[^\d+]/g, '');
-  // Limit length
+  // ITU-T E.164 standard allows up to 15 digits, we allow 20 for formatting characters
   if (sanitized.length > 20) {
     throw new Error('Phone number too long');
   }

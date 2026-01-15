@@ -10,7 +10,11 @@ import type { SiteSettings } from '@/types/data';
 const DATA_DIR = join(process.cwd(), 'data');
 
 /**
- * Get site settings
+ * Get site settings from JSON file
+ * 
+ * Returns safe defaults if file is missing or corrupted to prevent app crashes.
+ * 
+ * @returns Site settings object with brand, hero, about, and other configuration
  */
 export async function getSiteSettings(): Promise<SiteSettings> {
   try {
@@ -19,7 +23,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     return JSON.parse(fileContents) as SiteSettings;
   } catch (error) {
     console.error('Error loading site settings:', error);
-    // Return default settings
+    // Return safe defaults to prevent app crash if settings file is missing or corrupted
     return {
       brand: {
         name: 'Jewels by NavKush',

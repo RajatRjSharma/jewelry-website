@@ -14,17 +14,16 @@ function isValidOrigin(request: NextRequest): boolean {
   const origin = request.headers.get('origin');
   const referer = request.headers.get('referer');
   
-  // Same-origin requests may not have Origin header
-  // Check Referer header as fallback
+  // Use Referer as fallback since same-origin requests may omit Origin header
   const originToCheck = origin || referer;
   
   if (!originToCheck) {
-    // No origin or referer - could be same-origin or direct API call
-    // In production, be more strict
+    // Missing both headers could indicate same-origin request or direct API call
+    // Strict validation in production prevents unauthorized access
     if (process.env.NODE_ENV === 'production') {
       return false;
     }
-    // In development, allow (for testing)
+    // Allow in development for testing convenience
     return true;
   }
   
@@ -33,15 +32,15 @@ function isValidOrigin(request: NextRequest): boolean {
     try {
       const baseUrlObj = new URL(baseUrl);
       const originObj = new URL(originToCheck);
-      // Allow same origin
+      // Same-origin requests are always allowed
       if (originObj.origin === baseUrlObj.origin) return true;
     } catch {
-      // Invalid URL, reject
+      // Invalid URL format indicates potential attack
       return false;
     }
   }
   
-  // In development, allow localhost
+  // Allow localhost in development for local testing
   if (process.env.NODE_ENV === 'development') {
     try {
       const originObj = new URL(originToCheck);
@@ -53,13 +52,13 @@ function isValidOrigin(request: NextRequest): boolean {
     }
   }
   
-  // For production, only allow same origin
+  // Production: only same-origin requests allowed
   return false;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    // Origin validation (CSRF protection)
+    // Validate request origin to prevent CSRF attacks
     if (!isValidOrigin(request)) {
       return NextResponse.json(
         { success: false, error: 'Invalid origin' },
@@ -70,10 +69,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Rate limiting
+    // Apply stricter rate limiting for contact form to prevent spam
     const rateLimit = checkRateLimit(request, {
-      windowMs: 15 * 60 * 1000, // 15 minutes
-      maxRequests: 10, // 10 requests per 15 minutes for contact form
+      windowMs: 15 * 60 * 1000,
+      maxRequests: 10,
     });
 
     if (!rateLimit.allowed) {
@@ -96,7 +95,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check content type
+    // Enforce JSON content type to prevent content-type confusion attacks
     const contentType = request.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
       return NextResponse.json(
@@ -108,7 +107,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check request size (validate both header and actual body)
+    // Validate request size from header to fail fast before parsing body
     const contentLength = request.headers.get('content-length');
     if (contentLength && parseInt(contentLength) > MAX_REQUEST_SIZE) {
       return NextResponse.json(
@@ -125,7 +124,7 @@ export async function POST(request: NextRequest) {
     try {
       const bodyText = await request.text();
       
-      // Validate actual body size (not just Content-Length header)
+      // Double-check actual body size since Content-Length header can be spoofed
       if (bodyText.length > MAX_REQUEST_SIZE) {
         return NextResponse.json(
           { success: false, error: 'Request too large' },
@@ -147,10 +146,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate data with Zod
+    // Validate data structure and types using Zod schema
     const validatedData = contactFormSchema.parse(body);
 
-    // Sanitize input
+    // Sanitize all inputs to prevent XSS attacks
     const sanitizedData = {
       name: sanitizeString(validatedData.name),
       email: sanitizeEmail(validatedData.email),
@@ -158,7 +157,7 @@ export async function POST(request: NextRequest) {
       message: sanitizeString(validatedData.message),
     };
 
-    // Additional validation: field lengths (redundant but extra safety)
+    // Redundant length checks after sanitization provide defense in depth
     if (sanitizedData.name.length > 100) {
       return NextResponse.json(
         { success: false, error: 'Name too long' },
@@ -187,15 +186,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Contact form submission - data validated and sanitized
-    // Note: Currently just returns success. You can add:
-    // - Email sending (using nodemailer, sendgrid, etc.)
-    // - Save to JSON file
-    // - Save to database
-    // - Webhook to external service
+    // Data is validated and sanitized - ready for processing
+    // Integration points: email service, database, webhook, or file storage
     
-    // Log submission (optional - for debugging)
-    // Using logError utility for consistent logging
+    // Log submission details only in development for debugging
     if (process.env.NODE_ENV === 'development') {
       logError('contact form submission', {
         name: sanitizedData.name,
@@ -217,10 +211,10 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error: unknown) {
-    // Don't expose internal errors to client
+    // Log error securely without exposing sensitive information
     logError('contact API', error);
     
-    // Handle Zod validation errors
+    // Provide user-friendly validation error messages
     if (
       error &&
       typeof error === 'object' &&
@@ -230,14 +224,14 @@ export async function POST(request: NextRequest) {
     ) {
       const zodError = error as { errors: Array<{ path: (string | number)[]; message: string }> };
       
-      // In production, limit error details to prevent information disclosure
+      // Hide detailed validation errors in production to prevent information leakage
       const isProduction = process.env.NODE_ENV === 'production';
       
       return NextResponse.json(
         { 
           success: false, 
           error: 'Validation failed',
-          // Only include field-level details in development
+          // Include detailed field errors only in development
           ...(isProduction ? {} : {
             details: zodError.errors.map((e) => ({
               field: e.path.join('.'),
@@ -252,7 +246,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generic error response
+    // Return generic error to prevent information disclosure
     return NextResponse.json(
       { success: false, error: 'Failed to process request' },
       { 

@@ -19,16 +19,14 @@ Complete documentation for the Jewels by NavKush jewelry website.
 - **[Migration Complete](./MIGRATION_COMPLETE.md)** - Migration from Sanity/Firebase to JSON
 
 ### **Legacy Setup (Historical Reference)**
-- **[Sanity Setup](./SANITY_SETUP.md)** - Sanity.io CMS (no longer used)
-- **[Sanity Schema Setup](./SANITY_SCHEMA_SETUP.md)** - Sanity schema (no longer used)
-- **[Sanity Studio Guide](./SANITY_STUDIO_GUIDE.md)** - Sanity Studio (no longer used)
+- **[Sanity Complete Guide](./SANITY_COMPLETE_GUIDE.md)** - Complete Sanity.io CMS guide (no longer used - merged from multiple files)
 - **[Firebase Setup](./FIREBASE_SETUP.md)** - Firebase Firestore (no longer used)
 - **[Firebase & Sanity Usage Report](./FIREBASE_SANITY_USAGE_REPORT.md)** - Historical analysis
 
 ### **Deployment**
 - **[Deployment Plan](./DEPLOYMENT_PLAN.md)** - Complete deployment strategy & checklist
 - **[Vercel Deployment](./VERCEL_DEPLOYMENT.md)** - Complete step-by-step Vercel deployment guide
-- **[GitHub Setup](./GITHUB_SETUP.md)** - Version control setup
+- **[GitHub Complete Guide](./GITHUB_COMPLETE_GUIDE.md)** - Complete GitHub setup and hosting options (merged from multiple files)
 
 ---
 
@@ -72,7 +70,7 @@ Complete documentation for the Jewels by NavKush jewelry website.
 - **[SEO Final Verification](./SEO_FINAL_VERIFICATION.md)** - Complete SEO best practices & verification
 
 ### **E-commerce**
-- **[E-commerce Best Practices Final](./E_COMMERCE_BEST_PRACTICES_FINAL.md)** - E-commerce best practices & consistency
+- **[E-commerce Best Practices Final](./E_COMMERCE_BEST_PRACTICES_FINAL.md)** - E-commerce best practices & consistency (includes implementation details)
 - **[E-commerce Implementation Guide](./E_COMMERCE_IMPLEMENTATION_GUIDE.md)** - E-commerce features
 
 ### **Design & Styling**
@@ -85,13 +83,11 @@ Complete documentation for the Jewels by NavKush jewelry website.
 ## 🔧 **Troubleshooting & Guides**
 
 ### **Image Setup**
-- **[Image Structure](./IMAGE_STRUCTURE.md)** - Image directory structure and naming conventions
-- **[Hero Image Setup](./HERO_IMAGE_SETUP.md)** - Hero image configuration
-- **[Image Background Fix](./IMAGE_BACKGROUND_FIX.md)** - Image background issues
-- **[Image Setup - About](./IMAGE_SETUP_ABOUT.md)** - About Us image setup
-- **[Image Setup - Categories](./IMAGE_SETUP_CATEGORIES.md)** - Category images setup
-- **[Image Fix Summary](./IMAGE_FIX_SUMMARY.md)** - Image path fixes and structure
-- **[Placeholders README](./PLACEHOLDERS_README.md)** - Image placeholders
+- **[Complete Image Guide](./IMAGE_GUIDE.md)** - Comprehensive image guide (merged from multiple files)
+  - Image directory structure
+  - Product, hero, about, and category image setup
+  - Image naming conventions and specifications
+  - Troubleshooting and historical notes
 
 ### **Cache & Performance**
 - **[Cache Clearing Guide](./CACHE_CLEARING_GUIDE.md)** - Clear Next.js cache

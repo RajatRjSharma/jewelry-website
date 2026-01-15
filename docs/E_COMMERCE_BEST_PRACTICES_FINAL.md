@@ -338,6 +338,16 @@ const status = getStockStatus(product.inStock);
 
 ---
 
+---
+
+## 📚 **Related Documentation**
+
+For detailed implementation guides and best practices, see:
+- [E-Commerce Implementation Guide](./E_COMMERCE_IMPLEMENTATION_GUIDE.md) - Detailed feature implementation
+- [Overall Best Practices](./OVERALL_BEST_PRACTICES_FINAL.md) - Complete best practices verification
+
+---
+
 **Last Updated:** Current  
 **Next Review:** When adding new e-commerce features
 

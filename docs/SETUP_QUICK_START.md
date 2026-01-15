@@ -24,7 +24,7 @@ npm install
    ```
 2. Open `.env.local` and fill in your actual values:
    - Firebase config values (see [Firebase Setup Guide](FIREBASE_SETUP.md))
-   - Sanity.io project ID (see [Sanity.io Setup Guide](SANITY_SETUP.md))
+   - Sanity.io project ID (see [Sanity Complete Guide](./SANITY_COMPLETE_GUIDE.md)) - Note: Legacy, no longer used
 
 ### Step 5: Run Development Server
 ```bash
@@ -78,6 +78,6 @@ All documentation is available in the `docs/` folder:
 
 - **[Development Guide](DEVELOPMENT_GUIDE.md)** - Complete development documentation
 - **[Firebase Setup](FIREBASE_SETUP.md)** - Detailed Firebase configuration
-- **[Sanity.io Setup](SANITY_SETUP.md)** - Complete Sanity.io CMS setup
+- **[Sanity Complete Guide](./SANITY_COMPLETE_GUIDE.md)** - Complete Sanity.io CMS guide (legacy - no longer used)
 - **[Vercel Deployment](VERCEL_DEPLOYMENT.md)** - Deployment guide
 

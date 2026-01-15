@@ -308,7 +308,7 @@ contacts/
 
 After Firebase is set up:
 1. ✅ Test contact form submission
-2. ✅ Set up Sanity.io (see [Sanity.io Setup Guide](SANITY_SETUP.md))
+2. ✅ Set up Sanity.io (see [Sanity Complete Guide](./SANITY_COMPLETE_GUIDE.md)) - Note: Legacy, no longer used
 3. ✅ Deploy to Vercel (see [Vercel Deployment Guide](VERCEL_DEPLOYMENT.md))
 
 ---

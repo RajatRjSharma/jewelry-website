@@ -10,7 +10,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
  */
 export function sanitizeError(error: unknown): { message: string; details?: unknown } {
   if (isDevelopment) {
-    // In development, show full error details
+    // Full error details aid debugging in development
     if (error instanceof Error) {
       return {
         message: error.message,
@@ -26,16 +26,16 @@ export function sanitizeError(error: unknown): { message: string; details?: unkn
     };
   }
 
-  // In production, only show safe messages
+  // Production: return generic messages to prevent information disclosure
   if (error instanceof Error) {
-    // Check if it's a known validation error
+    // Validation errors are safe to expose as they don't reveal system internals
     if (error.name === 'ZodError' || error.message.includes('validation')) {
       return {
         message: 'Validation failed. Please check your input.',
       };
     }
 
-    // Generic error message for production
+    // Generic message prevents attackers from learning about system internals
     return {
       message: 'An error occurred. Please try again later.',
     };

@@ -20,7 +20,7 @@ export default function Input({
   ...props 
 }: InputProps) {
   const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
-  const baseStyles = 'w-full px-4 py-2 border border-[var(--border-light)] rounded-lg focus:outline-none focus:border-[var(--text-on-cream)] bg-[var(--cream)] min-h-[44px] text-base';
+  const baseStyles = 'w-full px-4 py-2 border border-[var(--border-light)] rounded-lg focus:outline-none focus:border-[var(--text-on-cream)] bg-[var(--cream)] text-[var(--text-on-cream)] min-h-[44px] text-base';
 
   return (
     <FormField id={inputId} label={label} error={error} required={required}>
